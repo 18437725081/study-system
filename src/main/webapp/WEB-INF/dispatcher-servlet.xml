@@ -30,21 +30,21 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <!-- 为了引用资源的访问不会类似controller一样被拦截，区分普通静态资源 -->
-    <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" order="1" />
-    <mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
-    <mvc:resources mapping="/font-awesome/**" location="/WEB-INF/font-awesome/" />
-    <mvc:resources mapping="/img/**" location="/WEB-INF/img/" />
-    <mvc:resources mapping="/images/**" location="/WEB-INF/images/" />
-    <mvc:resources mapping="/css/**" location="/WEB-INF/css/" />
-    <mvc:resources mapping="/jsp/**" location="/WEB-INF/jsp/" />
+    <!--&lt;!&ndash; 为了引用资源的访问不会类似controller一样被拦截，区分普通静态资源 &ndash;&gt;-->
+    <!--<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" order="1" />-->
+    <!--<mvc:resources mapping="/js/**" location="/WEB-INF/js/" />-->
+    <!--<mvc:resources mapping="/font-awesome/**" location="/WEB-INF/font-awesome/" />-->
+    <!--<mvc:resources mapping="/img/**" location="/WEB-INF/img/" />-->
+    <!--<mvc:resources mapping="/images/**" location="/WEB-INF/images/" />-->
+    <!--<mvc:resources mapping="/css/**" location="/WEB-INF/css/" />-->
+    <!--<mvc:resources mapping="/jsp/**" location="/WEB-INF/jsp/" />-->
 
-    <!-- 是URLBasedViewResolver的子类，所以URLBasedViewResolver支持的特性它都支持 -->
-    <bean id="viewResolver"
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp/" />
-        <property name="suffix" value=".jsp" />
-    </bean>
+    <!--&lt;!&ndash; 是URLBasedViewResolver的子类，所以URLBasedViewResolver支持的特性它都支持 &ndash;&gt;-->
+    <!--<bean id="viewResolver"-->
+          <!--class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="prefix" value="/WEB-INF/jsp/" />-->
+        <!--<property name="suffix" value=".jsp" />-->
+    <!--</bean>-->
 
 
     <!-- 文件上传 -->
