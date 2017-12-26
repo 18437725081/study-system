@@ -27,4 +27,6 @@ public class NoticeController {
         List list = noticeService.selectNotice();
         return ServerResponse.createBySuccess(list);
     }
+
+
 }

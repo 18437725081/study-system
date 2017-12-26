@@ -15,12 +15,16 @@ public class Constant {
 
     public interface Role {
         /**
-         * 普通用户
+         * 管理员
          */
-        int ROLE_CUSTOMER = 0;
+        String ROLE_ADMIN = "0";
         /**
-         * 管理员用户
+         * 教师
          */
-        int ROLE_ADMIN = 1;
+        String ROLE_TEACHER = "1";
+        /**
+         * 学生
+         */
+        String ROLE_STUDENT = "2";
     }
 }
