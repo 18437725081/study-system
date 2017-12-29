@@ -77,4 +77,33 @@ public interface NoticeMapper {
      * @createtime 2017-12-21 10:05
      */
     List<String> selectNotice();
+
+    /**
+     * 查询所有通知
+     *
+     * @author 张靖烽
+     * @return List<Notice>
+     * @createtime 2017-12-29 11:12
+     */
+    List<Notice> selectAllNotice();
+
+    /**
+     * 修改通知
+     *
+     * @author 张靖烽
+     * @param notice 通知类
+     * @return int
+     * @createtime 2017-12-29 13:44
+     */
+    int modifyNotice(Notice notice);
+
+    /**
+     * 新增通知
+     *
+     * @author 张靖烽
+     * @param notice 通知类
+     * @return int
+     * @createtime 2017-12-29 13:44
+     */
+    int addNotice(Notice notice);
 }

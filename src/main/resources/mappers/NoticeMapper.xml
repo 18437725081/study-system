@@ -91,12 +91,6 @@
       <if test="flag != null" >
         flag = #{flag,jdbcType=CHAR},
       </if>
-      <if test="createdBy != null" >
-        created_by = #{createdBy,jdbcType=INTEGER},
-      </if>
-      <if test="createdTime != null" >
-        created_time = #{createdTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="lastUpdatedBy != null" >
         last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
       </if>
@@ -110,8 +104,6 @@
     update bs_notice
     set notice_content = #{noticeContent,jdbcType=VARCHAR},
       flag = #{flag,jdbcType=CHAR},
-      created_by = #{createdBy,jdbcType=INTEGER},
-      created_time = #{createdTime,jdbcType=TIMESTAMP},
       last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
       last_updated_time = now()
     where pk_notice = #{pkNotice,jdbcType=INTEGER}
@@ -119,5 +111,10 @@
 
   <select id="selectNotice" resultType="String">
     SELECT notice_content FROM bs_notice WHERE flag = 'Y';
+  </select>
+
+  <select id="selectAllNotice" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM bs_notice
   </select>
 </mapper>

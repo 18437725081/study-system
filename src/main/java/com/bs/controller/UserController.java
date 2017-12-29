@@ -24,6 +24,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * @author 张靖烽
+     * @description 用户登录
+     * @createtime 2017-12-27 12:45
+     */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse login(String username, String password, String role, HttpSession session) {
@@ -33,6 +38,20 @@ public class UserController {
             session.setAttribute(Constant.CURRENT_USER, response.getData());
         }
         return response;
+    }
+
+
+    /**
+     * @author 张靖烽
+     * @description 用户登出
+     * @createtime 2017-12-27 12:45
+     */
+    @RequestMapping(value = "loginOut.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> loginout(HttpSession session) {
+        //将用户信息从session中清除
+        session.removeAttribute(Constant.CURRENT_USER);
+        return ServerResponse.createBySuccess();
     }
 
 }

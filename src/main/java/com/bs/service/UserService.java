@@ -45,10 +45,10 @@ public class UserService {
             return ServerResponse.createBySuccess("登录成功", manager);
         }
         if (Constant.Role.ROLE_TEACHER.equals(role)){
-
+            System.out.println();
         }
         if (Constant.Role.ROLE_STUDENT.equals(role)){
-
+            System.out.println();
         }
         return ServerResponse.createByErrorMessage("登录失败");
     }
