@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author 张靖烽
@@ -28,6 +29,13 @@ public class NoticeService {
 
     public ServerResponse manageNotice() {
         List<Notice> list = noticeMapper.selectAllNotice();
+        for (Notice n : list) {
+            if ("Y".equals(n.getFlag())){
+                n.setFlag("有效");
+            }else if ("N".equals(n.getFlag())){
+                n.setFlag("无效");
+            }
+        }
         return ServerResponse.createBySuccess(list);
     }
 
