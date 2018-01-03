@@ -21,7 +21,7 @@
                 <div class="span12">
                     <div style="margin-top: 16px">
                         <button type="button" class="btn btn-success btn-sm" onclick="query()">查询</button>
-                        <button type="button" class="btn btn-success btn-sm" onclick="add()">新增</button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="addNotice()">新增</button>
                         <button type="button" class="btn btn-success btn-sm" onclick="modify()">修改</button>
                         <button type="button" class="btn btn-success btn-sm" onclick="del()">删除</button>
                     </div>
@@ -63,4 +63,9 @@
 <script src="../../js/iframeTools.js" type="text/javascript"></script>
 <script src="../../js/template.js"></script>
 <script src="notice.js" type="text/javascript"></script>
+<script>
+    $(function () {
+        loadNotice();
+    });
+</script>
 </html>

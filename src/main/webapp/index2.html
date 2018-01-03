@@ -50,8 +50,8 @@
             url: 'notice/showNotice.do',
             type: 'post',
             success: function(data) {
-                var html = template('template', data);
-                document.getElementById('notice').innerHTML = html
+                var res = template('template', data);
+                document.getElementById('notice').innerHTML = res
             },
             error: function() {}
         });

@@ -1,7 +1,6 @@
 var selectedTr = null;
 
-$(function () {
-
+function loadNotice() {
     $.ajax({
         url: '../../notice/manageNotice.do',
         type: 'post',
@@ -22,8 +21,7 @@ $(function () {
         else
             selectedTr = this;
     });
-});
-
+}
 
 function table(data) {
     $('.data-table').dataTable({
@@ -34,7 +32,7 @@ function table(data) {
         columns: [
             {data: 'noticeContent'},
             {data: 'flag'},
-            {data: 'pkNotice',"visible": false},
+            {data: 'pkNotice', "visible": false},
         ]
     });
     $('select').select2();
@@ -50,26 +48,50 @@ function query() {
     }
 }
 
-function add() {
-
+function addNotice() {
+    $.dialog.open('add.html', {
+        id: "addNotice",
+        title: "新增通知",
+        lock: true,
+        height: '300px',
+        width: '850px',
+        cancelDisplay: false,
+        resize: false
+    });
 }
 
 function modify() {
-
+    if (selectedTr != null) {
+        var pkNotice = $('.data-table').DataTable().row(selectedTr).data().pkNotice;
+        art.dialog.data("pkNotice", pkNotice);
+        $.dialog.open('modify.html', {
+            id: "addNotice",
+            title: "修改通知",
+            lock: true,
+            height: '300px',
+            width: '850px',
+            cancelDisplay: false,
+            resize: false
+        });
+    } else {
+        alert("请选择一行");
+    }
 }
 
 function del() {
 
 }
 
-
-/*测试dialog*/
-$('#dialog').click(function () {
-    $.dialog.open('add.html', {
-        title: "666",
-        cancel: true,
-        lock: true,
-        height: '450px',
-        width: '550px'
+$(function () {
+    /*字数限制*/
+    $("#noticeContent").on("input propertychange", function () {
+        var $this = $(this),
+            _val = $this.val(),
+            count;
+        if (_val.length > 175) {
+            $this.val(_val.substring(0, 175));
+        }
+        count = $this.val().length;
+        $("#text-count").text(count);
     });
 });

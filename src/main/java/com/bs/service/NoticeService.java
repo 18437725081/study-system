@@ -46,16 +46,16 @@ public class NoticeService {
             if (notice.getPkNotice() != null) {
                 int result = noticeMapper.updateByPrimaryKey(notice);
                 if (result > 0) {
-                    return ServerResponse.createBySuccess("修改成功");
+                    return ServerResponse.createBySuccessMessage("修改成功");
                 }
-                return ServerResponse.createBySuccess("修改失败");
+                return ServerResponse.createBySuccessMessage("修改失败");
             } else {
 
                 int result = noticeMapper.insert(notice);
                 if (result > 0) {
-                    return ServerResponse.createBySuccess("新增成功");
+                    return ServerResponse.createBySuccessMessage("新增成功");
                 }
-                return ServerResponse.createBySuccess("新增失败");
+                return ServerResponse.createBySuccessMessage("新增失败");
             }
         }
         return ServerResponse.createByErrorMessage("参数不正确");

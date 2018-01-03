@@ -1,0 +1,83 @@
+.from-box {
+    padding: 15px 0px 15px 0px;
+}
+
+.from-title {
+    float: left;
+    padding: 5px 20px 5px 20px;
+}
+
+.notice-title{
+    height: 60px;
+    line-height: 60px;
+}
+
+.from-select {
+    border-radius: 25px;
+    width: 180px;
+}
+
+.from-txt {
+    border-radius: 25px;
+    resize: none;
+    overflow-y: auto;
+    width: 550px;
+    max-width: 750px;
+    height: 60px;
+    max-height: 100px;
+    maxlength:150;
+    padding: 5px 15px;
+}
+
+#text-count{
+    position: relative;
+    bottom: 0px;
+    right: 5px;
+}
+
+.contact-box{
+    box-shadow: 2px 2px 5px #888888;
+    background-color: #f4f4f4;
+    margin: 15px 0px;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(2px);
+}
+
+.btn-boxs{
+    float: right;
+    padding: 10px 30px 0px 0px;
+}
+
+.limit{
+    position: absolute;
+    right: 128px;
+    bottom: -10px;
+}
+
+.msg-box{
+    float: left;
+    padding: 10px 30px 0px 0px;
+}
+
+.msgs{
+    color: #de0002;
+}
