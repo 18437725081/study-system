@@ -32,7 +32,7 @@ public class NoticeController {
 
     /**
      * @author 张靖烽
-     * @description 获取展示通知
+     * @description 获取有效通知内容，用于首页展示
      * @createtime 2017-12-29 12:44
      */
     @RequestMapping("showNotice.do")
@@ -88,12 +88,23 @@ public class NoticeController {
 
     /**
      * @author 张靖烽
-     * @description 删除通知
+     * @description 删除通知,预留接口
      * @createtime 2017-12-29 12:51
      */
     @RequestMapping("deleteNotice.do")
     @ResponseBody
     public ServerResponse deleteNotice(HttpSession session, Notice notice) {
+        return null;
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 获取单条通知内容
+     * @createtime 2018-01-04 8:54
+     */
+    @RequestMapping("getNotice.do")
+    @ResponseBody
+    public ServerResponse getNotice(HttpSession session, Integer pkNotice) {
         //判断登录
         Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
         if (manager == null) {
@@ -101,9 +112,8 @@ public class NoticeController {
         }
         //判断权限
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            //todo
+            return noticeService.getNotice(pkNotice);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }
-
 }

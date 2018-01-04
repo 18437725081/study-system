@@ -62,21 +62,4 @@
 <script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
 <script src="../../js/iframeTools.js" type="text/javascript"></script>
 <script src="notice.js" type="text/javascript"></script>
-<script>
-    function back() {
-        window.parent.location.reload();
-        art.dialog.close();
-    }
-
-    function sub() {
-        $("#add_notice").ajaxSubmit({
-            url: '../../notice/addOrModifyNotice.do',
-            type: 'post',
-            dataType: "json",
-            success: function (res) {
-                $("#msgs").html(res.msg);
-            }
-        });
-    }
-</script>
 </html>

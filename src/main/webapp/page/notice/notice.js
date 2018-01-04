@@ -6,13 +6,11 @@ function loadNotice() {
         type: 'post',
         success: function (res) {
             table(res);
-        },
-        error: function () {
         }
     });
 
     $('tbody').on('click', 'tr', function () {
-        this.style.backgroundColor = "#a1a1a8";
+        this.style.backgroundColor = "#b4b4bb";
         if (selectedTr !== null)
             selectedTr.style.backgroundColor = "#f9f9f9";
         if (selectedTr === this)
@@ -20,6 +18,20 @@ function loadNotice() {
             selectedTr = null;
         else
             selectedTr = this;
+    });
+}
+
+function getNotice(pkNotice) {
+    $.ajax({
+        url: '../../notice/getNotice.do',
+        data: {
+            pkNotice: pkNotice
+        },
+        type: 'post',
+        success: function (res) {
+            $("#noticeContent").html(res.data.noticeContent);
+            $("#flag").val(res.data.flag);
+        }
     });
 }
 
@@ -32,7 +44,7 @@ function table(data) {
         columns: [
             {data: 'noticeContent'},
             {data: 'flag'},
-            {data: 'pkNotice', "visible": false},
+            {data: 'pkNotice', "visible": false}
         ]
     });
     $('select').select2();
@@ -40,11 +52,11 @@ function table(data) {
 
 /*得到选中行的第一列的值*/
 function query() {
-    if (selectedTr != null) {
+    if (selectedTr !== null) {
         var id = $('.data-table').DataTable().row(selectedTr).data().pkNotice;
         alert(id);
     } else {
-        alert("请选择一行");
+        showDialog("错误","请选择一条通知！")
     }
 }
 
@@ -61,7 +73,7 @@ function addNotice() {
 }
 
 function modify() {
-    if (selectedTr != null) {
+    if (selectedTr !== null) {
         var pkNotice = $('.data-table').DataTable().row(selectedTr).data().pkNotice;
         art.dialog.data("pkNotice", pkNotice);
         $.dialog.open('modify.html', {
@@ -74,12 +86,24 @@ function modify() {
             resize: false
         });
     } else {
-        alert("请选择一行");
+        showDialog("错误","请选择一条通知！")
     }
 }
 
-function del() {
+function back() {
+    window.parent.location.reload();
+    art.dialog.close();
+}
 
+function sub() {
+    $("#add_notice").ajaxSubmit({
+        url: '../../notice/addOrModifyNotice.do',
+        type: 'post',
+        dataType: "json",
+        success: function (res) {
+            $("#msgs").html(res.msg);
+        }
+    });
 }
 
 $(function () {
@@ -95,3 +119,12 @@ $(function () {
         $("#text-count").text(count);
     });
 });
+
+function showDialog(title, msg) {
+    $("#myModal").find(".modal-header").html(title);
+    $("#myModal").attr('class', 'modal');
+    $("#myModal").find(".modal-body").html(msg);
+    setTimeout(function () {
+        $("#myModal").attr('class', 'modal hide');
+    }, 3000);
+}

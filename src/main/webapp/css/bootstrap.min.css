@@ -4937,7 +4937,7 @@ input[type="submit"].btn.btn-mini {
 
 .modal {
     position: fixed;
-    top: 40%;
+    top: 30%;
     left: 50%;
     z-index: 1050;
     width: 450px;
