@@ -31,6 +31,8 @@ function getNotice(pkNotice) {
         success: function (res) {
             $("#noticeContent").html(res.data.noticeContent);
             $("#flag").val(res.data.flag);
+            var content = res.data.noticeContent
+            $("#text-count").text(content.length);
         }
     });
 }
@@ -48,16 +50,6 @@ function table(data) {
         ]
     });
     $('select').select2();
-}
-
-/*得到选中行的第一列的值*/
-function query() {
-    if (selectedTr !== null) {
-        var id = $('.data-table').DataTable().row(selectedTr).data().pkNotice;
-        alert(id);
-    } else {
-        showDialog("错误","请选择一条通知！")
-    }
 }
 
 function addNotice() {
@@ -96,6 +88,11 @@ function back() {
 }
 
 function sub() {
+    var noticeContent = $("#noticeContent").val();
+    if (noticeContent.trim() === null || noticeContent.trim() === ""){
+        $("#msgs").html("通知内容不能为空！");
+        return false;
+    }
     $("#add_notice").ajaxSubmit({
         url: '../../notice/addOrModifyNotice.do',
         type: 'post',

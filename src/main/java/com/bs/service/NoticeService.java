@@ -5,6 +5,7 @@ import com.bs.dao.NoticeMapper;
 import com.bs.pojo.Manager;
 import com.bs.pojo.Notice;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,24 +57,26 @@ public class NoticeService {
      */
     public ServerResponse addOrModifyNotice(Notice notice, Manager manager) {
         if (notice != null) {
-            notice.setCreatedBy(manager.getPkManager());
-            notice.setLastUpdatedBy(manager.getPkManager());
-            if (notice.getPkNotice() != null) {
-                int result = noticeMapper.updateByPrimaryKey(notice);
-                if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("修改成功");
-                }
-                return ServerResponse.createBySuccessMessage("修改失败");
-            } else {
+            if (StringUtils.isNotBlank(notice.getNoticeContent())){
+                notice.setCreatedBy(manager.getPkManager());
+                notice.setLastUpdatedBy(manager.getPkManager());
+                if (notice.getPkNotice() != null) {
+                    int result = noticeMapper.updateByPrimaryKey(notice);
+                    if (result > 0) {
+                        return ServerResponse.createBySuccessMessage("修改成功");
+                    }
+                    return ServerResponse.createBySuccessMessage("修改失败");
+                } else {
 
-                int result = noticeMapper.insert(notice);
-                if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("新增成功");
+                    int result = noticeMapper.insert(notice);
+                    if (result > 0) {
+                        return ServerResponse.createBySuccessMessage("新增成功");
+                    }
+                    return ServerResponse.createBySuccessMessage("新增失败");
                 }
-                return ServerResponse.createBySuccessMessage("新增失败");
             }
         }
-        return ServerResponse.createByErrorMessage("参数不正确");
+        return ServerResponse.createByErrorMessage("通知内容不能为空");
     }
 
     /**
