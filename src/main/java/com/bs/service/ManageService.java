@@ -15,7 +15,7 @@ import java.util.List;
  * @create 2018-01-03 20:26
  **/
 @Service
-public class ManageUserService {
+public class ManageService {
 
     @Autowired
     private TeacherMapper teacherMapper;
