@@ -1,7 +1,11 @@
 package com.bs.controller;
 
 import com.bs.common.Constant;
+import com.bs.common.ResponseCode;
 import com.bs.common.ServerResponse;
+import com.bs.pojo.Manager;
+import com.bs.pojo.Student;
+import com.bs.pojo.Teacher;
 import com.bs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,4 +57,29 @@ public class UserController {
         return ServerResponse.createBySuccess();
     }
 
+    /**
+     * @author 张靖烽
+     * @description 获取用户名字
+     * @createtime 2018-01-09 14:02
+     */
+    @RequestMapping(value = "getUserName.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse getUserName(HttpSession session) {
+        if (session.getAttribute(Constant.CURRENT_USER) == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        if (session.getAttribute(Constant.CURRENT_USER).getClass() == Manager.class){
+            Manager manager = (Manager)session.getAttribute(Constant.CURRENT_USER);
+            return ServerResponse.createBySuccess("管理员");
+        }
+        if (session.getAttribute(Constant.CURRENT_USER).getClass() == Teacher.class){
+            Teacher teacher = (Teacher)session.getAttribute(Constant.CURRENT_USER);
+            return ServerResponse.createBySuccess(teacher.getName());
+        }
+        if (session.getAttribute(Constant.CURRENT_USER).getClass() == Student.class){
+            Student student = (Student)session.getAttribute(Constant.CURRENT_USER);
+            return ServerResponse.createBySuccess(student.getName());
+        }
+        return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), "非法人员");
+    }
 }

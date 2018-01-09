@@ -41,8 +41,8 @@
     values (#{pkStudent,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{question,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{studentId,jdbcType=VARCHAR}, #{fkMajor,jdbcType=INTEGER}, #{role,jdbcType=CHAR}, 
-      #{createdBy,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=INTEGER}, 
-      #{lastUpdatedTime,jdbcType=TIMESTAMP})
+      #{createdBy,jdbcType=INTEGER}, now(), #{lastUpdatedBy,jdbcType=INTEGER},
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.bs.pojo.Student" >
     insert into bs_student
@@ -119,13 +119,13 @@
         #{createdBy,jdbcType=INTEGER},
       </if>
       <if test="createdTime != null" >
-        #{createdTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="lastUpdatedBy != null" >
         #{lastUpdatedBy,jdbcType=INTEGER},
       </if>
       <if test="lastUpdatedTime != null" >
-        #{lastUpdatedTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
@@ -156,17 +156,11 @@
       <if test="role != null" >
         role = #{role,jdbcType=CHAR},
       </if>
-      <if test="createdBy != null" >
-        created_by = #{createdBy,jdbcType=INTEGER},
-      </if>
-      <if test="createdTime != null" >
-        created_time = #{createdTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="lastUpdatedBy != null" >
         last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
       </if>
       <if test="lastUpdatedTime != null" >
-        last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+        last_updated_time = now(),
       </if>
     </set>
     where pk_student = #{pkStudent,jdbcType=INTEGER}
@@ -181,10 +175,13 @@
       student_id = #{studentId,jdbcType=VARCHAR},
       fk_major = #{fkMajor,jdbcType=INTEGER},
       role = #{role,jdbcType=CHAR},
-      created_by = #{createdBy,jdbcType=INTEGER},
-      created_time = #{createdTime,jdbcType=TIMESTAMP},
       last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
-      last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP}
+      last_updated_time = now()
     where pk_student = #{pkStudent,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAllTeacher" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM bs_student
+  </select>
 </mapper>
