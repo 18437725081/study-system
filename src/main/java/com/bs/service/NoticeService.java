@@ -41,9 +41,9 @@ public class NoticeService {
     public ServerResponse manageNotice() {
         List<Notice> list = noticeMapper.selectAllNotice();
         for (Notice n : list) {
-            if ("Y".equals(n.getFlag())){
+            if ("Y".equals(n.getFlag())) {
                 n.setFlag("有效");
-            }else if ("N".equals(n.getFlag())){
+            } else if ("N".equals(n.getFlag())) {
                 n.setFlag("无效");
             }
         }
@@ -57,9 +57,11 @@ public class NoticeService {
      */
     public ServerResponse addOrModifyNotice(Notice notice, Manager manager) {
         if (notice != null) {
-            if (StringUtils.isNotBlank(notice.getNoticeContent())){
+            //通知内容不能为空
+            if (StringUtils.isNotBlank(notice.getNoticeContent())) {
                 notice.setCreatedBy(manager.getPkManager());
                 notice.setLastUpdatedBy(manager.getPkManager());
+                //根据主键是否为空决定新增还是修改
                 if (notice.getPkNotice() != null) {
                     int result = noticeMapper.updateByPrimaryKey(notice);
                     if (result > 0) {
@@ -67,7 +69,6 @@ public class NoticeService {
                     }
                     return ServerResponse.createBySuccessMessage("修改失败");
                 } else {
-
                     int result = noticeMapper.insert(notice);
                     if (result > 0) {
                         return ServerResponse.createBySuccessMessage("新增成功");
@@ -85,11 +86,11 @@ public class NoticeService {
      * @createtime 2018-01-04 8:56
      */
     public ServerResponse getNotice(Integer pkNotice) {
-        if (pkNotice == null){
+        if (pkNotice == null) {
             return ServerResponse.createByErrorMessage("参数错误");
         }
         Notice notice = noticeMapper.selectByPrimaryKey(pkNotice);
-        if (notice != null){
+        if (notice != null) {
             return ServerResponse.createBySuccess(notice);
         }
         return ServerResponse.createByErrorMessage("通知不存在或已被删除");

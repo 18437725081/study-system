@@ -3,6 +3,7 @@ package com.bs.dao;
 import com.bs.pojo.Notice;
 
 import java.util.List;
+
 /**
  * @author 张靖烽
  * @description 通知dao层
@@ -12,9 +13,9 @@ public interface NoticeMapper {
     /**
      * 根据主键删除通知
      *
-     * @author 张靖烽
      * @param pkNotice 通知主键
      * @return int
+     * @author 张靖烽
      * @createtime 2017-12-21 9:56
      */
     int deleteByPrimaryKey(Integer pkNotice);
@@ -22,29 +23,29 @@ public interface NoticeMapper {
     /**
      * 新增通知
      *
-     * @author 张靖烽
-     * @param record 通知类
+     * @param notice 通知类
      * @return int
+     * @author 张靖烽
      * @createtime 2017-12-21 9:59
      */
-    int insert(Notice record);
+    int insert(Notice notice);
 
     /**
      * 新增通知
      *
-     * @author 张靖烽
-     * @param record 通知类
+     * @param notice 通知类
      * @return int
+     * @author 张靖烽
      * @createtime 2017-12-21 10:00
      */
-    int insertSelective(Notice record);
+    int insertSelective(Notice notice);
 
     /**
      * 通过主键查询通知
      *
-     * @author 张靖烽
      * @param pkNotice 通知主键
      * @return Notice类对象
+     * @author 张靖烽
      * @createtime 2017-12-21 10:01
      */
     Notice selectByPrimaryKey(Integer pkNotice);
@@ -52,28 +53,28 @@ public interface NoticeMapper {
     /**
      * 更新通知
      *
-     * @author 张靖烽
-     * @param record 通知类
+     * @param notice 通知类
      * @return int
+     * @author 张靖烽
      * @createtime 2017-12-21 10:04
      */
-    int updateByPrimaryKeySelective(Notice record);
+    int updateByPrimaryKeySelective(Notice notice);
 
     /**
      * 更新通知
      *
-     * @author 张靖烽
-     * @param record 通知类
+     * @param notice 通知类
      * @return int
+     * @author 张靖烽
      * @createtime 2017-12-21 10:05
      */
-    int updateByPrimaryKey(Notice record);
+    int updateByPrimaryKey(Notice notice);
 
     /**
      * 查询所有有效通知
      *
-     * @author 张靖烽
      * @return List<String>
+     * @author 张靖烽
      * @createtime 2017-12-21 10:05
      */
     List<String> selectNotice();
@@ -81,8 +82,8 @@ public interface NoticeMapper {
     /**
      * 查询所有通知
      *
-     * @author 张靖烽
      * @return List<Notice>
+     * @author 张靖烽
      * @createtime 2017-12-29 11:12
      */
     List<Notice> selectAllNotice();

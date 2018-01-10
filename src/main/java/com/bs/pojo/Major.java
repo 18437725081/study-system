@@ -2,19 +2,25 @@ package com.bs.pojo;
 
 import java.util.Date;
 
+/**
+ * @author 张靖烽
+ * @description 专业表pojo类
+ * @createtime 2018-01-10 14:23
+ */
 public class Major {
+    /** 专业表主键 */
     private Integer pkMajor;
-
+    /** 专业名称 */
     private String major;
-
+    /** 年级 */
     private Integer grade;
-
+    /** 创建人 */
     private Integer createdBy;
-
+    /** 创建时间 */
     private Date createdTime;
-
+    /** 最后一次更新人 */
     private Integer lastUpdatedBy;
-
+    /** 最后一次更新时间 */
     private Date lastUpdatedTime;
 
     public Major(Integer pkMajor, String major, Integer grade, Integer createdBy, Date createdTime, Integer lastUpdatedBy, Date lastUpdatedTime) {

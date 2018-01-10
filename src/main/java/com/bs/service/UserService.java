@@ -22,10 +22,11 @@ public class UserService {
     private ManagerMapper managerMapper;
 
     public ServerResponse login(String username, String password, String role) {
-        if (StringUtils.isAnyBlank(username,password,role)){
+        if (StringUtils.isAnyBlank(username, password, role)) {
             return ServerResponse.createByErrorMessage("登录失败：请检查");
         }
-        if (Constant.Role.ROLE_ADMIN.equals(role)){
+        //管理员
+        if (Constant.Role.ROLE_ADMIN.equals(role)) {
             //检查用户名是否存在
             int resultCount = managerMapper.checkUsername(username);
             //用户名不存在
@@ -44,16 +45,16 @@ public class UserService {
             manager.setPassword(StringUtils.EMPTY);
             return ServerResponse.createBySuccess("登录成功", manager);
         }
-        if (Constant.Role.ROLE_TEACHER.equals(role)){
+        //教师
+        if (Constant.Role.ROLE_TEACHER.equals(role)) {
             System.out.println();
         }
-        if (Constant.Role.ROLE_STUDENT.equals(role)){
+        //学生
+        if (Constant.Role.ROLE_STUDENT.equals(role)) {
             System.out.println();
         }
         return ServerResponse.createByErrorMessage("登录失败");
     }
-
-
 
 
 }

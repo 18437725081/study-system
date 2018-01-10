@@ -10,17 +10,73 @@ import java.util.List;
  * @createtime 2018-01-09 14:20
  */
 public interface StudentMapper {
+
+    /**
+     * 根据主键删除学生
+     *
+     * @param pkStudent 学生主键
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-01-10 11:10
+     */
     int deleteByPrimaryKey(Integer pkStudent);
 
-    int insert(Student record);
+    /**
+     * 新增学生
+     *
+     * @param student 学生类
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-01-10 11:11
+     */
+    int insert(Student student);
 
-    int insertSelective(Student record);
+    /**
+     * 新增学生
+     *
+     * @param student 学生类
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-01-10 11:12
+     */
+    int insertSelective(Student student);
 
+    /**
+     * 通过主键查询学生
+     *
+     * @param pkStudent 学生主键
+     * @return Student
+     * @author 张靖烽
+     * @createtime 2018-01-10 11:12
+     */
     Student selectByPrimaryKey(Integer pkStudent);
 
-    int updateByPrimaryKeySelective(Student record);
+    /**
+     * 更新学生
+     *
+     * @param student 学生类
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-01-10 11:12
+     */
+    int updateByPrimaryKeySelective(Student student);
 
-    int updateByPrimaryKey(Student record);
+    /**
+     * 更新学生
+     *
+     * @param student 学生类
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-01-10 11:23
+     */
+    int updateByPrimaryKey(Student student);
 
-    List<Student> selectAllTeacher();
+    /**
+     * 查询所有学生信息
+     *
+     * @return List<Student>
+     * @author 张靖烽
+     * @createtime 2018-01-10 11:23
+     */
+    List<Student> selectAllStudent();
 }

@@ -12,9 +12,9 @@ public interface ManagerMapper {
     /**
      * 根据主键删除
      *
-     * @author 张靖烽
      * @param pkManager 管理员主键
      * @return int
+     * @author 张靖烽
      * @createtime 2017-12-26 13:28
      */
     int deleteByPrimaryKey(Integer pkManager);
@@ -22,29 +22,29 @@ public interface ManagerMapper {
     /**
      * 新增管理员
      *
-     * @author 张靖烽
-     * @param record 管理员类
+     * @param manager 管理员类
      * @return int
+     * @author 张靖烽
      * @createtime 2017-12-26 13:31
      */
-    int insert(Manager record);
+    int insert(Manager manager);
 
     /**
      * 新增管理员
      *
-     * @author 张靖烽
-     * @param record 管理员类
+     * @param manager 管理员类
      * @return int
+     * @author 张靖烽
      * @createtime 2017-12-26 13:33
      */
-    int insertSelective(Manager record);
+    int insertSelective(Manager manager);
 
     /**
      * 通过主键查询
      *
-     * @author 张靖烽
      * @param pkManager 管理员主键
      * @return Manager类对象
+     * @author 张靖烽
      * @createtime 2017-12-26 13:33
      */
     Manager selectByPrimaryKey(Integer pkManager);
@@ -52,29 +52,29 @@ public interface ManagerMapper {
     /**
      * 更新
      *
-     * @author 张靖烽
-     * @param record 管理员类
+     * @param manager 管理员类
      * @return int
+     * @author 张靖烽
      * @createtime 2017-12-26 13:34
      */
-    int updateByPrimaryKeySelective(Manager record);
+    int updateByPrimaryKeySelective(Manager manager);
 
     /**
      * 更新
      *
-     * @author 张靖烽
-     * @param record 管理员类
+     * @param manager 管理员类
      * @return int
+     * @author 张靖烽
      * @createtime 2017-12-26 13:34
      */
-    int updateByPrimaryKey(Manager record);
+    int updateByPrimaryKey(Manager manager);
 
     /**
      * 检查用户名是否存在
      *
-     * @author 张靖烽
      * @param username 用户名
      * @return int
+     * @author 张靖烽
      * @createtime 2017-12-26 13:34
      */
     int checkUsername(String username);
@@ -82,11 +82,11 @@ public interface ManagerMapper {
     /**
      * 登录，检查用户名密码是否正确
      *
-     * @author 张靖烽
-     * @param username 用户名
+     * @param username    用户名
      * @param md5Password 密码
      * @return Manager
+     * @author 张靖烽
      * @createtime 2017-12-26 13:35
      */
-    Manager login(@Param("username") String username,@Param("md5Password") String md5Password);
+    Manager login(@Param("username") String username, @Param("md5Password") String md5Password);
 }

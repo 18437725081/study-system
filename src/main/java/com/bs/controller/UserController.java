@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 /**
  * @author 张靖烽
  * @name UserController
- * @description
+ * @description 用户相关操作Controller
  * @create 2017-12-26 11:06
  **/
 @Controller
@@ -36,6 +36,7 @@ public class UserController {
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse login(String username, String password, String role, HttpSession session) {
+        //验证用户登录信息是否正确
         ServerResponse response = userService.login(username, password, role);
         //验证通过，将当前用户信息放入session
         if (response.isSuccess()) {
@@ -65,19 +66,21 @@ public class UserController {
     @RequestMapping(value = "getUserName.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse getUserName(HttpSession session) {
-        if (session.getAttribute(Constant.CURRENT_USER) == null){
+        //判断用户是否登录
+        if (session.getAttribute(Constant.CURRENT_USER) == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        if (session.getAttribute(Constant.CURRENT_USER).getClass() == Manager.class){
-            Manager manager = (Manager)session.getAttribute(Constant.CURRENT_USER);
+        //根据用户类别进行返回
+        if (session.getAttribute(Constant.CURRENT_USER).getClass() == Manager.class) {
+            Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
             return ServerResponse.createBySuccess("管理员");
         }
-        if (session.getAttribute(Constant.CURRENT_USER).getClass() == Teacher.class){
-            Teacher teacher = (Teacher)session.getAttribute(Constant.CURRENT_USER);
+        if (session.getAttribute(Constant.CURRENT_USER).getClass() == Teacher.class) {
+            Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
             return ServerResponse.createBySuccess(teacher.getName());
         }
-        if (session.getAttribute(Constant.CURRENT_USER).getClass() == Student.class){
-            Student student = (Student)session.getAttribute(Constant.CURRENT_USER);
+        if (session.getAttribute(Constant.CURRENT_USER).getClass() == Student.class) {
+            Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
             return ServerResponse.createBySuccess(student.getName());
         }
         return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), "非法人员");

@@ -23,22 +23,22 @@ public interface TeacherMapper {
     /**
      * 新增教师
      *
-     * @param record 教师类
+     * @param teacher 教师类
      * @return int
      * @author 张靖烽
      * @createtime 2018-01-03 20:49
      */
-    int insert(Teacher record);
+    int insert(Teacher teacher);
 
     /**
      * 新增教师
      *
-     * @param record 教师类
+     * @param teacher 教师类
      * @return int
      * @author 张靖烽
      * @createtime 2018-01-03 20:49
      */
-    int insertSelective(Teacher record);
+    int insertSelective(Teacher teacher);
 
     /**
      * 通过主键查询教师
@@ -53,25 +53,25 @@ public interface TeacherMapper {
     /**
      * 更新教师
      *
-     * @param record 教师类
+     * @param teacher 教师类
      * @return int
      * @author 张靖烽
      * @createtime 2018-01-03 20:49
      */
-    int updateByPrimaryKeySelective(Teacher record);
+    int updateByPrimaryKeySelective(Teacher teacher);
 
     /**
      * 更新教师
      *
-     * @param record 教师类
+     * @param teacher 教师类
      * @return int
      * @author 张靖烽
      * @createtime 2018-01-03 20:49
      */
-    int updateByPrimaryKey(Teacher record);
+    int updateByPrimaryKey(Teacher teacher);
 
     /**
-     * 查询所有教师
+     * 查询所有教师信息
      *
      * @return List<Teacher>
      * @author 张靖烽

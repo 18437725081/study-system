@@ -1,119 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.bs.dao.MajorMapper" >
-  <resultMap id="BaseResultMap" type="com.bs.pojo.Major" >
-    <constructor >
-      <idArg column="pk_major" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="major" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="grade" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="created_by" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="last_updated_by" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="last_updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.bs.dao.MajorMapper">
+    <resultMap id="BaseResultMap" type="com.bs.pojo.Major">
+        <constructor>
+            <idArg column="pk_major" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="major" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="grade" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="created_by" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="last_updated_by" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="last_updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     pk_major, major, grade, created_by, created_time, last_updated_by, last_updated_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from bs_major
-    where pk_major = #{pkMajor,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from bs_major
+        where pk_major = #{pkMajor,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from bs_major
     where pk_major = #{pkMajor,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.bs.pojo.Major" >
+    <insert id="insert" parameterType="com.bs.pojo.Major">
     insert into bs_major (pk_major, major, grade, 
       created_by, created_time, last_updated_by, 
       last_updated_time)
     values (#{pkMajor,jdbcType=INTEGER}, #{major,jdbcType=VARCHAR}, #{grade,jdbcType=INTEGER}, 
-      #{createdBy,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=INTEGER}, 
-      #{lastUpdatedTime,jdbcType=TIMESTAMP})
+      #{createdBy,jdbcType=INTEGER}, now(), #{lastUpdatedBy,jdbcType=INTEGER},
+      now())
   </insert>
-  <insert id="insertSelective" parameterType="com.bs.pojo.Major" >
-    insert into bs_major
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkMajor != null" >
-        pk_major,
-      </if>
-      <if test="major != null" >
-        major,
-      </if>
-      <if test="grade != null" >
-        grade,
-      </if>
-      <if test="createdBy != null" >
-        created_by,
-      </if>
-      <if test="createdTime != null" >
-        created_time,
-      </if>
-      <if test="lastUpdatedBy != null" >
-        last_updated_by,
-      </if>
-      <if test="lastUpdatedTime != null" >
-        last_updated_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkMajor != null" >
-        #{pkMajor,jdbcType=INTEGER},
-      </if>
-      <if test="major != null" >
-        #{major,jdbcType=VARCHAR},
-      </if>
-      <if test="grade != null" >
-        #{grade,jdbcType=INTEGER},
-      </if>
-      <if test="createdBy != null" >
-        #{createdBy,jdbcType=INTEGER},
-      </if>
-      <if test="createdTime != null" >
-        #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastUpdatedBy != null" >
-        #{lastUpdatedBy,jdbcType=INTEGER},
-      </if>
-      <if test="lastUpdatedTime != null" >
-        #{lastUpdatedTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bs.pojo.Major" >
-    update bs_major
-    <set >
-      <if test="major != null" >
-        major = #{major,jdbcType=VARCHAR},
-      </if>
-      <if test="grade != null" >
-        grade = #{grade,jdbcType=INTEGER},
-      </if>
-      <if test="createdBy != null" >
-        created_by = #{createdBy,jdbcType=INTEGER},
-      </if>
-      <if test="createdTime != null" >
-        created_time = #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastUpdatedBy != null" >
-        last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
-      </if>
-      <if test="lastUpdatedTime != null" >
-        last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where pk_major = #{pkMajor,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.bs.pojo.Major" >
+    <insert id="insertSelective" parameterType="com.bs.pojo.Major">
+        insert into bs_major
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkMajor != null">
+                pk_major,
+            </if>
+            <if test="major != null">
+                major,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by,
+            </if>
+            <if test="lastUpdatedTime != null">
+                last_updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkMajor != null">
+                #{pkMajor,jdbcType=INTEGER},
+            </if>
+            <if test="major != null">
+                #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=INTEGER},
+            </if>
+            <if test="createdTime != null">
+                now(),
+            </if>
+            <if test="lastUpdatedBy != null">
+                #{lastUpdatedBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastUpdatedTime != null">
+                now(),
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bs.pojo.Major">
+        update bs_major
+        <set>
+            <if test="major != null">
+                major = #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastUpdatedTime != null">
+                last_updated_time = now(),
+            </if>
+        </set>
+        where pk_major = #{pkMajor,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bs.pojo.Major">
     update bs_major
     set major = #{major,jdbcType=VARCHAR},
       grade = #{grade,jdbcType=INTEGER},
-      created_by = #{createdBy,jdbcType=INTEGER},
-      created_time = #{createdTime,jdbcType=TIMESTAMP},
       last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
-      last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP}
+      last_updated_time = now()
     where pk_major = #{pkMajor,jdbcType=INTEGER}
   </update>
+
+    <select id="selectAllMajor" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bs_major
+    </select>
 </mapper>

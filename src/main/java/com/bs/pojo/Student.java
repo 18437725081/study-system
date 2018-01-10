@@ -2,31 +2,37 @@ package com.bs.pojo;
 
 import java.util.Date;
 
+/**
+ * @author 张靖烽
+ * @description 学生表pojo类
+ * @createtime 2018-01-10 14:22
+ */
 public class Student {
+    /** 学生表主键 */
     private Integer pkStudent;
-
+    /** 用户名 */
     private String username;
-
+    /** 密码 */
     private String password;
-
+    /** 找回密码问题 */
     private String question;
-
+    /** 找回密码答案 */
     private String answer;
-
+    /** 姓名 */
     private String name;
-
+    /** 学号 */
     private String studentId;
-
+    /** 专业表外键 */
     private Integer fkMajor;
-
+    /** 角色 */
     private String role;
-
+    /** 创建人 */
     private Integer createdBy;
-
+    /** 创建时间 */
     private Date createdTime;
-
+    /** 最后一次更新人 */
     private Integer lastUpdatedBy;
-
+    /** 最后一次更新时间 */
     private Date lastUpdatedTime;
 
     public Student(Integer pkStudent, String username, String password, String question, String answer, String name, String studentId, Integer fkMajor, String role, Integer createdBy, Date createdTime, Integer lastUpdatedBy, Date lastUpdatedTime) {

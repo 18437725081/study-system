@@ -180,7 +180,7 @@
     where pk_student = #{pkStudent,jdbcType=INTEGER}
   </update>
 
-  <select id="selectAllTeacher" resultMap="BaseResultMap">
+  <select id="selectAllStudent" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List"/>
     FROM bs_student
   </select>

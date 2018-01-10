@@ -3,6 +3,7 @@ package com.bs.controller;
 import com.bs.common.Constant;
 import com.bs.common.ResponseCode;
 import com.bs.common.ServerResponse;
+import com.bs.pojo.Major;
 import com.bs.pojo.Manager;
 import com.bs.pojo.Student;
 import com.bs.pojo.Teacher;
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpSession;
 /**
  * @author 张靖烽
  * @name ManageUserController
- * @description
+ * @description 管理员管理Controller
  * @create 2018-01-03 20:24
  **/
 @Controller
@@ -44,7 +45,7 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.getTeacherList();
         }
@@ -64,7 +65,7 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.addOrModifyTeacher(teacher, manager);
         }
@@ -84,7 +85,7 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             //todo
             return null;
@@ -105,7 +106,7 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.getTeacherInfo(pkTeacher);
         }
@@ -125,7 +126,7 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.delTeacher(pkTeacher);
         }
@@ -145,7 +146,7 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.getStudentList();
         }
@@ -165,7 +166,7 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.addOrModifyStudent(student, manager);
         }
@@ -185,7 +186,7 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             //todo
             return null;
@@ -206,7 +207,7 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.getStudentInfo(pkStudent);
         }
@@ -226,7 +227,7 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.delStudent(pkStudent);
         }
@@ -246,43 +247,113 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            //todo
-            return null;
+            return manageService.getRelTeacherMajor(pkTeacher);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }
 
     /**
      * @author 张靖烽
-     * @description 新增或修改教师关联班级
+     * @description 新增教师关联班级
      * @createtime 2018-01-05 10:12
      */
+    @RequestMapping("addRelTeacherMajor.do")
+    @ResponseBody
+    public ServerResponse addRelTeacherMajor(HttpSession session, Integer pkTeacher, Integer pkMajor) {
+        //判断登录
+        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        if (manager == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
+            return manageService.addRelTeacherMajor(pkTeacher, pkMajor, manager);
+        }
+        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
+    }
 
     /**
      * @author 张靖烽
      * @description 删除教师关联班级
      * @createtime 2018-01-05 10:12
      */
+    @RequestMapping("delRelTeacherMajor.do")
+    @ResponseBody
+    public ServerResponse delRelTeacherMajor(HttpSession session, Integer pkTeacher, Integer pkMajor) {
+        //判断登录
+        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        if (manager == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
+            logger.info(manager.getPkManager() + "执行了删除教师：" + pkTeacher + " 关联的：" + pkMajor + " 专业的操作");
+            return manageService.delRelTeacherMajor(pkTeacher, pkMajor);
+        }
+        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
+    }
 
     /**
      * @author 张靖烽
      * @description 查看年级专业信息
      * @createtime 2018-01-05 10:27
      */
+    @RequestMapping("getMajorList.do")
+    @ResponseBody
+    public ServerResponse getMajorList(HttpSession session) {
+        //判断登录
+        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        if (manager == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
+            return manageService.getMajorList();
+        }
+        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
+    }
 
     /**
      * @author 张靖烽
      * @description 查看单条专业信息
      * @createtime 2018-01-05 10:27
      */
+    @RequestMapping("getMajorInfo.do")
+    @ResponseBody
+    public ServerResponse getMajorInfo(HttpSession session, Integer pkMajor) {
+        //判断登录
+        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        if (manager == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
+            return manageService.getMajorInfo(pkMajor);
+        }
+        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
+    }
 
     /**
      * @author 张靖烽
      * @description 新增或修改年级专业信息
      * @createtime 2018-01-05 10:27
      */
+    @RequestMapping("addOrUpdateMajor.do")
+    @ResponseBody
+    public ServerResponse addOrUpdateMajor(HttpSession session, Major major) {
+        //判断登录
+        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        if (manager == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
+            return manageService.addOrModifyMajor(major, manager);
+        }
+        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
+    }
 
     /**
      * @author 张靖烽
@@ -297,12 +368,10 @@ public class ManageController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            //todo
-            return null;
+            return manageService.delMajor(pkMajor);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }
-
 }

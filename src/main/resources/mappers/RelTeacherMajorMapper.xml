@@ -31,8 +31,8 @@
       created_by, created_time, last_updated_by, 
       last_updated_time)
     values (#{pkRelTeacherMajor,jdbcType=INTEGER}, #{fkTeacher,jdbcType=INTEGER}, #{fkMajor,jdbcType=INTEGER}, 
-      #{createdBy,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=INTEGER}, 
-      #{lastUpdatedTime,jdbcType=TIMESTAMP})
+      #{createdBy,jdbcType=INTEGER}, now(), #{lastUpdatedBy,jdbcType=INTEGER},
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.bs.pojo.RelTeacherMajor" >
     insert into bs_rel_teacher_major
@@ -73,13 +73,13 @@
         #{createdBy,jdbcType=INTEGER},
       </if>
       <if test="createdTime != null" >
-        #{createdTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="lastUpdatedBy != null" >
         #{lastUpdatedBy,jdbcType=INTEGER},
       </if>
       <if test="lastUpdatedTime != null" >
-        #{lastUpdatedTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
@@ -92,17 +92,11 @@
       <if test="fkMajor != null" >
         fk_major = #{fkMajor,jdbcType=INTEGER},
       </if>
-      <if test="createdBy != null" >
-        created_by = #{createdBy,jdbcType=INTEGER},
-      </if>
-      <if test="createdTime != null" >
-        created_time = #{createdTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="lastUpdatedBy != null" >
         last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
       </if>
       <if test="lastUpdatedTime != null" >
-        last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+        last_updated_time = now(),
       </if>
     </set>
     where pk_rel_teacher_major = #{pkRelTeacherMajor,jdbcType=INTEGER}
@@ -111,10 +105,20 @@
     update bs_rel_teacher_major
     set fk_teacher = #{fkTeacher,jdbcType=INTEGER},
       fk_major = #{fkMajor,jdbcType=INTEGER},
-      created_by = #{createdBy,jdbcType=INTEGER},
-      created_time = #{createdTime,jdbcType=TIMESTAMP},
       last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
-      last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP}
+      last_updated_time = now()
     where pk_rel_teacher_major = #{pkRelTeacherMajor,jdbcType=INTEGER}
   </update>
+
+  <select id="selectFkMajor" parameterType="int" resultType="int">
+    SELECT brtm.fk_major
+    FROM bs_rel_teacher_major brtm
+    WHERE brtm.fk_teacher = #{pkTeacher}
+  </select>
+
+  <delete id="delete" parameterType="map">
+    DELETE FROM bs_rel_teacher_major
+    WHERE fk_teacher = #{pkTeacher}
+    AND fk_major = #{pkMajor}
+  </delete>
 </mapper>

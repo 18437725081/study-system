@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * @author 张靖烽
  * @name NoticeController
- * @description
+ * @description 通知管理Controller
  * @create 2017-12-21 10:06
  **/
 @Controller
@@ -59,7 +59,7 @@ public class NoticeController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return noticeService.manageNotice();
         }
@@ -79,7 +79,7 @@ public class NoticeController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return noticeService.addOrModifyNotice(notice, manager);
         }
@@ -88,7 +88,7 @@ public class NoticeController {
 
     /**
      * @author 张靖烽
-     * @description 删除通知,预留接口
+     * @description 删除通知, 预留接口
      * @createtime 2017-12-29 12:51
      */
     @RequestMapping("deleteNotice.do")
@@ -110,7 +110,7 @@ public class NoticeController {
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        //判断权限
+        //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return noticeService.getNotice(pkNotice);
         }
