@@ -96,9 +96,9 @@ public class StudentController {
      * @description 已登录，重置密码
      * @createtime 2018-01-12 12:49
      */
-    @RequestMapping(value = "resetStudentPassword.do", method = RequestMethod.POST)
+    @RequestMapping(value = "resetPassword.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> resetStudentPassword(HttpSession session, String passwordOld, String passwordNew) {
+    public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew) {
         Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
         if (student == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");

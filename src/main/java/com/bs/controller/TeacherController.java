@@ -96,9 +96,9 @@ public class TeacherController {
      * @description 已登录，重置密码
      * @createtime 2018-01-12 12:49
      */
-    @RequestMapping(value = "resetTeacherPassword.do", method = RequestMethod.POST)
+    @RequestMapping(value = "resetPassword.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> resetTeacherPassword(HttpSession session, String passwordOld, String passwordNew) {
+    public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew) {
         Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");

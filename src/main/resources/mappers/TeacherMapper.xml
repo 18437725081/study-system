@@ -193,4 +193,19 @@
     from bs_teacher
     where username = #{username}
   </select>
+
+  <select id="checkAnswer" resultType="int" parameterType="map">
+    SELECT
+    count(1)
+    from bs_teacher
+    WHERE username=#{username}
+    AND question = #{question}
+    AND answer = #{answer}
+  </select>
+
+  <update id="updatePasswordByUsername" parameterType="map">
+    UPDATE bs_teacher
+    SET password = #{passwordNew},last_updated_time = now()
+    WHERE username = #{username}
+  </update>
 </mapper>

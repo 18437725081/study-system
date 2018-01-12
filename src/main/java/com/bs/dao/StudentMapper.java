@@ -94,7 +94,7 @@ public interface StudentMapper {
     /**
      * 登录，检查用户名密码是否正确
      *
-     * @param username    用户名
+     * @param username 用户名
      * @param password 密码
      * @return Manager
      * @author 张靖烽
@@ -111,4 +111,20 @@ public interface StudentMapper {
      * @createtime 2018-01-12 14:37
      */
     String selectQuestionByStudent(String username);
+
+    /**
+     * 校验答案
+     *
+     * @param username 用户名
+     * @param question 问题
+     * @param answer 答案
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-01-12 16:40
+     */
+    int checkAnswer(@Param("username") String username, @Param("question") String question, @Param("answer") String answer);
+
+    int updatePasswordByUsername(@Param("username")String username,@Param("passwordNew")String passwordNew);
+
+    int checkPassword(@Param(value="password")String password,@Param("pkStudent")Integer pkStudent);
 }

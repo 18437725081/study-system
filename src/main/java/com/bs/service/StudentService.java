@@ -1,12 +1,16 @@
 package com.bs.service;
 
 import com.bs.common.ServerResponse;
+import com.bs.common.TokenCache;
 import com.bs.dao.StudentMapper;
 import com.bs.pojo.Student;
 import com.bs.util.MD5;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * @author 张靖烽
@@ -76,7 +80,14 @@ public class StudentService {
      * @createtime 2018-01-12 13:40
      */
     public ServerResponse<String> checkAnswer(String username, String question, String answer) {
-        return null;
+        int resultCount = studentMapper.checkAnswer(username,question,answer);
+        if(resultCount>0){
+            //说明问题及问题答案是这个用户的,并且是正确的
+            String forgetToken = UUID.randomUUID().toString();
+            TokenCache.setKey(TokenCache.TOKEN_PREFIX+username,forgetToken);
+            return ServerResponse.createBySuccess(forgetToken);
+        }
+        return ServerResponse.createByErrorMessage("问题的答案错误");
     }
 
     /**
@@ -85,7 +96,29 @@ public class StudentService {
      * @createtime 2018-01-12 13:41
      */
     public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
-        return null;
+        if(StringUtils.isBlank(forgetToken)){
+            return ServerResponse.createByErrorMessage("参数错误,token需要传递");
+        }
+        //检查用户名是否存在
+        int result = studentMapper.checkUsername(username);
+        //用户名不存在
+        if (result <= 0) {
+            return ServerResponse.createByErrorMessage("用户名不存在");
+        }
+        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX+username);
+        if(StringUtils.isBlank(token)){
+            return ServerResponse.createByErrorMessage("token无效或者过期");
+        }
+        if(StringUtils.equals(forgetToken,token)){
+            String md5Password  = MD5.md5EncodeUtf8(passwordNew);
+            result = studentMapper.updatePasswordByUsername(username,md5Password);
+            if(result > 0){
+                return ServerResponse.createBySuccessMessage("修改密码成功");
+            }
+        }else{
+            return ServerResponse.createByErrorMessage("token错误,请重新获取重置密码的token");
+        }
+        return ServerResponse.createByErrorMessage("修改密码失败");
     }
 
     /**
@@ -94,7 +127,18 @@ public class StudentService {
      * @createtime 2018-01-12 13:41
      */
     public ServerResponse<String> resetStudentPassword(String passwordNew, String passwordOld, Student student) {
-        return null;
+        //防止横向越权,要校验一下这个用户的旧密码,一定要指定是这个用户.因为我们会查询一个count(1),如果不指定id,那么结果就是true啦count>0;
+        int resultCount = studentMapper.checkPassword(MD5.md5EncodeUtf8(passwordOld),student.getPkStudent());
+        if(resultCount == 0){
+            return ServerResponse.createByErrorMessage("旧密码错误");
+        }
+        student.setPassword(MD5.md5EncodeUtf8(passwordNew));
+        student.setLastUpdatedBy(student.getPkStudent());
+        int updateCount = studentMapper.updateByPrimaryKeySelective(student);
+        if(updateCount > 0){
+            return ServerResponse.createBySuccessMessage("密码更新成功");
+        }
+        return ServerResponse.createByErrorMessage("密码更新失败");
     }
 
     /**
