@@ -83,10 +83,10 @@ public interface ManagerMapper {
      * 登录，检查用户名密码是否正确
      *
      * @param username    用户名
-     * @param md5Password 密码
+     * @param password 密码
      * @return Manager
      * @author 张靖烽
      * @createtime 2017-12-26 13:35
      */
-    Manager login(@Param("username") String username, @Param("md5Password") String md5Password);
+    Manager login(@Param("username") String username, @Param("password") String password);
 }

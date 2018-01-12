@@ -93,6 +93,6 @@
         <include refid="Base_Column_List"/>
         FROM bs_managers
         WHERE username = #{username}
-        AND password = #{md5Password}
+        AND password = #{password}
     </select>
 </mapper>

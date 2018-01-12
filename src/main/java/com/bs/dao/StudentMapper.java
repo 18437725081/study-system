@@ -1,6 +1,7 @@
 package com.bs.dao;
 
 import com.bs.pojo.Student;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -79,4 +80,35 @@ public interface StudentMapper {
      * @createtime 2018-01-10 11:23
      */
     List<Student> selectAllStudent();
+
+    /**
+     * 检查用户名是否存在
+     *
+     * @param username 用户名
+     * @return int
+     * @author 张靖烽
+     * @createtime 2017-12-26 13:34
+     */
+    int checkUsername(String username);
+
+    /**
+     * 登录，检查用户名密码是否正确
+     *
+     * @param username    用户名
+     * @param password 密码
+     * @return Manager
+     * @author 张靖烽
+     * @createtime 2017-12-26 13:35
+     */
+    Student login(@Param("username") String username, @Param("password") String password);
+
+    /**
+     * 获取问题
+     *
+     * @param username 用户名
+     * @return Manager
+     * @author 张靖烽
+     * @createtime 2018-01-12 14:37
+     */
+    String selectQuestionByStudent(String username);
 }

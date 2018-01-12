@@ -21,21 +21,6 @@ function loadNotice() {
     });
 }
 
-function getNotice(pkNotice) {
-    $.ajax({
-        url: '../../notice/getNotice.do',
-        data: {
-            pkNotice: pkNotice
-        },
-        type: 'post',
-        success: function (res) {
-            $("#noticeContent").html(res.data.noticeContent);
-            $("#flag").val(res.data.flag);
-            var content = res.data.noticeContent
-            $("#text-count").text(content.length);
-        }
-    });
-}
 
 function table(data) {
     $('.data-table').dataTable({
@@ -80,6 +65,22 @@ function modify() {
     } else {
         showDialog("错误","请选择一条通知！")
     }
+}
+
+function getNotice(pkNotice) {
+    $.ajax({
+        url: '../../notice/getNotice.do',
+        data: {
+            pkNotice: pkNotice
+        },
+        type: 'post',
+        success: function (res) {
+            $("#noticeContent").html(res.data.noticeContent);
+            $("#flag").val(res.data.flag);
+            var content = res.data.noticeContent;
+            $("#text-count").text(content.length);
+        }
+    });
 }
 
 function back() {

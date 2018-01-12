@@ -13,6 +13,16 @@ public class Constant {
      */
     public static final String CURRENT_USER = "currentUser";
 
+    /**
+     * 学生
+     */
+    public static final String STUDENT = "student";
+
+    /**
+     * 教师
+     */
+    public static final String TEACHER = "teacher";
+
     public interface Role {
         /**
          * 管理员

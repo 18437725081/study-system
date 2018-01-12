@@ -1,11 +1,10 @@
 package com.bs.service;
 
+import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
-import com.bs.dao.MajorMapper;
-import com.bs.dao.RelTeacherMajorMapper;
-import com.bs.dao.StudentMapper;
-import com.bs.dao.TeacherMapper;
+import com.bs.dao.*;
 import com.bs.pojo.*;
+import com.bs.util.MD5;
 import com.bs.vo.RelTeacherMajorVO;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +34,35 @@ public class ManageService {
     @Autowired
     private MajorMapper majorMapper;
 
+    @Autowired
+    private ManagerMapper managerMapper;
+
+    /**
+     * @author 张靖烽
+     * @description 管理员登录
+     * @createtime 2018-01-12 14:56
+     */
+    public ServerResponse login(String username, String password) {
+        if (StringUtils.isAnyBlank(username, password)) {
+            return ServerResponse.createByErrorMessage("登录失败：请检查是否正确填写用户名和密码");
+        }
+        //检查用户名是否存在
+        int resultCount = managerMapper.checkUsername(username);
+        //用户名不存在
+        if (resultCount <= 0) {
+            return ServerResponse.createByErrorMessage("登录失败：用户名不存在");
+        }
+        //检查用户输入的用户名和密码是否匹配
+        Manager manager = managerMapper.login(username, password);
+        //用户名和密码不匹配
+        if (manager == null) {
+            return ServerResponse.createByErrorMessage("登录失败：密码不正确");
+        }
+        //通过校验，将密码置为空
+        manager.setPassword(StringUtils.EMPTY);
+        return ServerResponse.createBySuccess("登录成功", manager);
+    }
+
     /**
      * @author 张靖烽
      * @description 获取教师信息
@@ -57,12 +85,16 @@ public class ManageService {
             teacher.setLastUpdatedBy(manager.getPkManager());
             //根据主键是否为空决定新增还是修改
             if (teacher.getPkTeacher() != null) {
+                //将密码加密
+                teacher.setPassword(MD5.md5EncodeUtf8(teacher.getPassword()));
                 int result = teacherMapper.updateByPrimaryKey(teacher);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("修改成功");
                 }
                 return ServerResponse.createBySuccessMessage("修改失败");
             } else {
+                //将密码加密
+                teacher.setPassword(MD5.md5EncodeUtf8(teacher.getPassword()));
                 int result = teacherMapper.insert(teacher);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("新增成功");
@@ -126,13 +158,14 @@ public class ManageService {
             student.setLastUpdatedBy(manager.getPkManager());
             //根据主键是否为空决定新增还是修改
             if (student.getPkStudent() != null) {
+                student.setPassword(MD5.md5EncodeUtf8(student.getPassword()));
                 int result = studentMapper.updateByPrimaryKey(student);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("修改成功");
                 }
                 return ServerResponse.createBySuccessMessage("修改失败");
             } else {
-
+                student.setPassword(MD5.md5EncodeUtf8(student.getPassword()));
                 int result = studentMapper.insert(student);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("新增成功");

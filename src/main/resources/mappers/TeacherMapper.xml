@@ -172,4 +172,25 @@
     SELECT <include refid="Base_Column_List"/>
     FROM bs_teacher
   </select>
+
+  <select id="checkUsername" parameterType="string" resultType="int">
+    SELECT COUNT(1)
+    FROM bs_teacher
+    WHERE username = #{username}
+  </select>
+
+  <select id="login" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM bs_teacher
+    WHERE username = #{username}
+    AND password = #{password}
+  </select>
+
+  <select id="selectQuestionByTeacher" resultType="string" parameterType="string">
+    select
+    question
+    from bs_teacher
+    where username = #{username}
+  </select>
 </mapper>
