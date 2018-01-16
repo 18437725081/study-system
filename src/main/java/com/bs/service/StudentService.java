@@ -5,7 +5,6 @@ import com.bs.common.TokenCache;
 import com.bs.dao.StudentMapper;
 import com.bs.pojo.Student;
 import com.bs.util.MD5;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -147,6 +146,17 @@ public class StudentService {
      * @createtime 2018-01-12 13:42
      */
     public ServerResponse updateStudentInformation(String question, String answer, Student student) {
-        return null;
+        if(StringUtils.isBlank(question) || StringUtils.isBlank(answer)){
+            return ServerResponse.createByErrorMessage("请填写问题和答案");
+        }
+        Student stu = new Student();
+        stu.setQuestion(question);
+        stu.setAnswer(answer);
+        stu.setLastUpdatedBy(student.getPkStudent());
+        int result = studentMapper.updateByPrimaryKeySelective(stu);
+        if (result > 0){
+            return ServerResponse.createBySuccessMessage("设置找回密码问题答案成功");
+        }
+        return ServerResponse.createByErrorMessage("设置找回密码问题答案失败");
     }
 }

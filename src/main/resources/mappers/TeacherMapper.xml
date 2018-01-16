@@ -208,4 +208,12 @@
     SET password = #{passwordNew},last_updated_time = now()
     WHERE username = #{username}
   </update>
+
+  <select id="checkPassword" resultType="int" parameterType="map">
+    SELECT
+    count(1)
+    FROM bs_teacher
+    WHERE password = #{password}
+    AND pk_teacher = #{pkTeacher}
+  </select>
 </mapper>

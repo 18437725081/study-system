@@ -2,7 +2,6 @@ package com.bs.service;
 
 import com.bs.common.ServerResponse;
 import com.bs.common.TokenCache;
-import com.bs.dao.StudentMapper;
 import com.bs.dao.TeacherMapper;
 import com.bs.pojo.Teacher;
 import com.bs.util.MD5;
@@ -97,7 +96,7 @@ public class TeacherService {
      */
     public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
         if(StringUtils.isBlank(forgetToken)){
-            return ServerResponse.createByErrorMessage("参数错误,token需要传递");
+            return ServerResponse.createByErrorMessage("参数错误，请重新尝试");
         }
         //检查用户名是否存在
         int resultCount = teacherMapper.checkUsername(username);
@@ -147,6 +146,17 @@ public class TeacherService {
      * @createtime 2018-01-12 13:42
      */
     public ServerResponse updateTeacherInformation(String question, String answer, Teacher teacher) {
-        return null;
+        if(StringUtils.isBlank(question) || StringUtils.isBlank(answer)){
+            return ServerResponse.createByErrorMessage("请填写问题和答案");
+        }
+        Teacher tea = new Teacher();
+        tea.setQuestion(question);
+        tea.setAnswer(answer);
+        tea.setLastUpdatedBy(teacher.getPkTeacher());
+        int result = teacherMapper.updateByPrimaryKeySelective(tea);
+        if (result > 0){
+            return ServerResponse.createBySuccessMessage("设置找回密码问题答案成功");
+        }
+        return ServerResponse.createByErrorMessage("设置找回密码问题答案失败");
     }
 }

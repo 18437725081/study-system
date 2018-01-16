@@ -123,7 +123,25 @@ public interface TeacherMapper {
      */
     int checkAnswer(@Param("username")String username,@Param("question")String question,@Param("answer")String answer);
 
+    /**
+     * 修改密码
+     *
+     * @param username 用户名
+     * @param passwordNew 密码
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-01-16 17:22
+     */
     int updatePasswordByUsername(@Param("username")String username,@Param("passwordNew")String passwordNew);
 
-    int checkPassword(@Param(value="password")String password,@Param("userId")Integer userId);
+    /**
+     * 校验密码归属
+     *
+     * @param password 密码
+     * @param pkTeacher 教师主键
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-01-16 17:22
+     */
+    int checkPassword(@Param(value="password")String password,@Param("pkTeacher")Integer pkTeacher);
 }
