@@ -227,4 +227,29 @@
         WHERE password = #{password}
         AND pk_student = #{pkStudent}
     </select>
+
+    <select id="selectUsername" resultType="int" parameterType="string">
+        SELECT COUNT(1)
+        FROM bs_student
+        WHERE username = #{username}
+    </select>
+
+    <select id="queryStudent" resultMap="BaseResultMap" parameterType="com.bs.pojo.Student">
+        SELECT <include refid="Base_Column_List"/>
+        FROM bs_student
+        <where>
+            <if test="username != null">
+               AND username LIKE '%${username}%'
+            </if>
+            <if test="name != null">
+               AND name LIKE '%${name}%'
+            </if>
+            <if test="studentId != null">
+               AND student_id LIKE '%${studentId}%'
+            </if>
+            <if test="fkMajor != null">
+               AND fk_major = #{fkMajor}
+            </if>
+        </where>
+    </select>
 </mapper>

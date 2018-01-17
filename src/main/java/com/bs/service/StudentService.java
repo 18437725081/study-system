@@ -2,9 +2,12 @@ package com.bs.service;
 
 import com.bs.common.ServerResponse;
 import com.bs.common.TokenCache;
+import com.bs.dao.MajorMapper;
 import com.bs.dao.StudentMapper;
+import com.bs.pojo.Major;
 import com.bs.pojo.Student;
 import com.bs.util.MD5;
+import com.bs.vo.StudentVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,9 @@ public class StudentService {
 
     @Autowired
     private StudentMapper studentMapper;
+
+    @Autowired
+    private MajorMapper majorMapper;
 
     /**
      * @author 张靖烽
@@ -41,7 +47,7 @@ public class StudentService {
         //用户名存在，对密码进行加密
         String md5Password = MD5.md5EncodeUtf8(password);
         //检查用户输入的用户名和密码是否匹配
-        Student student = studentMapper.login(username, password);
+        Student student = studentMapper.login(username, md5Password);
         //用户名和密码不匹配
         if (student == null) {
             return ServerResponse.createByErrorMessage("登录失败：密码不正确");
@@ -150,6 +156,7 @@ public class StudentService {
             return ServerResponse.createByErrorMessage("请填写问题和答案");
         }
         Student stu = new Student();
+        stu.setPkStudent(student.getPkStudent());
         stu.setQuestion(question);
         stu.setAnswer(answer);
         stu.setLastUpdatedBy(student.getPkStudent());
@@ -158,5 +165,26 @@ public class StudentService {
             return ServerResponse.createBySuccessMessage("设置找回密码问题答案成功");
         }
         return ServerResponse.createByErrorMessage("设置找回密码问题答案失败");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 设置StudentVO
+     * @createtime 2018-01-17 11:13
+     */
+    public StudentVO setStudentVO(Student student) {
+        StudentVO studentVO = new StudentVO();
+        studentVO.setPkStudent(student.getPkStudent());
+        studentVO.setUsername(student.getUsername());
+        studentVO.setName(student.getName());
+        studentVO.setStudentId(student.getStudentId());
+        Major major = majorMapper.selectByPrimaryKey(student.getFkMajor());
+        if (major != null){
+            studentVO.setMajor(major.getMajor());
+            studentVO.setGrade(major.getGrade());
+        }
+        studentVO.setCreatedTime(student.getCreatedTime());
+        studentVO.setLastUpdatedTime(student.getLastUpdatedTime());
+        return studentVO;
     }
 }

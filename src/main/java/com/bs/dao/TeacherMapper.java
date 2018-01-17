@@ -116,32 +116,52 @@ public interface TeacherMapper {
      *
      * @param username 用户名
      * @param question 问题
-     * @param answer 答案
+     * @param answer   答案
      * @return int
      * @author 张靖烽
      * @createtime 2018-01-12 16:40
      */
-    int checkAnswer(@Param("username")String username,@Param("question")String question,@Param("answer")String answer);
+    int checkAnswer(@Param("username") String username, @Param("question") String question, @Param("answer") String answer);
 
     /**
      * 修改密码
      *
-     * @param username 用户名
+     * @param username    用户名
      * @param passwordNew 密码
      * @return int
      * @author 张靖烽
      * @createtime 2018-01-16 17:22
      */
-    int updatePasswordByUsername(@Param("username")String username,@Param("passwordNew")String passwordNew);
+    int updatePasswordByUsername(@Param("username") String username, @Param("passwordNew") String passwordNew);
 
     /**
      * 校验密码归属
      *
-     * @param password 密码
+     * @param password  密码
      * @param pkTeacher 教师主键
      * @return int
      * @author 张靖烽
      * @createtime 2018-01-16 17:22
      */
-    int checkPassword(@Param(value="password")String password,@Param("pkTeacher")Integer pkTeacher);
+    int checkPassword(@Param(value = "password") String password, @Param("pkTeacher") Integer pkTeacher);
+
+    /**
+     * 检查用户名是否已存在
+     *
+     * @param username 用户名
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-01-17 09:05
+     */
+    int selectUsername(String username);
+
+    /**
+     * 查询教师
+     *
+     * @param teacher 教师类
+     * @return List<Teacher>
+     * @author 张靖烽
+     * @createtime 2018-01-17 15:00
+     */
+    List<Teacher> queryTeacher(Teacher teacher);
 }

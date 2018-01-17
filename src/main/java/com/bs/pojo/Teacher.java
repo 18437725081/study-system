@@ -1,7 +1,6 @@
 package com.bs.pojo;
 
 import java.util.Date;
-
 /**
  * @author 张靖烽
  * @description 教师表pojo类
@@ -21,7 +20,7 @@ public class Teacher {
     /** 教师姓名 */
     private String name;
     /** 电话 */
-    private Integer phone;
+    private String phone;
     /** 角色 */
     private String role;
     /** 创建人 */
@@ -33,7 +32,7 @@ public class Teacher {
     /** 最后修改时间 */
     private Date lastUpdatedTime;
 
-    public Teacher(Integer pkTeacher, String username, String password, String question, String answer, String name, Integer phone, String role, Integer createdBy, Date createdTime, Integer lastUpdatedBy, Date lastUpdatedTime) {
+    public Teacher(Integer pkTeacher, String username, String password, String question, String answer, String name, String phone, String role, Integer createdBy, Date createdTime, Integer lastUpdatedBy, Date lastUpdatedTime) {
         this.pkTeacher = pkTeacher;
         this.username = username;
         this.password = password;
@@ -100,12 +99,12 @@ public class Teacher {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
-        this.phone = phone;
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public String getRole() {

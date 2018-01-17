@@ -114,4 +114,18 @@
         <include refid="Base_Column_List"/>
         FROM bs_major
     </select>
+
+    <select id="queryMajor" resultMap="BaseResultMap" parameterType="com.bs.pojo.Major">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bs_major
+        <where>
+            <if test="major != null">
+                AND major LIKE '%${major}%'
+            </if>
+            <if test="grade != null">
+                AND grade LIKE '%${grade}%'
+            </if>
+        </where>
+    </select>
 </mapper>

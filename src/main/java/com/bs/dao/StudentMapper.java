@@ -1,5 +1,6 @@
 package com.bs.dao;
 
+import com.bs.common.ServerResponse;
 import com.bs.pojo.Student;
 import org.apache.ibatis.annotations.Param;
 
@@ -145,4 +146,24 @@ public interface StudentMapper {
      * @createtime 2018-01-16 17:22
      */
     int checkPassword(@Param(value="password")String password,@Param("pkStudent")Integer pkStudent);
+
+    /**
+     * 检查用户名是否已存在
+     *
+     * @param username 用户名
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-01-17 09:05
+     */
+    int selectUsername(String username);
+
+    /**
+     * 查询学生
+     *
+     * @param student 学生类
+     * @return List<Student>
+     * @author 张靖烽
+     * @createtime 2018-01-17 15:00
+     */
+    List<Student> queryStudent(Student student);
 }

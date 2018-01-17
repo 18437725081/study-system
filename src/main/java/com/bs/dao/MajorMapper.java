@@ -78,4 +78,14 @@ public interface MajorMapper {
      * @createtime 2018-01-10 14:13
      */
     List<Major> selectAllMajor();
+
+    /**
+     * 查询专业
+     *
+     * @param major 专业类
+     * @return List<Major>
+     * @author 张靖烽
+     * @createtime 2018-01-17 15:00
+     */
+    List<Major> queryMajor(Major major);
 }

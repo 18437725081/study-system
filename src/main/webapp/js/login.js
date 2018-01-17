@@ -17,7 +17,7 @@ function checkLogin() {
     }
 
     $.ajax({
-        url: 'user/login.do',
+        url: 'manage/login.do',
         data: {
             username: username,
             password: password,

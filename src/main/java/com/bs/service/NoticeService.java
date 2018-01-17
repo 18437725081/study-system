@@ -52,6 +52,23 @@ public class NoticeService {
 
     /**
      * @author 张靖烽
+     * @description 查询
+     * @createtime 2018-01-17 14:56
+     */
+    public ServerResponse queryNotice(Notice notice) {
+        List<Notice> list = noticeMapper.queryNotice(notice);
+        for (Notice n : list) {
+            if ("Y".equals(n.getFlag())) {
+                n.setFlag("有效");
+            } else if ("N".equals(n.getFlag())) {
+                n.setFlag("无效");
+            }
+        }
+        return ServerResponse.createBySuccess(list);
+    }
+
+    /**
+     * @author 张靖烽
      * @description 新增或更新通知
      * @createtime 2017-12-29 12:51
      */
@@ -95,4 +112,5 @@ public class NoticeService {
         }
         return ServerResponse.createByErrorMessage("通知不存在或已被删除");
     }
+
 }

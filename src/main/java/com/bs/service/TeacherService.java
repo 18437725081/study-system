@@ -41,7 +41,7 @@ public class TeacherService {
         //用户名存在，对密码进行加密
         String md5Password = MD5.md5EncodeUtf8(password);
         //检查用户输入的用户名和密码是否匹配
-        Teacher teacher = teacherMapper.login(username, password);
+        Teacher teacher = teacherMapper.login(username, md5Password);
         //用户名和密码不匹配
         if (teacher == null) {
             return ServerResponse.createByErrorMessage("登录失败：密码不正确");
@@ -150,6 +150,7 @@ public class TeacherService {
             return ServerResponse.createByErrorMessage("请填写问题和答案");
         }
         Teacher tea = new Teacher();
+        tea.setPkTeacher(teacher.getPkTeacher());
         tea.setQuestion(question);
         tea.setAnswer(answer);
         tea.setLastUpdatedBy(teacher.getPkTeacher());

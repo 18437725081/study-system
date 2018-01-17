@@ -69,15 +69,15 @@
         </javaClientGenerator>
 
 
-        <table tableName="bs_major" domainObjectName="Major" enableCountByExample="false"
+        <table tableName="bs_teacher" domainObjectName="Teacher" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
-        <table tableName="bs_rel_teacher_major" domainObjectName="RelTeacherMajor" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="bs_student" domainObjectName="Student" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+        <!--<table tableName="bs_rel_teacher_major" domainObjectName="RelTeacherMajor" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"/>-->
+        <!--<table tableName="bs_student" domainObjectName="Student" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"/>-->
 
 
         <!-- geelynote mybatis插件的搭建 -->

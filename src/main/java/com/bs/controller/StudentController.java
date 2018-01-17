@@ -5,6 +5,7 @@ import com.bs.common.ResponseCode;
 import com.bs.common.ServerResponse;
 import com.bs.pojo.Student;
 import com.bs.service.StudentService;
+import com.bs.vo.StudentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +54,8 @@ public class StudentController {
     public ServerResponse getUserName(HttpSession session) {
         Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
         if (student != null) {
-            return ServerResponse.createBySuccess(student);
+            StudentVO studentVO = studentService.setStudentVO(student);
+            return ServerResponse.createBySuccess(studentVO);
         }
         return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
     }

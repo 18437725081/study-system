@@ -117,4 +117,17 @@
     SELECT <include refid="Base_Column_List"/>
     FROM bs_notice
   </select>
+
+  <select id="queryNotice" resultMap="BaseResultMap" parameterType="com.bs.pojo.Notice">
+    SELECT <include refid="Base_Column_List"/>
+    FROM bs_notice
+    <where>
+      <if test="noticeContent != null">
+        AND notice_content LIKE '%${noticeContent}%'
+      </if>
+      <if test="flag != null">
+        AND flag = #{flag}
+      </if>
+    </where>
+  </select>
 </mapper>

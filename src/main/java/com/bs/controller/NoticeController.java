@@ -68,6 +68,26 @@ public class NoticeController {
 
     /**
      * @author 张靖烽
+     * @description 查询
+     * @createtime 2017-12-29 12:44
+     */
+    @RequestMapping("queryNotice.do")
+    @ResponseBody
+    public ServerResponse queryNotice(HttpSession session,Notice notice) {
+        //判断登录
+        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        if (manager == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
+            return noticeService.queryNotice(notice);
+        }
+        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
+    }
+
+    /**
+     * @author 张靖烽
      * @description 新增或更新通知
      * @createtime 2017-12-29 12:51
      */

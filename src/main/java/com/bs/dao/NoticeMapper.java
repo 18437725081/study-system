@@ -88,4 +88,13 @@ public interface NoticeMapper {
      */
     List<Notice> selectAllNotice();
 
+    /**
+     * 查询
+     *
+     * @param notice 通知类
+     * @return List<Notice>
+     * @author 张靖烽
+     * @createtime 2017-12-29 11:12
+     */
+    List<Notice> queryNotice(Notice notice);
 }

@@ -1,11 +1,11 @@
 package com.bs.service;
 
-import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
 import com.bs.dao.*;
 import com.bs.pojo.*;
 import com.bs.util.MD5;
 import com.bs.vo.RelTeacherMajorVO;
+import com.bs.vo.StudentVO;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +70,12 @@ public class ManageService {
      */
     public ServerResponse getTeacherList() {
         List<Teacher> list = teacherMapper.selectAllTeacher();
+        //将密码,找回密码问题、答案置为空
+        for (Teacher t : list) {
+            t.setPassword(StringUtils.EMPTY);
+            t.setQuestion(StringUtils.EMPTY);
+            t.setAnswer(StringUtils.EMPTY);
+        }
         return ServerResponse.createBySuccess(list);
     }
 
@@ -80,14 +86,12 @@ public class ManageService {
      */
     public ServerResponse addOrModifyTeacher(Teacher teacher, Manager manager) {
         if (teacher != null) {
-            //创建人和更新人
+            //设置创建人和更新人
             teacher.setCreatedBy(manager.getPkManager());
             teacher.setLastUpdatedBy(manager.getPkManager());
             //根据主键是否为空决定新增还是修改
             if (teacher.getPkTeacher() != null) {
-                //将密码加密
-                teacher.setPassword(MD5.md5EncodeUtf8(teacher.getPassword()));
-                int result = teacherMapper.updateByPrimaryKey(teacher);
+                int result = teacherMapper.updateByPrimaryKeySelective(teacher);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("修改成功");
                 }
@@ -95,7 +99,12 @@ public class ManageService {
             } else {
                 //将密码加密
                 teacher.setPassword(MD5.md5EncodeUtf8(teacher.getPassword()));
-                int result = teacherMapper.insert(teacher);
+                //检查用户名是否已存在
+                int result = teacherMapper.selectUsername(teacher.getUsername());
+                if (result > 0) {
+                    return ServerResponse.createBySuccessMessage("用户名已存在");
+                }
+                result = teacherMapper.insert(teacher);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("新增成功");
                 }
@@ -116,6 +125,10 @@ public class ManageService {
         }
         Teacher teacher = teacherMapper.selectByPrimaryKey(pkTeacher);
         if (teacher != null) {
+            //将密码,找回密码问题、答案置为空
+            teacher.setPassword(StringUtils.EMPTY);
+            teacher.setQuestion(StringUtils.EMPTY);
+            teacher.setAnswer(StringUtils.EMPTY);
             return ServerResponse.createBySuccess(teacher);
         }
         return ServerResponse.createByErrorMessage("教师不存在或已被删除");
@@ -134,7 +147,7 @@ public class ManageService {
         if (result > 0) {
             return ServerResponse.createBySuccessMessage("删除成功");
         }
-        return ServerResponse.createBySuccessMessage("删除失败");
+        return ServerResponse.createBySuccessMessage("删除失败,该教师不存在或已被删除");
     }
 
     /**
@@ -144,7 +157,14 @@ public class ManageService {
      */
     public ServerResponse getStudentList() {
         List<Student> list = studentMapper.selectAllStudent();
-        return ServerResponse.createBySuccess(list);
+
+        List<StudentVO> studentVOList = Lists.newArrayList();
+        //将密码,找回密码问题、答案置为空
+        for (Student s : list) {
+            StudentVO studentVO = setStudentVO(s);
+            studentVOList.add(studentVO);
+        }
+        return ServerResponse.createBySuccess(studentVOList);
     }
 
     /**
@@ -158,15 +178,19 @@ public class ManageService {
             student.setLastUpdatedBy(manager.getPkManager());
             //根据主键是否为空决定新增还是修改
             if (student.getPkStudent() != null) {
-                student.setPassword(MD5.md5EncodeUtf8(student.getPassword()));
-                int result = studentMapper.updateByPrimaryKey(student);
+                int result = studentMapper.updateByPrimaryKeySelective(student);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("修改成功");
                 }
                 return ServerResponse.createBySuccessMessage("修改失败");
             } else {
                 student.setPassword(MD5.md5EncodeUtf8(student.getPassword()));
-                int result = studentMapper.insert(student);
+                //检查用户名是否已存在
+                int result = studentMapper.selectUsername(student.getUsername());
+                if (result > 0) {
+                    return ServerResponse.createBySuccessMessage("用户名已存在");
+                }
+                result = studentMapper.insert(student);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("新增成功");
                 }
@@ -187,9 +211,33 @@ public class ManageService {
         }
         Student student = studentMapper.selectByPrimaryKey(pkStudent);
         if (student != null) {
+            student.setPassword(StringUtils.EMPTY);
+            student.setQuestion(StringUtils.EMPTY);
+            student.setAnswer(StringUtils.EMPTY);
             return ServerResponse.createBySuccess(student);
         }
-        return ServerResponse.createByErrorMessage("教师不存在或已被删除");
+        return ServerResponse.createByErrorMessage("学生不存在或已被删除");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 设置StudentVO对象
+     * @createtime 2018-01-17 10:51
+     */
+    private StudentVO setStudentVO(Student student) {
+        StudentVO studentVO = new StudentVO();
+        studentVO.setPkStudent(student.getPkStudent());
+        studentVO.setUsername(student.getUsername());
+        studentVO.setName(student.getName());
+        studentVO.setStudentId(student.getStudentId());
+        Major major = majorMapper.selectByPrimaryKey(student.getFkMajor());
+        if (major != null) {
+            studentVO.setMajor(major.getMajor());
+            studentVO.setGrade(major.getGrade());
+        }
+        studentVO.setCreatedTime(student.getCreatedTime());
+        studentVO.setLastUpdatedTime(student.getLastUpdatedTime());
+        return studentVO;
     }
 
     /**
@@ -205,7 +253,7 @@ public class ManageService {
         if (result > 0) {
             return ServerResponse.createBySuccessMessage("删除成功");
         }
-        return ServerResponse.createBySuccessMessage("删除失败");
+        return ServerResponse.createBySuccessMessage("删除失败，该学生不存在或已被删除");
     }
 
     /**
@@ -343,5 +391,87 @@ public class ManageService {
             return ServerResponse.createBySuccessMessage("删除成功");
         }
         return ServerResponse.createBySuccessMessage("删除失败");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 重置教师密码
+     * @createtime 2018-01-17 11:19
+     */
+    public ServerResponse resetTeacherPwd(Integer pkTeacher) {
+        if (pkTeacher == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+        String password = MD5.md5EncodeUtf8("123456");
+        Teacher teacher = new Teacher();
+        teacher.setPkTeacher(pkTeacher);
+        teacher.setPassword(password);
+        int result = teacherMapper.updateByPrimaryKeySelective(teacher);
+        if (result > 0) {
+            return ServerResponse.createBySuccessMessage("重置密码成功");
+        }
+        return ServerResponse.createBySuccessMessage("重置密码失败");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 重置学生密码
+     * @createtime 2018-01-17 11:19
+     */
+    public ServerResponse resetStudentPwd(Integer pkStudent) {
+        if (pkStudent == null) {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+        String password = MD5.md5EncodeUtf8("888888");
+        Student student = new Student();
+        student.setPkStudent(pkStudent);
+        student.setPassword(password);
+        int result = studentMapper.updateByPrimaryKeySelective(student);
+        if (result > 0) {
+            return ServerResponse.createBySuccessMessage("重置密码成功");
+        }
+        return ServerResponse.createBySuccessMessage("重置密码失败");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 查询学生
+     * @createtime 2018-01-17 15:01
+     */
+    public ServerResponse queryStudent(Student student) {
+        List<Student> list =  studentMapper.queryStudent(student);
+        List<StudentVO> studentVOList = Lists.newArrayList();
+        //将密码,找回密码问题、答案置为空
+        for (Student s : list) {
+            StudentVO studentVO = setStudentVO(s);
+            studentVOList.add(studentVO);
+        }
+        return ServerResponse.createBySuccess(studentVOList);
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 查询教师
+     * @createtime 2018-01-17 15:01
+     */
+    public ServerResponse queryTeacher(Teacher teacher) {
+        List<Teacher> list = teacherMapper.queryTeacher(teacher);
+        //将密码,找回密码问题、答案置为空
+        for (Teacher t : list) {
+            t.setPassword(StringUtils.EMPTY);
+            t.setQuestion(StringUtils.EMPTY);
+            t.setAnswer(StringUtils.EMPTY);
+        }
+        return ServerResponse.createBySuccess(list);
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 查询专业
+     * @createtime 2018-01-17 15:01
+     */
+    public ServerResponse queryMajor(Major major) {
+        List<Major> majorList = majorMapper.queryMajor(major);
+        return ServerResponse.createBySuccess(majorList);
     }
 }
