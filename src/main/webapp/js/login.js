@@ -15,9 +15,9 @@ function checkLogin() {
         showDialog("登陆信息", "<span style='color:red;'>请正确填写用户名和密码！</span>");
         return false;
     }
-
     //管理员登录
-    if(role === 0){
+    if(role == 0){
+        alert(role);
         $.ajax({
             url: 'manage/login.do',
             data: {

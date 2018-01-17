@@ -21,7 +21,6 @@ function loadNotice() {
     });
 }
 
-
 function table(data) {
     $('.data-table').dataTable({
         "bJQueryUI": true,

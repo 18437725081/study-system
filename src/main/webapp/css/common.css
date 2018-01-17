@@ -36,7 +36,8 @@
 }
 
 .contact-box{
-    box-shadow: 2px 2px 5px #888888;
+    -webkit-box-shadow: 2px 2px 5px #888888;
+            box-shadow: 2px 2px 5px #888888;
     background-color: #f4f4f4;
     margin: 15px 0px;
 }
@@ -58,8 +59,10 @@
 
 .button:active {
     background-color: #3e8e41;
-    box-shadow: 0 5px #666;
-    transform: translateY(2px);
+    -webkit-box-shadow: 0 5px #666;
+            box-shadow: 0 5px #666;
+    -webkit-transform: translateY(2px);
+            transform: translateY(2px);
 }
 
 .btn-boxs{

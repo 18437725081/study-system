@@ -3,8 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <title>教师管理页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../../css/select2.css" />
+    <link rel="stylesheet" href="../../css/matrix-style2.css" />
+    <link rel="stylesheet" href="../../css/opera.css" >
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css" />
 </head>
 <body>
-教师管理页面
+<div id="myModal" class="modal hide">
+    <p class="modal-header"></p>
+    <p class="modal-body"></p>
+</div>
+<div id="content">
+        <div id="content-header">
+            <h1>教师管理</h1>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div style="margin-top: 16px">
+                        <button type="button" class="btn btn-info" onclick="query()"><i class="icon-search"></i> 查询</button>
+                        <button type="button" class="btn btn-info" onclick="addNotice()"><i class="icon-plus"></i> 新增</button>
+                        <button type="button" class="btn btn-info" onclick="modify()"><i class="icon-edit"></i> 修改</button>
+                        <button type="button" class="btn btn-info" onclick="remove()"><i class="icon-remove"></i> 删除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="widget-box">
+                        <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                            <h5>教师管理</h5>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <table class="table table-bordered data-table ">
+                                <thead>
+                                    <tr>
+                                        <th width="34%">用户名</th>
+                                        <th width="33%">姓名</th>
+                                        <th width="33%">电话</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="http://www.jq22.com/jquery/jquery-1.7.1.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery.uniform.js"></script>
+<script src="../../js/select2.min.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/matrix.js"></script>
+<script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
+<script src="../../js/iframeTools.js" type="text/javascript"></script>
+<script src="Manage.js" type="text/javascript"></script>
+<script>
+    $(function () {
+        loadTeacher();
+    });
+</script>
 </html>
