@@ -16,21 +16,73 @@ function checkLogin() {
         return false;
     }
 
-    $.ajax({
-        url: 'manage/login.do',
-        data: {
-            username: username,
-            password: password,
-            role: role
-        },
-        type: 'post',
-        success: function (data) {
-            if (data.status === 0) {
-                window.location.href = "index.html";
-            } else {
-                showDialog("登陆信息", "<span style='color:red;'>" + data.msg + "</span>");
-            }
-        },
-        error: function () {}
-    });
+    //管理员登录
+    if(role === 0){
+        $.ajax({
+            url: 'manage/login.do',
+            data: {
+                username: username,
+                password: password
+            },
+            type: 'post',
+            success: function (data) {
+                if (data.status === 10) {
+                    window.location.href = "login.html";
+                }
+                if (data.status === 0) {
+                    window.location.href = "index.html";
+                } else {
+                    showDialog("登陆信息", "<span style='color:red;'>" + data.msg + "</span>");
+                }
+            },
+            error: function () {}
+        });
+    }
+
+    //教师登录
+    if(role === 1){
+        $.ajax({
+            url: 'teacher/login.do',
+            data: {
+                username: username,
+                password: password
+            },
+            type: 'post',
+            success: function (data) {
+                if (data.status === 10) {
+                    window.location.href = "login.html";
+                }
+                if (data.status === 0) {
+                    window.location.href = "indexT.html";
+                } else {
+                    showDialog("登陆信息", "<span style='color:red;'>" + data.msg + "</span>");
+                }
+            },
+            error: function () {}
+        });
+    }
+
+    //学生登录
+    if(role === 2){
+        $.ajax({
+            url: 'student/login.do',
+            data: {
+                username: username,
+                password: password
+            },
+            type: 'post',
+            success: function (data) {
+                if (data.status === 10) {
+                    window.location.href = "login.html";
+                }
+                if (data.status === 0) {
+                    window.location.href = "indexS.html";
+                } else {
+                    showDialog("登陆信息", "<span style='color:red;'>" + data.msg + "</span>");
+                }
+            },
+            error: function () {}
+        });
+    }
+
 }
