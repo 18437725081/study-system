@@ -17,7 +17,6 @@ function checkLogin() {
     }
     //管理员登录
     if(role == 0){
-        alert(role);
         $.ajax({
             url: 'manage/login.do',
             data: {
@@ -40,7 +39,7 @@ function checkLogin() {
     }
 
     //教师登录
-    if(role === 1){
+    if(role == 1){
         $.ajax({
             url: 'teacher/login.do',
             data: {
@@ -63,7 +62,7 @@ function checkLogin() {
     }
 
     //学生登录
-    if(role === 2){
+    if(role == 2){
         $.ajax({
             url: 'student/login.do',
             data: {
