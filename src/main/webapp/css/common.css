@@ -84,3 +84,32 @@
 .msgs{
     color: #de0002;
 }
+
+.disabled{
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+
+.paginationBox{
+    margin: 10px 25px;
+    background: #FFFFFF;
+}
+
+.pagination{
+    float: right;
+}
+
+.table{
+    border: 1px solid #b3b3b3;
+}
+
+.table th{
+    height: 30px;
+    line-height: 30px;
+    font-size: 15px;
+}
+
+.table thead tr th{
+    color: #000000;
+}

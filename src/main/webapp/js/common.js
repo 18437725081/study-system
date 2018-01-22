@@ -1,35 +1,66 @@
 function showPaging(data) {
     var page = data.data.pages,
         pageNum = data.data.pageNum,
-        str = "";
+        pageNumP = pageNum - 1,
+        pageNumN = pageNum + 1,
+        str = "",
+        i;
     if (page < 5) {
         str += "<ul>\n" +
-            "<li class=\"disabled\"><a onclick=\"paging(pageNum-1)\">上一页</a></li>\n";
-        for (var i = 1; i <= page; i++) {
+            "<li class=\"disabled\"><a onclick=\"paging("+pageNumP+")\">上一页</a></li>\n";
+        for (i = 1; i <= page; i++) {
             str += "<li><a onclick=\"paging(" + i + ")\">" + i + "</a></li>\n";
         }
-        str += "<li><a onclick=\"paging(pageNum+1)\">下一页</a></li>\n" +
+        str += "<li><a onclick=\"paging("+pageNumN+")\">下一页</a></li>\n" +
             "</ul>";
     } else {
         if (pageNum <= 3) {
             str += "<ul>\n" +
-                "<li class=\"disabled\"><a onclick=\"paging(pageNum-1)\">上一页</a></li>\n";
-            for (var i = 1; i < 5; i++) {
+                "<li class=\"disabled\"><a onclick=\"paging("+pageNumP+")\">上一页</a></li>\n";
+            for (i = 1; i <= 5; i++) {
                 str += "<li><a onclick=\"paging(" + i + ")\">" + i + "</a></li>\n";
             }
-            str += "<li><a onclick=\"paging(pageNum+1)\">下一页</a></li>\n" +
+            str += "<li><a onclick=\"paging("+pageNumN+")\">下一页</a></li>\n" +
                 "</ul>";
         } else {
+            var j = page - pageNum;
+            if (j < 2) {
+                j = page;
+            } else {
+                j = pageNum + 2;
+            }
             str += "<ul>\n" +
-                "<li class=\"disabled\"><a onclick=\"paging(pageNum-1)\">上一页</a></li>\n";
-            for (var i = pageNum-2; i < i+2; i++) {
+                "<li class=\"disabled\"><a onclick=\"paging("+pageNumP+")\">上一页</a></li>\n";
+            for (i = j - 5; i <= j; i++) {
                 str += "<li><a onclick=\"paging(" + i + ")\">" + i + "</a></li>\n";
             }
-            str += "<li><a onclick=\"paging(pageNum+1)\">下一页</a></li>\n" +
+            str += "<li><a onclick=\"paging("+pageNumN+")\">下一页</a></li>\n" +
                 "</ul>";
         }
     }
     $(".pagination").html(str);
+    var _hasPreviousPage = data.data.hasPreviousPage,
+        _hasNextPage = data.data.hasNextPage;
+    if (_hasPreviousPage === false) {
+        $(".pagination li:first").addClass("disabled");
+    } else {
+        $(".pagination li:first").removeClass("disabled");
+    }
+    if (_hasNextPage === false) {
+        $(".pagination li:last").addClass("disabled");
+    } else {
+        $(".pagination li:last").removeClass("disabled");
+    }
+
+    $(".pagination a").each(function () {
+        var _this = $(this);
+        var _thisVal = this.innerHTML;
+        if (_thisVal == pageNum) {
+            _this.parent().addClass("active");
+        } else {
+            _this.parent().removeClass("active");
+        }
+    })
 }
 
 
