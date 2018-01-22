@@ -3,68 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <title>通知管理页面</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
-    <link rel="stylesheet" href="../../css/select2.css" />
-    <link rel="stylesheet" href="../../css/matrix-style2.css" />
-    <link rel="stylesheet" href="../../css/opera.css" >
-    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="../../css/select2.css"/>
+    <link rel="stylesheet" href="../../css/matrix-style2.css"/>
+    <link rel="stylesheet" href="../../css/opera.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
 </head>
+
 <body>
 <div id="myModal" class="modal hide">
     <p class="modal-header"></p>
     <p class="modal-body"></p>
 </div>
 <div id="content">
-        <div id="content-header">
-            <h1>通知管理</h1>
+    <div id="content-header">
+        <h1>通知管理</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div style="margin-top: 16px">
+                    <button type="button" class="btn btn-info" onclick="queryOpen()"><i class="icon-search"></i> 查询
+                    </button>
+                    <button type="button" class="btn btn-info" onclick="addNotice()"><i class="icon-plus"></i> 新增
+                    </button>
+                    <button type="button" class="btn btn-info" onclick="modify()"><i class="icon-edit"></i> 修改</button>
+                </div>
+            </div>
         </div>
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="span12">
-                    <div style="margin-top: 16px">
-                       <button type="button" class="btn btn-info" onclick="query()"><i class="icon-search"></i> 查询</button>
-                        <button type="button" class="btn btn-info" onclick="addNotice()"><i class="icon-plus"></i> 新增</button>
-                        <button type="button" class="btn btn-info" onclick="modify()"><i class="icon-edit"></i> 修改</button>
+    </div>
+
+    <div class="container-fluid" id="queryBox" style="display:none;">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content nopadding">
+                        <form id="query_notice">
+                            <div style="margin: 20px">
+                                <span>通知内容：</span><input type="text" style="margin-bottom: 0" id="noticeContent"
+                                                         name="noticeContent"/>
+                                <button type="button" class="btn btn-info" onclick="query()">查询</button>
+                                <button type="button" class="btn btn-info" onclick="loadNotice()">显示全部</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="span12">
-                    <div class="widget-box">
-                        <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-                            <h5>通知管理</h5>
-                        </div>
-                        <div class="widget-content nopadding">
-                            <table class="table table-bordered data-table ">
-                                <thead>
-                                    <tr>
-                                        <th width="90%">通知</th>
-                                        <th width="10%">是否有效</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
+                        <h5>通知管理</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th width="90%">通知</th>
+                                <th width="10%">是否有效</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tab">
+                            </tbody>
+                        </table>
+                        <div class="" id="paging">
+                            <div class="pagination alternate">
+                                <ul>
+                                    <li class="disabled"><a onclick="paging(this)">上一页</a></li>
+                                    <li class="active"><a onclick="paging(1)">1</a></li>
+                                    <li><a onclick="paging(2)">2</a></li>
+                                    <li><a onclick="paging(3)">3</a></li>
+                                    <li><a onclick="paging(4)">4</a></li>
+                                    <li><a onclick="paging(this)">下一页</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 <script src="http://www.jq22.com/jquery/jquery-1.7.1.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/jquery.uniform.js"></script>
 <script src="../../js/select2.min.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/matrix.js"></script>
 <script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
 <script src="../../js/iframeTools.js" type="text/javascript"></script>
+<script src="../../js/jquery.form.js"></script>
+<script src="../../js/template.js"></script>
 <script src="notice.js" type="text/javascript"></script>
+<script src="../../js/common.js"></script>
+<!--用于存放模版-->
+<script id="template" type="text/html">
+    {{each data.list as i}}
+    <tr>
+        <th style="display: none">{{i.pkNotice}}</th>
+        <th>{{i.noticeContent}}</th>
+        <th>{{i.flag}}</th>
+    </tr>
+    {{/each}}
+</script>
 <script>
     $(function () {
         loadNotice();

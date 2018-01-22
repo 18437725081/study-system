@@ -4,11 +4,14 @@ import com.bs.common.ServerResponse;
 import com.bs.dao.NoticeMapper;
 import com.bs.pojo.Manager;
 import com.bs.pojo.Notice;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,7 +41,8 @@ public class NoticeService {
      * @description 获取所有通知
      * @createtime 2017-12-29 12:44
      */
-    public ServerResponse manageNotice() {
+    public ServerResponse manageNotice(Integer pageNum,Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         List<Notice> list = noticeMapper.selectAllNotice();
         for (Notice n : list) {
             if ("Y".equals(n.getFlag())) {
@@ -47,7 +51,9 @@ public class NoticeService {
                 n.setFlag("无效");
             }
         }
-        return ServerResponse.createBySuccess(list);
+        PageInfo pageInfo = new PageInfo(list);
+        pageInfo.setList(list);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**
@@ -55,7 +61,8 @@ public class NoticeService {
      * @description 查询
      * @createtime 2018-01-17 14:56
      */
-    public ServerResponse queryNotice(Notice notice) {
+    public ServerResponse queryNotice(Notice notice,Integer pageNum,Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         List<Notice> list = noticeMapper.queryNotice(notice);
         for (Notice n : list) {
             if ("Y".equals(n.getFlag())) {
@@ -64,7 +71,9 @@ public class NoticeService {
                 n.setFlag("无效");
             }
         }
-        return ServerResponse.createBySuccess(list);
+        PageInfo pageInfo = new PageInfo(list);
+        pageInfo.setList(list);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**

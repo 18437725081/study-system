@@ -4,36 +4,13 @@ function loadNotice() {
     $.ajax({
         url: '../../notice/manageNotice.do',
         type: 'post',
-        success: function (res) {
-            table(res);
+        success: function (data) {
+            var res = template('template', data);
+            document.getElementById('tab').innerHTML = res;
+            selectTr();
+            showPaging(data);
         }
     });
-
-    $('tbody').on('click', 'tr', function () {
-        this.style.backgroundColor = "#b4b4bb";
-        if (selectedTr !== null)
-            selectedTr.style.backgroundColor = "#f9f9f9";
-        if (selectedTr === this)
-        //加上此句，以控制点击变白，再点击反灰
-            selectedTr = null;
-        else
-            selectedTr = this;
-    });
-}
-
-function table(data) {
-    $('.data-table').dataTable({
-        "bJQueryUI": true,
-        "sPaginationType": "full_numbers",
-        "sDom": '<""l>t<"F"fp>',
-        data: data.data,
-        columns: [
-            {data: 'noticeContent'},
-            {data: 'flag'},
-            {data: 'pkNotice', "visible": false}
-        ]
-    });
-    $('select').select2();
 }
 
 function addNotice() {
@@ -50,7 +27,7 @@ function addNotice() {
 
 function modify() {
     if (selectedTr !== null) {
-        var pkNotice = $('.data-table').DataTable().row(selectedTr).data().pkNotice;
+        var pkNotice = selectedTr.childNodes[1].innerHTML;
         art.dialog.data("pkNotice", pkNotice);
         $.dialog.open('modify.html', {
             id: "addNotice",
@@ -82,11 +59,6 @@ function getNotice(pkNotice) {
     });
 }
 
-function back() {
-    window.parent.location.reload();
-    art.dialog.close();
-}
-
 function sub() {
     var noticeContent = $("#noticeContent").val();
     if (noticeContent.trim() === null || noticeContent.trim() === ""){
@@ -98,30 +70,45 @@ function sub() {
         type: 'post',
         dataType: "json",
         success: function (res) {
+            window.parent.loadNotice();
+            window.parent.selectTr();
             $("#msgs").html(res.msg);
+            setTimeout(function () {
+                $("#msgs").html("");
+            },2000);
         }
     });
 }
 
-$(function () {
-    /*字数限制*/
-    $("#noticeContent").on("input propertychange", function () {
-        var $this = $(this),
-            _val = $this.val(),
-            count;
-        if (_val.length > 175) {
-            $this.val(_val.substring(0, 175));
-        }
-        count = $this.val().length;
-        $("#text-count").text(count);
-    });
-});
 
-function showDialog(title, msg) {
-    $("#myModal").find(".modal-header").html(title);
-    $("#myModal").attr('class', 'modal');
-    $("#myModal").find(".modal-body").html(msg);
-    setTimeout(function () {
-        $("#myModal").attr('class', 'modal hide');
-    }, 3000);
+function query(){
+    $("#query_notice").ajaxSubmit({
+        url: '../../notice/queryNotice.do',
+        type: 'post',
+        dataType: "json",
+        success: function (data) {
+            var res = template('template', data);
+            document.getElementById('tab').innerHTML = res;
+            selectTr();
+        }
+    });
+}
+
+function paging(obj) {
+    var pageNum = obj,
+        pageSize = 10;
+    $.ajax({
+        url: '../../notice/manageNotice.do',
+        type: 'post',
+        data: {
+            pageNum: pageNum,
+            pageSize: pageSize
+        },
+        success: function (data) {
+            var res = template('template', data);
+            document.getElementById('tab').innerHTML = res;
+            selectTr();
+            showPaging(data);
+        }
+    });
 }

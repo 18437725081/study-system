@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -53,7 +54,9 @@ public class NoticeController {
      */
     @RequestMapping("manageNotice.do")
     @ResponseBody
-    public ServerResponse manageNotice(HttpSession session) {
+    public ServerResponse manageNotice(HttpSession session,
+                                       @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         //判断登录
         Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
         if (manager == null) {
@@ -61,7 +64,7 @@ public class NoticeController {
         }
         //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            return noticeService.manageNotice();
+            return noticeService.manageNotice(pageNum, pageSize);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }
@@ -73,7 +76,9 @@ public class NoticeController {
      */
     @RequestMapping("queryNotice.do")
     @ResponseBody
-    public ServerResponse queryNotice(HttpSession session,Notice notice) {
+    public ServerResponse queryNotice(HttpSession session, Notice notice,
+                                      @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                      @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         //判断登录
         Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
         if (manager == null) {
@@ -81,7 +86,7 @@ public class NoticeController {
         }
         //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            return noticeService.queryNotice(notice);
+            return noticeService.queryNotice(notice, pageNum, pageSize);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }

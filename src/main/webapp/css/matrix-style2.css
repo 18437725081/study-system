@@ -471,7 +471,6 @@ hr{
 	margin-bottom: 0;
 }
 .widget-title, .modal-header, .table th, div.dataTables_wrapper .ui-widget-header {
-	background:#efefef;
 	border-bottom: 1px solid #F0F8FF;
 	height: 36px;
 }

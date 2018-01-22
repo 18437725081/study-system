@@ -29,11 +29,11 @@
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="#"><i class="icon-user"></i> 个人资料</a></li>
+                <li><a href="#"><i class="icon-user"></i>个人资料</a></li>
             </ul>
         </li>
         <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">&nbsp;设置</span></a></li>
-        <li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span
+        <li class=""><a title="" onclick="outLogin()"><i class="icon icon-share-alt"></i> <span
                 class="text">&nbsp;退出系统</span></a></li>
     </ul>
 </div>
@@ -107,6 +107,19 @@
     $("#ref").click(function () {
         document.getElementById('iframe-main').contentWindow.location.reload(true);
     })
+    
+    function outLogin() {
+        $(function() {
+            $.ajax({
+                url: 'user/loginOut.do',
+                type: 'post',
+                success: function() {
+                    window.href.location = "login.html";
+                },
+                error: function() {}
+            });
+        });
+    }
 </script>
 </body>
 </html>
