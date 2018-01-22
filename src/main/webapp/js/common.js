@@ -22,7 +22,7 @@ function showPaging(data) {
         } else {
             str += "<ul>\n" +
                 "<li class=\"disabled\"><a onclick=\"paging(pageNum-1)\">上一页</a></li>\n";
-            for (var i = pageNum; i < page; i++) {
+            for (var i = pageNum-2; i < i+2; i++) {
                 str += "<li><a onclick=\"paging(" + i + ")\">" + i + "</a></li>\n";
             }
             str += "<li><a onclick=\"paging(pageNum+1)\">下一页</a></li>\n" +
