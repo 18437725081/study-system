@@ -11,7 +11,7 @@ function showPaging(data) {
         str += "<li><a onclick=\"paging(pageNum+1)\">下一页</a></li>\n" +
             "</ul>";
     } else {
-        if (pageNum < 3) {
+        if (pageNum <= 3) {
             str += "<ul>\n" +
                 "<li class=\"disabled\"><a onclick=\"paging(pageNum-1)\">上一页</a></li>\n";
             for (var i = 1; i < 5; i++) {
