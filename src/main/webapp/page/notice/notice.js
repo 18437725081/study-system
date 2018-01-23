@@ -3,6 +3,7 @@ var selectedTr = null;
 //加载全部通知
 function loadNotice() {
     $("#noticeContent").val("");
+    selectedTr = null;
     $.ajax({
         url: '../../notice/queryNotice.do',
         type: 'post',
