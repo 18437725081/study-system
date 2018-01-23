@@ -92,7 +92,7 @@
 }
 
 .paginationBox{
-    margin: 10px 25px;
+    margin: 0 25px;
     background: #FFFFFF;
 }
 
@@ -100,16 +100,14 @@
     float: right;
 }
 
-.table{
-    border: 1px solid #b3b3b3;
-}
-
 .table th{
-    height: 30px;
-    line-height: 30px;
+    height: 20px;
+    line-height: 20px;
     font-size: 15px;
 }
 
-.table thead tr th{
-    color: #000000;
+.table td{
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
 }

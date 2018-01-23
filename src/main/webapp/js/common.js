@@ -1,3 +1,4 @@
+//分页
 function showPaging(data) {
     var page = data.data.pages,
         pageNum = data.data.pageNum,
@@ -63,16 +64,18 @@ function showPaging(data) {
     })
 }
 
-
+//提示信息
 function showDialog(title, msg) {
-    $("#myModal").find(".modal-header").html(title);
-    $("#myModal").attr('class', 'modal');
-    $("#myModal").find(".modal-body").html(msg);
+    var _myModal = $("#myModal");
+    _myModal.find(".modal-header").html(title);
+    _myModal.attr('class', 'modal');
+    _myModal.find(".modal-body").html(msg);
     setTimeout(function () {
-        $("#myModal").attr('class', 'modal hide');
+        _myModal.attr('class', 'modal hide');
     }, 2000);
 }
 
+//表格渲染
 function selectTr() {
     $('tbody').on('click', 'tr', function () {
         this.style.backgroundColor = "#b4b4bb";
@@ -86,10 +89,16 @@ function selectTr() {
     });
 }
 
-
+//返回
 function back() {
     art.dialog.close();
 }
+
+//查询框显示隐藏
+function queryOpen() {
+    $("#queryBox").toggle();
+}
+
 
 $(function () {
     /*字数限制*/
@@ -104,7 +113,3 @@ $(function () {
         $("#text-count").text(count);
     });
 });
-
-function queryOpen() {
-    $("#queryBox").toggle();
-}

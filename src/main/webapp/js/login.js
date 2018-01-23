@@ -1,12 +1,15 @@
+//信息提示
 function showDialog(title, msg) {
-    $("#myModal").find(".modal-header").html(title);
-    $("#myModal").attr('class', 'modal');
-    $("#myModal").find(".modal-body").html(msg);
+    var _myModal = $("#myModal");
+    _myModal.find(".modal-header").html(title);
+    _myModal.attr('class', 'modal');
+    _myModal.find(".modal-body").html(msg);
     setTimeout(function () {
-        $("#myModal").attr('class', 'modal hide');
-    }, 3000);
+        _myModal.attr('class', 'modal hide');
+    }, 2000);
 }
 
+//用户登录
 function checkLogin() {
     var username = $("#username").val();
     var password = $("#password").val();
@@ -83,5 +86,4 @@ function checkLogin() {
             error: function () {}
         });
     }
-
 }

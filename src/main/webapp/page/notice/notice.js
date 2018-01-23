@@ -1,8 +1,10 @@
 var selectedTr = null;
 
+//加载全部通知
 function loadNotice() {
+    $("#noticeContent").val("");
     $.ajax({
-        url: '../../notice/manageNotice.do',
+        url: '../../notice/queryNotice.do',
         type: 'post',
         success: function (data) {
             var res = template('template', data);
@@ -13,6 +15,7 @@ function loadNotice() {
     });
 }
 
+//跳转新增通知页面
 function addNotice() {
     $.dialog.open('add.html', {
         id: "addNotice",
@@ -25,6 +28,7 @@ function addNotice() {
     });
 }
 
+//跳转修改通知页面
 function modify() {
     if (selectedTr !== null) {
         var pkNotice = selectedTr.childNodes[1].innerHTML;
@@ -43,6 +47,7 @@ function modify() {
     }
 }
 
+//获取单条通知信息
 function getNotice(pkNotice) {
     $.ajax({
         url: '../../notice/getNotice.do',
@@ -59,6 +64,7 @@ function getNotice(pkNotice) {
     });
 }
 
+//提交
 function sub() {
     var noticeContent = $("#noticeContent").val();
     if (noticeContent.trim() === null || noticeContent.trim() === ""){
@@ -80,7 +86,7 @@ function sub() {
     });
 }
 
-
+//查询
 function query(){
     $("#query_notice").ajaxSubmit({
         url: '../../notice/queryNotice.do',
@@ -89,26 +95,32 @@ function query(){
         success: function (data) {
             var res = template('template', data);
             document.getElementById('tab').innerHTML = res;
+            showPaging(data);
             selectTr();
         }
     });
+    selectTr();
 }
 
+//分页查询
 function paging(obj) {
     var pageNum = obj,
-        pageSize = 10;
+        pageSize = 10,
+        noticeContent = $("#noticeContent").val();
     $.ajax({
-        url: '../../notice/manageNotice.do',
+        url: '../../notice/queryNotice.do',
         type: 'post',
         data: {
             pageNum: pageNum,
-            pageSize: pageSize
+            pageSize: pageSize,
+            noticeContent:noticeContent
         },
         success: function (data) {
             var res = template('template', data);
             document.getElementById('tab').innerHTML = res;
-            selectTr();
             showPaging(data);
+            selectTr();
         }
     });
+    selectTr();
 }
