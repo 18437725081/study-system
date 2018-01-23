@@ -14,12 +14,12 @@ function checkLogin() {
     var username = $("#username").val();
     var password = $("#password").val();
     var role = $("#role").val();
-    if ($.trim(username) === "" || 　$.trim(password) === "") {
+    if ($.trim(username) === "" || $.trim(password) === "") {
         showDialog("登陆信息", "<span style='color:red;'>请正确填写用户名和密码！</span>");
         return false;
     }
     //管理员登录
-    if(role == 0){
+    if (role == 0) {
         $.ajax({
             url: 'manage/login.do',
             data: {
@@ -37,12 +37,13 @@ function checkLogin() {
                     showDialog("登陆信息", "<span style='color:red;'>" + data.msg + "</span>");
                 }
             },
-            error: function () {}
+            error: function () {
+            }
         });
     }
 
     //教师登录
-    if(role == 1){
+    if (role == 1) {
         $.ajax({
             url: 'teacher/login.do',
             data: {
@@ -60,12 +61,13 @@ function checkLogin() {
                     showDialog("登陆信息", "<span style='color:red;'>" + data.msg + "</span>");
                 }
             },
-            error: function () {}
+            error: function () {
+            }
         });
     }
 
     //学生登录
-    if(role == 2){
+    if (role == 2) {
         $.ajax({
             url: 'student/login.do',
             data: {
@@ -83,7 +85,8 @@ function checkLogin() {
                     showDialog("登陆信息", "<span style='color:red;'>" + data.msg + "</span>");
                 }
             },
-            error: function () {}
+            error: function () {
+            }
         });
     }
 }

@@ -8,20 +8,20 @@ function showPaging(data) {
         i;
     if (page < 5) {
         str += "<ul>\n" +
-            "<li class=\"disabled\"><a onclick=\"paging("+pageNumP+")\">上一页</a></li>\n";
+            "<li class=\"disabled\"><a onclick=\"paging(" + pageNumP + ")\">上一页</a></li>\n";
         for (i = 1; i <= page; i++) {
             str += "<li><a onclick=\"paging(" + i + ")\">" + i + "</a></li>\n";
         }
-        str += "<li><a onclick=\"paging("+pageNumN+")\">下一页</a></li>\n" +
+        str += "<li><a onclick=\"paging(" + pageNumN + ")\">下一页</a></li>\n" +
             "</ul>";
     } else {
         if (pageNum <= 3) {
             str += "<ul>\n" +
-                "<li class=\"disabled\"><a onclick=\"paging("+pageNumP+")\">上一页</a></li>\n";
+                "<li class=\"disabled\"><a onclick=\"paging(" + pageNumP + ")\">上一页</a></li>\n";
             for (i = 1; i <= 5; i++) {
                 str += "<li><a onclick=\"paging(" + i + ")\">" + i + "</a></li>\n";
             }
-            str += "<li><a onclick=\"paging("+pageNumN+")\">下一页</a></li>\n" +
+            str += "<li><a onclick=\"paging(" + pageNumN + ")\">下一页</a></li>\n" +
                 "</ul>";
         } else {
             var j = page - pageNum;
@@ -31,11 +31,11 @@ function showPaging(data) {
                 j = pageNum + 2;
             }
             str += "<ul>\n" +
-                "<li class=\"disabled\"><a onclick=\"paging("+pageNumP+")\">上一页</a></li>\n";
+                "<li class=\"disabled\"><a onclick=\"paging(" + pageNumP + ")\">上一页</a></li>\n";
             for (i = j - 5; i <= j; i++) {
                 str += "<li><a onclick=\"paging(" + i + ")\">" + i + "</a></li>\n";
             }
-            str += "<li><a onclick=\"paging("+pageNumN+")\">下一页</a></li>\n" +
+            str += "<li><a onclick=\"paging(" + pageNumN + ")\">下一页</a></li>\n" +
                 "</ul>";
         }
     }
@@ -98,7 +98,6 @@ function back() {
 function queryOpen() {
     $("#queryBox").toggle();
 }
-
 
 $(function () {
     /*字数限制*/

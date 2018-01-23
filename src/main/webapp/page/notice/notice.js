@@ -43,7 +43,7 @@ function modify() {
             resize: false
         });
     } else {
-        showDialog("错误","请选择一条通知！")
+        showDialog("错误", "请选择一条通知！")
     }
 }
 
@@ -67,7 +67,7 @@ function getNotice(pkNotice) {
 //提交
 function sub() {
     var noticeContent = $("#noticeContent").val();
-    if (noticeContent.trim() === null || noticeContent.trim() === ""){
+    if (noticeContent.trim() === null || noticeContent.trim() === "") {
         $("#msgs").html("通知内容不能为空！");
         return false;
     }
@@ -81,13 +81,13 @@ function sub() {
             $("#msgs").html(res.msg);
             setTimeout(function () {
                 $("#msgs").html("");
-            },2000);
+            }, 2000);
         }
     });
 }
 
 //查询
-function query(){
+function query() {
     $("#query_notice").ajaxSubmit({
         url: '../../notice/queryNotice.do',
         type: 'post',
@@ -113,7 +113,7 @@ function paging(obj) {
         data: {
             pageNum: pageNum,
             pageSize: pageSize,
-            noticeContent:noticeContent
+            noticeContent: noticeContent
         },
         success: function (data) {
             var res = template('template', data);
