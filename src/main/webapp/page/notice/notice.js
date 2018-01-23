@@ -9,7 +9,6 @@ function loadNotice() {
         success: function (data) {
             var res = template('template', data);
             document.getElementById('tab').innerHTML = res;
-            selectTr();
             showPaging(data);
         }
     });
@@ -76,8 +75,8 @@ function sub() {
         type: 'post',
         dataType: "json",
         success: function (res) {
-            window.parent.loadNotice();
-            window.parent.selectTr();
+            var _page = window.parent.document.getElementById("page").value;
+            window.parent.paging(_page);
             $("#msgs").html(res.msg);
             setTimeout(function () {
                 $("#msgs").html("");
@@ -96,15 +95,13 @@ function query() {
             var res = template('template', data);
             document.getElementById('tab').innerHTML = res;
             showPaging(data);
-            selectTr();
         }
     });
-    selectTr();
 }
 
 //分页查询
-function paging(obj) {
-    var pageNum = obj,
+function paging(pageNum) {
+    var pageNum = pageNum,
         pageSize = 10,
         noticeContent = $("#noticeContent").val();
     $.ajax({
@@ -119,8 +116,6 @@ function paging(obj) {
             var res = template('template', data);
             document.getElementById('tab').innerHTML = res;
             showPaging(data);
-            selectTr();
         }
     });
-    selectTr();
 }

@@ -61,7 +61,9 @@ function showPaging(data) {
         } else {
             _this.parent().removeClass("active");
         }
-    })
+    });
+
+    $("#page").val(page);
 }
 
 //提示信息
@@ -76,17 +78,16 @@ function showDialog(title, msg) {
 }
 
 //表格渲染
-function selectTr() {
-    $('tbody').on('click', 'tr', function () {
-        this.style.backgroundColor = "#b4b4bb";
+function selectTr(obj) {
+        obj.style.backgroundColor = "#b4b4bb";
         if (selectedTr !== null)
             selectedTr.style.backgroundColor = "#f9f9f9";
-        if (selectedTr === this)
+        if (selectedTr === obj)
         //加上此句，以控制点击变白，再点击反灰
             selectedTr = null;
         else
-            selectedTr = this;
-    });
+            selectedTr = obj;
+
 }
 
 //返回

@@ -72,18 +72,6 @@
                             </tr>
                             </thead>
                             <tbody id="tab">
-                            <tr class="even gradeC">
-                                <td>Trident</td>
-                                <td>Win 95+</td>
-                            </tr>
-                            <tr class="even gradeC">
-                                <td>Trident</td>
-                                <td>Win 95+</td>
-                            </tr>
-                            <tr class="even gradeC">
-                                <td>Trident</td>
-                                <td>Win 95+</td>
-                            </tr>
                             </tbody>
                         </table>
                         <div class="paginationBox" id="paging">
@@ -97,6 +85,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="page" name="page">
 </body>
 <script src="http://www.jq22.com/jquery/jquery-1.7.1.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
@@ -112,7 +101,7 @@
 <!--用于存放模版-->
 <script id="template" type="text/html">
     {{each data.list as i}}
-    <tr>
+    <tr onclick="selectTr(this)">
         <td style="display: none">{{i.pkNotice}}</td>
         <td>{{i.noticeContent}}</td>
         <td>{{i.flag}}</td>
