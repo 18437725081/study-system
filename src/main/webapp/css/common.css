@@ -1,9 +1,11 @@
+.title{
+    float: left;
+}
 .from-box {
     padding: 15px 0px 15px 0px;
 }
 
 .from-title {
-    float: left;
     padding: 5px 20px 5px 20px;
 }
 
@@ -27,6 +29,10 @@
     max-height: 100px;
     maxlength:150;
     padding: 5px 15px;
+}
+
+.from-text{
+    border-radius: 25px;
 }
 
 #text-count{
@@ -110,4 +116,11 @@
     height: 20px;
     line-height: 20px;
     font-size: 12px;
+}
+
+.nothing{
+    text-align: center;
+    height: 20px;
+    line-height: 20px;
+    padding: 0;
 }

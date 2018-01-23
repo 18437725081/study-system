@@ -113,11 +113,6 @@
     SELECT notice_content FROM bs_notice WHERE flag = 'Y';
   </select>
 
-  <select id="selectAllNotice" resultMap="BaseResultMap">
-    SELECT <include refid="Base_Column_List"/>
-    FROM bs_notice
-  </select>
-
   <select id="queryNotice" resultMap="BaseResultMap" parameterType="com.bs.pojo.Notice">
     SELECT <include refid="Base_Column_List"/>
     FROM bs_notice

@@ -6,6 +6,8 @@ import com.bs.pojo.*;
 import com.bs.util.MD5;
 import com.bs.vo.RelTeacherMajorVO;
 import com.bs.vo.StudentVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +79,25 @@ public class ManageService {
             t.setAnswer(StringUtils.EMPTY);
         }
         return ServerResponse.createBySuccess(list);
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 查询教师
+     * @createtime 2018-01-17 15:01
+     */
+    public ServerResponse queryTeacher(Teacher teacher, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Teacher> list = teacherMapper.queryTeacher(teacher);
+        //将密码,找回密码问题、答案置为空
+        for (Teacher t : list) {
+            t.setPassword(StringUtils.EMPTY);
+            t.setQuestion(StringUtils.EMPTY);
+            t.setAnswer(StringUtils.EMPTY);
+        }
+        PageInfo pageInfo = new PageInfo(list);
+        pageInfo.setList(list);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**
@@ -447,22 +468,6 @@ public class ManageService {
             studentVOList.add(studentVO);
         }
         return ServerResponse.createBySuccess(studentVOList);
-    }
-
-    /**
-     * @author 张靖烽
-     * @description 查询教师
-     * @createtime 2018-01-17 15:01
-     */
-    public ServerResponse queryTeacher(Teacher teacher) {
-        List<Teacher> list = teacherMapper.queryTeacher(teacher);
-        //将密码,找回密码问题、答案置为空
-        for (Teacher t : list) {
-            t.setPassword(StringUtils.EMPTY);
-            t.setQuestion(StringUtils.EMPTY);
-            t.setAnswer(StringUtils.EMPTY);
-        }
-        return ServerResponse.createBySuccess(list);
     }
 
     /**

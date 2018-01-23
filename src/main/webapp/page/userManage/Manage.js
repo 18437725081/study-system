@@ -1,47 +1,53 @@
 var selectedTr = null;
 
+//加载教师信息
 function loadTeacher() {
+    selectedTr = null;
     $.ajax({
-        url: '../../manage/getTeacherList.do',
+        url: '../../manage/queryTeacher.do',
         type: 'post',
-        success: function (res) {
-            table(res);
+        success: function (data) {
+            if (data.status === 10){
+                window.location.href = "../../login.html";
+            }
+            var res = template('template', data);
+            document.getElementById('tab').innerHTML = res;
+            showPaging(data);
+        },
+        error:function () {
+            window.location.href = "../other/error500.html";
         }
     });
+}
 
-    $('tbody').on('click', 'tr', function () {
-        this.style.backgroundColor = "#b4b4bb";
-        if (selectedTr !== null)
-            selectedTr.style.backgroundColor = "#f9f9f9";
-        if (selectedTr === this)
-        //加上此句，以控制点击变白，再点击反灰
-            selectedTr = null;
-        else
-            selectedTr = this;
+//跳转新增教师页面
+function add() {
+    $.dialog.open('addTeacher.html', {
+        id: "addTeacher",
+        title: "新增教师",
+        lock: true,
+        height: '300px',
+        width: '850px',
+        cancelDisplay: false,
+        resize: false
     });
 }
 
-function table(data) {
-    $('.data-table').dataTable({
-        "bJQueryUI": true,
-        "sPaginationType": "full_numbers",
-        "sDom": '<""l>t<"F"fp>',
-        data: data.data,
-        columns: [
-            {data: 'username'},
-            {data: 'name'},
-            {data: 'phone'},
-            {data: 'pkTeacher', "visible": false}
-        ]
-    });
-    $('select').select2();
-}
-
-function showDialog(title, msg) {
-    $("#myModal").find(".modal-header").html(title);
-    $("#myModal").attr('class', 'modal');
-    $("#myModal").find(".modal-body").html(msg);
-    setTimeout(function () {
-        $("#myModal").attr('class', 'modal hide');
-    }, 3000);
+//跳转修改通知页面
+function modify() {
+    if (selectedTr !== null) {
+        var pkTeacher = selectedTr.childNodes[1].innerHTML;
+        art.dialog.data("pkTeacher", pkTeacher);
+        $.dialog.open('modifyTeacher.html', {
+            id: "modifyTeacher",
+            title: "修改教师",
+            lock: true,
+            height: '300px',
+            width: '850px',
+            cancelDisplay: false,
+            resize: false
+        });
+    } else {
+        showDialog("错误", "请选择一个教师！")
+    }
 }

@@ -98,6 +98,11 @@
 <script src="../../js/common.js"></script>
 <!--用于存放模版-->
 <script id="template" type="text/html">
+    {{if data.total == 0}}
+    <tr>
+        <td colspan=2>未搜索到结果</td>
+    </tr>
+    {{else}}
     {{each data.list as i}}
     <tr onclick="selectTr(this)">
         <td style="display: none">{{i.pkNotice}}</td>
@@ -105,6 +110,7 @@
         <td>{{i.flag}}</td>
     </tr>
     {{/each}}
+    {{/if}}
 </script>
 <script>
     $(function () {

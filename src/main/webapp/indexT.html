@@ -25,7 +25,7 @@
         <li class="dropdown" id="profile-messages">
             <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
                 <i class="icon icon-user"></i>&nbsp;
-                <span class="text">欢迎你，张靖烽</span>&nbsp;
+                <span class="text" id="welcome"></span>&nbsp;
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
@@ -109,6 +109,16 @@
         init();
         $(window).resize(function () {
             init();
+        });
+
+        $.ajax({
+            url: 'teacher/getUserName.do',
+            type: 'post',
+            success: function (data) {
+                $("#welcome").html("欢迎你，"+data.data.name);
+            },
+            error: function () {
+            }
         });
     });
     // uniform使用示例：

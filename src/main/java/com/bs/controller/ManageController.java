@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -66,6 +67,28 @@ public class ManageController {
         //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.getTeacherList();
+        }
+        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 查询教师
+     * @createtime 2018-01-17 15:01
+     */
+    @RequestMapping("queryTeacher.do")
+    @ResponseBody
+    public ServerResponse queryTeacher(HttpSession session, Teacher teacher,
+                                       @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        //判断登录
+        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        if (manager == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
+            return manageService.queryTeacher(teacher, pageNum, pageSize);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }
@@ -441,7 +464,7 @@ public class ManageController {
      */
     @RequestMapping("queryStudent.do")
     @ResponseBody
-    public ServerResponse queryStudent(HttpSession session,Student student) {
+    public ServerResponse queryStudent(HttpSession session, Student student) {
         //判断登录
         Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
         if (manager == null) {
@@ -456,32 +479,12 @@ public class ManageController {
 
     /**
      * @author 张靖烽
-     * @description 查询教师
-     * @createtime 2018-01-17 15:01
-     */
-    @RequestMapping("queryTeacher.do")
-    @ResponseBody
-    public ServerResponse queryTeacher(HttpSession session,Teacher teacher) {
-        //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
-        if (manager == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
-        }
-        //判断权限，业务处理
-        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            return manageService.queryTeacher(teacher);
-        }
-        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
-    }
-
-    /**
-     * @author 张靖烽
      * @description 查询专业
      * @createtime 2018-01-17 15:01
      */
     @RequestMapping("queryMajor.do")
     @ResponseBody
-    public ServerResponse queryMajor(HttpSession session,Major major) {
+    public ServerResponse queryMajor(HttpSession session, Major major) {
         //判断登录
         Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
         if (manager == null) {

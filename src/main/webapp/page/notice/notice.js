@@ -8,9 +8,15 @@ function loadNotice() {
         url: '../../notice/queryNotice.do',
         type: 'post',
         success: function (data) {
+            if (data.status === 10){
+                window.location.href = "../../login.html";
+            }
             var res = template('template', data);
             document.getElementById('tab').innerHTML = res;
             showPaging(data);
+        },
+        error:function () {
+            window.location.href = "../other/error500.html";
         }
     });
 }
@@ -55,11 +61,17 @@ function getNotice(pkNotice) {
             pkNotice: pkNotice
         },
         type: 'post',
-        success: function (res) {
-            $("#noticeContent").html(res.data.noticeContent);
-            $("#flag").val(res.data.flag);
-            var content = res.data.noticeContent;
+        success: function (data) {
+            if (data.status === 10){
+                window.location.href = "../../login.html";
+            }
+            $("#noticeContent").html(data.data.noticeContent);
+            $("#flag").val(data.data.flag);
+            var content = data.data.noticeContent;
             $("#text-count").text(content.length);
+        },
+        error:function () {
+            window.location.href = "../other/error500.html";
         }
     });
 }
@@ -75,33 +87,48 @@ function sub() {
         url: '../../notice/addOrModifyNotice.do',
         type: 'post',
         dataType: "json",
-        success: function (res) {
+        success: function (data) {
+            if (data.status === 10){
+                window.location.href = "../../login.html";
+            }
             var _page = window.parent.document.getElementById("page").value;
             window.parent.paging(_page);
-            $("#msgs").html(res.msg);
+            $("#msgs").html(data.msg);
             setTimeout(function () {
                 $("#msgs").html("");
             }, 2000);
+        },
+        error:function () {
+            window.location.href = "../other/error500.html";
         }
     });
 }
 
 //查询
 function query() {
+    $("#noticeContent").val("");
+    selectedTr = null;
     $("#query_notice").ajaxSubmit({
         url: '../../notice/queryNotice.do',
         type: 'post',
         dataType: "json",
         success: function (data) {
+            if (data.status === 10){
+                window.location.href = "../../login.html";
+            }
             var res = template('template', data);
             document.getElementById('tab').innerHTML = res;
             showPaging(data);
+        },
+        error:function () {
+            window.location.href = "../other/error500.html";
         }
     });
 }
 
 //分页查询
 function paging(pageNum) {
+    selectedTr = null;
     var pageNum = pageNum,
         pageSize = 10,
         noticeContent = $("#noticeContent").val();
@@ -114,9 +141,15 @@ function paging(pageNum) {
             noticeContent: noticeContent
         },
         success: function (data) {
+            if (data.status === 10){
+                window.location.href = "../../login.html";
+            }
             var res = template('template', data);
             document.getElementById('tab').innerHTML = res;
             showPaging(data);
+        },
+        error:function () {
+            window.location.href = "../other/error500.html";
         }
     });
 }
