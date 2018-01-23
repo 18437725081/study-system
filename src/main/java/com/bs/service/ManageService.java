@@ -125,6 +125,7 @@ public class ManageService {
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("用户名已存在");
                 }
+                teacher.setRole("1");
                 result = teacherMapper.insert(teacher);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("新增成功");
