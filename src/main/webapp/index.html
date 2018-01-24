@@ -61,6 +61,15 @@
                 <li><a class="menu_a" link="./page/userManage/student.html"><i class="icon icon-caret-right"></i>学生账户</a></li>
             </ul>
         </li>
+        <li class="submenu">
+            <a href="#">
+                <i class="icon icon-table"></i>
+                <span>专业管理</span>
+            </a>
+            <ul>
+                <li><a class="menu_a" link="./page/majorManage/major.html"><i class="icon icon-caret-right"></i>年级专业</a></li>
+            </ul>
+        </li>
     </ul>
 </div>
 <!--sidebar-menu-->
@@ -106,7 +115,7 @@
 
     $("#ref").click(function () {
         document.getElementById('iframe-main').contentWindow.location.reload(true);
-    })
+    });
     
     function outLogin() {
         $(function() {

@@ -71,15 +71,6 @@ public interface MajorMapper {
     int updateByPrimaryKey(Major major);
 
     /**
-     * 查询所有年级专业信息
-     *
-     * @return List<Major>
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:13
-     */
-    List<Major> selectAllMajor();
-
-    /**
      * 查询专业
      *
      * @param major 专业类

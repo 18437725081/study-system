@@ -169,13 +169,6 @@
     where pk_teacher = #{pkTeacher,jdbcType=INTEGER}
   </update>
 
-
-    <select id="selectAllTeacher" resultMap="BaseResultMap">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM bs_teacher
-    </select>
-
     <select id="checkUsername" parameterType="string" resultType="int">
     SELECT COUNT(1)
     FROM bs_teacher

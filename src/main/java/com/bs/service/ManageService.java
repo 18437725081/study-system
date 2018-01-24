@@ -67,22 +67,6 @@ public class ManageService {
 
     /**
      * @author 张靖烽
-     * @description 获取教师信息
-     * @createtime 2018-01-09 13:40
-     */
-    public ServerResponse getTeacherList() {
-        List<Teacher> list = teacherMapper.selectAllTeacher();
-        //将密码,找回密码问题、答案置为空
-        for (Teacher t : list) {
-            t.setPassword(StringUtils.EMPTY);
-            t.setQuestion(StringUtils.EMPTY);
-            t.setAnswer(StringUtils.EMPTY);
-        }
-        return ServerResponse.createBySuccess(list);
-    }
-
-    /**
-     * @author 张靖烽
      * @description 查询教师
      * @createtime 2018-01-17 15:01
      */
@@ -347,12 +331,15 @@ public class ManageService {
 
     /**
      * @author 张靖烽
-     * @description 查看年级专业信息
-     * @createtime 2018-01-10 10:53
+     * @description 获取专业信息&&查询专业
+     * @createtime 2018-01-17 15:01
      */
-    public ServerResponse getMajorList() {
-        List<Major> majorList = majorMapper.selectAllMajor();
-        return ServerResponse.createBySuccess(majorList);
+    public ServerResponse queryMajor(Major major, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Major> majorList = majorMapper.queryMajor(major);
+        PageInfo pageInfo = new PageInfo(majorList);
+        pageInfo.setList(majorList);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**
@@ -471,13 +458,4 @@ public class ManageService {
         return ServerResponse.createBySuccess(studentVOList);
     }
 
-    /**
-     * @author 张靖烽
-     * @description 查询专业
-     * @createtime 2018-01-17 15:01
-     */
-    public ServerResponse queryMajor(Major major) {
-        List<Major> majorList = majorMapper.queryMajor(major);
-        return ServerResponse.createBySuccess(majorList);
-    }
 }

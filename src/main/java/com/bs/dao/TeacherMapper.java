@@ -72,15 +72,6 @@ public interface TeacherMapper {
     int updateByPrimaryKey(Teacher teacher);
 
     /**
-     * 查询所有教师信息
-     *
-     * @return List<Teacher>
-     * @author 张靖烽
-     * @createtime 2017-12-29 11:12
-     */
-    List<Teacher> selectAllTeacher();
-
-    /**
      * 检查用户名是否存在
      *
      * @param username 用户名

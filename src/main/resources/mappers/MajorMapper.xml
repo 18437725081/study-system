@@ -109,12 +109,6 @@
     where pk_major = #{pkMajor,jdbcType=INTEGER}
   </update>
 
-    <select id="selectAllMajor" resultMap="BaseResultMap">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM bs_major
-    </select>
-
     <select id="queryMajor" resultMap="BaseResultMap" parameterType="com.bs.pojo.Major">
         SELECT
         <include refid="Base_Column_List"/>
