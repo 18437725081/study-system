@@ -1,12 +1,14 @@
 .title{
     float: left;
+    width: 80px;
 }
 .from-box {
-    padding: 15px 0px 15px 0px;
+    padding: 10px 0 10px 0;
 }
 
 .from-title {
-    padding: 5px 20px 5px 20px;
+    padding: 5px 10px 5px 20px;
+    line-height: 30px;
 }
 
 .notice-title{
@@ -37,7 +39,7 @@
 
 #text-count{
     position: relative;
-    bottom: 0px;
+    bottom: 0;
     right: 5px;
 }
 
@@ -45,7 +47,7 @@
     -webkit-box-shadow: 2px 2px 5px #888888;
             box-shadow: 2px 2px 5px #888888;
     background-color: #f4f4f4;
-    margin: 15px 0px;
+    margin: 15px 0;
 }
 
 .button {
@@ -73,7 +75,7 @@
 
 .btn-boxs{
     float: right;
-    padding: 10px 30px 0px 0px;
+    padding: 10px 30px 0 0;
 }
 
 .limit{
@@ -84,7 +86,7 @@
 
 .msg-box{
     float: left;
-    padding: 10px 30px 0px 50px;
+    padding: 10px 30px 0 50px;
 }
 
 .msgs{
