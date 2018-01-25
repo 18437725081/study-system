@@ -11,8 +11,7 @@ function loadNotice() {
             if (data.status === 10){
                 window.location.href = "../../login.html";
             }
-            var res = template('template', data);
-            document.getElementById('tab').innerHTML = res;
+            document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
         },
         error:function () {
@@ -115,8 +114,7 @@ function query() {
             if (data.status === 10){
                 window.location.href = "../../login.html";
             }
-            var res = template('template', data);
-            document.getElementById('tab').innerHTML = res;
+            document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
         },
         error:function () {
@@ -128,8 +126,7 @@ function query() {
 //分页查询
 function paging(pageNum) {
     selectedTr = null;
-    var pageNum = pageNum,
-        pageSize = 10,
+    var pageSize = 10,
         noticeContent = $("#noticeContent").val();
     $.ajax({
         url: '../../notice/queryNotice.do',
@@ -143,8 +140,7 @@ function paging(pageNum) {
             if (data.status === 10){
                 window.location.href = "../../login.html";
             }
-            var res = template('template', data);
-            document.getElementById('tab').innerHTML = res;
+            document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
         },
         error:function () {
