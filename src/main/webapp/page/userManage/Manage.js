@@ -26,7 +26,7 @@ function add() {
         id: "addTeacher",
         title: "新增教师",
         lock: true,
-        height: '400px',
+        height: '350px',
         width: '400px',
         cancelDisplay: false,
         resize: false

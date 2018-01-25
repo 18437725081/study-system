@@ -106,7 +106,6 @@ function sub() {
 
 //查询
 function query() {
-    $("#noticeContent").val("");
     selectedTr = null;
     $("#query_notice").ajaxSubmit({
         url: '../../notice/queryNotice.do',
@@ -153,3 +152,17 @@ function paging(pageNum) {
         }
     });
 }
+
+$(function () {
+    /*字数限制*/
+    $("#noticeContent").on("input propertychange", function () {
+        var $this = $(this),
+            _val = $this.val(),
+            count;
+        if (_val.length > 175) {
+            $this.val(_val.substring(0, 175));
+        }
+        count = $this.val().length;
+        $("#text-count").text(count);
+    });
+});

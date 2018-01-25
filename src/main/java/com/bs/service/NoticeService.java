@@ -4,6 +4,8 @@ import com.bs.common.ServerResponse;
 import com.bs.dao.NoticeMapper;
 import com.bs.pojo.Manager;
 import com.bs.pojo.Notice;
+import com.bs.util.Time;
+import com.bs.vo.NoticeVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -44,15 +46,21 @@ public class NoticeService {
     public ServerResponse queryNotice(Notice notice,Integer pageNum,Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Notice> list = noticeMapper.queryNotice(notice);
+        List<NoticeVO> noticeVOList = Lists.newArrayList();
         for (Notice n : list) {
+            NoticeVO noticeVO = new NoticeVO();
+            noticeVO.setPkNotice(n.getPkNotice());
+            noticeVO.setNoticeContent(n.getNoticeContent());
             if ("Y".equals(n.getFlag())) {
-                n.setFlag("有效");
+                noticeVO.setFlag("有效");
             } else if ("N".equals(n.getFlag())) {
-                n.setFlag("无效");
+                noticeVO.setFlag("无效");
             }
+            noticeVO.setLastUpdatedTime(Time.dateToStr(n.getLastUpdatedTime()));
+            noticeVOList.add(noticeVO);
         }
         PageInfo pageInfo = new PageInfo(list);
-        pageInfo.setList(list);
+        pageInfo.setList(noticeVOList);
         return ServerResponse.createBySuccess(pageInfo);
     }
 

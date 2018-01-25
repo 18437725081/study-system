@@ -3,33 +3,37 @@
 
 <head>
     <title>Matrix Admin</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
-    <link rel="stylesheet" href="css/matrix-style2.css" />
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="css/matrix-style2.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
 </head>
 
 <body>
-    <div id="content">
-        <div id="content-header">
-            <h1>欢迎进入南京大学金陵学院在线测试系统</h1>
-        </div>
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="span12">
-                    <div class="widget-box">
-                        <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-                            <h5>信息公告：</h5>
-                        </div>
-                        <div class="widget-content" id="notice">
+<div id="content">
+    <div id="content-header">
+        <h1>欢迎进入南京大学金陵学院在线测试系统</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content" id="notice">
+                        <div class="" id="ibox-content">
+                            <div id="vertical-timeline"
+                                 class="vertical-container light-timeline">
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 <script src="js/jquery-2.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
@@ -38,23 +42,31 @@
 <!--用于存放模版-->
 <script id="template" type="text/html">
     <div>
-        {{each data}}
-        <div class="alert alert-info"> {{$value}} </div>
+        {{each data.list as i}}
+        <div class="vertical-timeline-block">
+            <div class="vertical-timeline-icon red-bg">
+                <i>通知</i>
+            </div>
+            <div class="vertical-timeline-content">
+                <p>{{i.noticeContent}}</p>
+                <span class="vertical-date"><small>{{i.lastUpdatedTime}}</small></span>
+            </div>
+        </div>
         {{/each}}
     </div>
 </script>
 <!--用于渲染模版-->
 <script>
-    $(function() {
-        $.ajax({
-            url: 'notice/showNotice.do',
-            type: 'post',
-            success: function(data) {
-                var res = template('template', data);
-                document.getElementById('notice').innerHTML = res
-            },
-            error: function() {}
+        $(function() {
+            $.ajax({
+                url: 'notice/showNotice.do',
+                type: 'post',
+                success: function(data) {
+                    var res = template('template', data);
+                    document.getElementById('vertical-timeline').innerHTML = res
+                },
+                error: function() {}
+            });
         });
-    });
 </script>
 </html>

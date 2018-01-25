@@ -38,13 +38,14 @@ public class NoticeController {
      */
     @RequestMapping("showNotice.do")
     @ResponseBody
-    public ServerResponse<List> showNotice(HttpSession session) {
+    public ServerResponse showNotice(HttpSession session, Notice notice,
+                                           @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                           @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
         //判断用户是否登录
         if (session.getAttribute(Constant.CURRENT_USER) == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        List list = noticeService.selectNotice();
-        return ServerResponse.createBySuccess(list);
+        return noticeService.queryNotice(notice, pageNum, pageSize);
     }
 
     /**

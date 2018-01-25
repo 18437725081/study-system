@@ -87,7 +87,6 @@ function selectTr(obj) {
             selectedTr = null;
         else
             selectedTr = obj;
-
 }
 
 //返回
@@ -100,16 +99,7 @@ function queryOpen() {
     $("#queryBox").toggle();
 }
 
-$(function () {
-    /*字数限制*/
-    $("#noticeContent").on("input propertychange", function () {
-        var $this = $(this),
-            _val = $this.val(),
-            count;
-        if (_val.length > 175) {
-            $this.val(_val.substring(0, 175));
-        }
-        count = $this.val().length;
-        $("#text-count").text(count);
-    });
-});
+//空判断
+function isNull(val) {
+    return val === null || val === "" || val === undefined;
+}

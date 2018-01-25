@@ -126,3 +126,8 @@
     line-height: 20px;
     padding: 0;
 }
+
+.inputText{
+    margin-bottom: 0;
+    border-radius: 25px;
+}

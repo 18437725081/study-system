@@ -43,14 +43,14 @@
             <div class="span12">
                 <div class="widget-box">
                     <div class="widget-content nopadding">
-                        <form id="query_notice">
+                        <form id="query">
                             <div style="margin: 20px">
-                                <label for="grade">年级：</label><input type="text" style="margin-bottom: 0"
-                                                                             id="grade" name="grade"/>
-                                <label for="major">专业：</label><input type="text" style="margin-bottom: 0"
-                                                                             id="major" name="major"/>
+                                <label for="grade">年级：</label>
+                                <input type="text" class="inputText" id="grade" name="grade"/>
+                                <label for="major">专业：</label>
+                                <input type="text" class="inputText" id="major" name="major"/>
                                 <button type="button" class="btn btn-info" onclick="query()">查询</button>
-                                <button type="button" class="btn btn-info" onclick="loadNotice()">显示全部</button>
+                                <button type="button" class="btn btn-info" onclick="loadMajor()">显示全部</button>
                             </div>
                         </form>
                     </div>
@@ -121,5 +121,4 @@
         loadMajor();
     });
 </script>
-
 </html>
