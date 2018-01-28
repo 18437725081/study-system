@@ -5,7 +5,7 @@
         <constructor>
             <idArg column="pk_major" jdbcType="INTEGER" javaType="java.lang.Integer"/>
             <arg column="major" jdbcType="VARCHAR" javaType="java.lang.String"/>
-            <arg column="grade" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="grade" jdbcType="VARCHAR" javaType="java.lang.String"/>
             <arg column="created_by" jdbcType="INTEGER" javaType="java.lang.Integer"/>
             <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
             <arg column="last_updated_by" jdbcType="INTEGER" javaType="java.lang.Integer"/>
@@ -29,7 +29,7 @@
     insert into bs_major (pk_major, major, grade, 
       created_by, created_time, last_updated_by, 
       last_updated_time)
-    values (#{pkMajor,jdbcType=INTEGER}, #{major,jdbcType=VARCHAR}, #{grade,jdbcType=INTEGER}, 
+    values (#{pkMajor,jdbcType=INTEGER}, #{major,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR},
       #{createdBy,jdbcType=INTEGER}, now(), #{lastUpdatedBy,jdbcType=INTEGER},
       now())
   </insert>
@@ -66,7 +66,7 @@
                 #{major,jdbcType=VARCHAR},
             </if>
             <if test="grade != null">
-                #{grade,jdbcType=INTEGER},
+                #{grade,jdbcType=VARCHAR},
             </if>
             <if test="createdBy != null">
                 #{createdBy,jdbcType=INTEGER},
@@ -89,7 +89,7 @@
                 major = #{major,jdbcType=VARCHAR},
             </if>
             <if test="grade != null">
-                grade = #{grade,jdbcType=INTEGER},
+                grade = #{grade,jdbcType=VARCHAR},
             </if>
             <if test="lastUpdatedBy != null">
                 last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
@@ -103,7 +103,7 @@
     <update id="updateByPrimaryKey" parameterType="com.bs.pojo.Major">
     update bs_major
     set major = #{major,jdbcType=VARCHAR},
-      grade = #{grade,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=VARCHAR},
       last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
       last_updated_time = now()
     where pk_major = #{pkMajor,jdbcType=INTEGER}

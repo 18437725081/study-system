@@ -20,7 +20,7 @@ public class StudentVO {
     /** 专业 */
     private String major;
     /** 年级 */
-    private Integer grade;
+    private String grade;
     /** 创建时间 */
     private Date createdTime;
     /** 更新时间 */
@@ -80,11 +80,11 @@ public class StudentVO {
         this.major = major;
     }
 
-    public Integer getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(Integer grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 

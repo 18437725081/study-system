@@ -13,7 +13,7 @@ public class Major {
     /** 专业名称 */
     private String major;
     /** 年级 */
-    private Integer grade;
+    private String grade;
     /** 创建人 */
     private Integer createdBy;
     /** 创建时间 */
@@ -23,7 +23,7 @@ public class Major {
     /** 最后一次更新时间 */
     private Date lastUpdatedTime;
 
-    public Major(Integer pkMajor, String major, Integer grade, Integer createdBy, Date createdTime, Integer lastUpdatedBy, Date lastUpdatedTime) {
+    public Major(Integer pkMajor, String major, String grade, Integer createdBy, Date createdTime, Integer lastUpdatedBy, Date lastUpdatedTime) {
         this.pkMajor = pkMajor;
         this.major = major;
         this.grade = grade;
@@ -53,11 +53,11 @@ public class Major {
         this.major = major == null ? null : major.trim();
     }
 
-    public Integer getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(Integer grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 

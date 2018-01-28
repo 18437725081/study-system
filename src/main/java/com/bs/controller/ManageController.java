@@ -333,7 +333,7 @@ public class ManageController {
         }
         //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            return manageService.queryMajor(major,pageNum,pageSize);
+            return manageService.queryMajor(major, pageNum, pageSize);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }
