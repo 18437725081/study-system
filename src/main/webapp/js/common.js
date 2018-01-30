@@ -77,17 +77,21 @@ function showDialog(title, msg) {
     }, 2000);
 }
 
-//表格渲染
-function selectTr(obj) {
-        obj.style.backgroundColor = "#b4b4bb";
-        if (selectedTr !== null)
-            selectedTr.style.backgroundColor = "#f9f9f9";
-        if (selectedTr === obj)
-        //加上此句，以控制点击变白，再点击反灰
-            selectedTr = null;
-        else
-            selectedTr = obj;
-}
+$('#tab').on('click','tr', function() {
+    this.style.backgroundColor = "#b4b4bb";
+    if (selectedTr !== null)
+        selectedTr.style.backgroundColor = "#f9f9f9";
+    if (selectedTr === this)
+    //加上此句，以控制点击变白，再点击反灰
+        selectedTr = null;
+    else
+        selectedTr = this;
+});
+
+$('#tab').on('click','.btn', function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+});
 
 //返回
 function back() {

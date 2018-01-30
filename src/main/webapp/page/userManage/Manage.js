@@ -79,3 +79,8 @@ function sub() {
         }
     });
 }
+
+function lookMajor(str,event) {
+    event.stopPropagation();
+    event.preventDefault();
+}
