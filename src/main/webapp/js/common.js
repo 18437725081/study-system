@@ -63,7 +63,7 @@ function showPaging(data) {
         }
     });
 
-    $("#page").val(page);
+    $("#page").val(pageNum);
 }
 
 //提示信息
@@ -77,6 +77,7 @@ function showDialog(title, msg) {
     }, 2000);
 }
 
+//表格绑定点击背景色改变
 $('#tab').on('click','tr', function() {
     this.style.backgroundColor = "#b4b4bb";
     if (selectedTr !== null)
@@ -88,12 +89,13 @@ $('#tab').on('click','tr', function() {
         selectedTr = this;
 });
 
+//绑定按钮阻止冒泡
 $('#tab').on('click','.btn', function(event) {
     event.stopPropagation();
     event.preventDefault();
 });
 
-//返回
+//dialog返回关闭
 function back() {
     art.dialog.close();
 }
@@ -106,4 +108,12 @@ function queryOpen() {
 //空判断
 function isNull(val) {
     return val === null || val === "" || val === undefined;
+}
+
+//消息提示
+function msg(str) {
+    $("#msgs").html(str);
+    setTimeout(function () {
+        $("#msgs").html("");
+    }, 2000);
 }

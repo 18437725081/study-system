@@ -43,16 +43,16 @@
             <div class="span12">
                 <div class="widget-box">
                     <div class="widget-content nopadding">
-                        <form id="query_notice">
+                        <form id="query">
                             <div style="margin: 20px">
-                                <label for="username">用户名：</label><input type="text" style="margin-bottom: 0"
-                                                                               id="username" name="username"/>
-                                <label for="name">姓名：</label><input type="text" style="margin-bottom: 0"
-                                                                             id="name" name="name"/>
-                                <label for="phone">电话：</label><input type="text" style="margin-bottom: 0"
-                                                                             id="phone" name="phone"/>
+                                <label for="username">用户名：</label>
+                                <input type="text" class="inputText" id="username" name="username"/>
+                                <label for="name">姓名：</label>
+                                <input type="text" class="inputText" id="name" name="name"/>
+                                <label for="phone">电话：</label>
+                                <input type="text" class="inputText" id="phone" name="phone"/>
                                 <button type="button" class="btn btn-info" onclick="query()">查询</button>
-                                <button type="button" class="btn btn-info" onclick="loadNotice()">显示全部</button>
+                                <button type="button" class="btn btn-info" onclick="loadTeacher()">显示全部</button>
                             </div>
                         </form>
                     </div>
@@ -108,7 +108,7 @@
 <script id="template" type="text/html">
     {{if data.total == 0}}
     <tr>
-        <td colspan=2>未搜索到结果</td>
+        <td colspan=2>未找到数据</td>
     </tr>
     {{else}}
     {{each data.list as i}}

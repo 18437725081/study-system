@@ -79,7 +79,7 @@ function sub() {
     var major = $("#major").val();
     var grade = $("#grade").val();
     if (isNull(major) || isNull(grade)) {
-        $("#msgs").html("年级或专业不能为空");
+        msg("年级或专业不能为空");
         return false;
     }
     $("#add_Major").ajaxSubmit({
@@ -92,10 +92,7 @@ function sub() {
             }
             var _page = window.parent.document.getElementById("page").value;
             window.parent.paging(_page);
-            $("#msgs").html(data.msg);
-            setTimeout(function () {
-                $("#msgs").html("");
-            }, 2000);
+            msg(data.msg);
         },
         error:function () {
             window.location.href = "../other/error500.html";
@@ -150,4 +147,3 @@ function paging(pageNum) {
         }
     });
 }
-

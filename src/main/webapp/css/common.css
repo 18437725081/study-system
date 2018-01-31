@@ -50,29 +50,6 @@
     margin: 15px 0;
 }
 
-.button {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-}
-
-.button:active {
-    background-color: #3e8e41;
-    -webkit-box-shadow: 0 5px #666;
-            box-shadow: 0 5px #666;
-    -webkit-transform: translateY(2px);
-            transform: translateY(2px);
-}
-
 .btn-boxs{
     float: right;
     padding: 10px 30px 0 0;

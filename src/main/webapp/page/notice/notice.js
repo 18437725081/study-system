@@ -79,7 +79,7 @@ function getNotice(pkNotice) {
 function sub() {
     var noticeContent = $("#noticeContent").val();
     if (noticeContent.trim() === null || noticeContent.trim() === "") {
-        $("#msgs").html("通知内容不能为空！");
+        msg("通知内容不能为空！");
         return false;
     }
     $("#add_notice").ajaxSubmit({
@@ -92,10 +92,7 @@ function sub() {
             }
             var _page = window.parent.document.getElementById("page").value;
             window.parent.paging(_page);
-            $("#msgs").html(data.msg);
-            setTimeout(function () {
-                $("#msgs").html("");
-            }, 2000);
+            msg(data.msg);
         },
         error:function () {
             window.location.href = "../other/error500.html";
