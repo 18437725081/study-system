@@ -458,4 +458,13 @@ public class ManageService {
         return ServerResponse.createBySuccess(studentVOList);
     }
 
+    public ServerResponse getGrade() {
+        List<String> gradeList = managerMapper.getGrade();
+        return ServerResponse.createBySuccess(gradeList);
+    }
+
+    public ServerResponse getMajor(String grade) {
+        List<String> majorList = managerMapper.getMajor(grade);
+        return ServerResponse.createBySuccess(majorList);
+    }
 }

@@ -95,4 +95,15 @@
         WHERE username = #{username}
         AND password = #{password}
     </select>
+
+    <select id="getGrade" resultType="string">
+        SELECT DISTINCT grade
+        FROM bs_major
+    </select>
+
+    <select id="getMajor" parameterType="string" resultType="string">
+        SELECT DISTINCT major
+        FROM bs_major
+        WHERE grade = #{grade}
+    </select>
 </mapper>

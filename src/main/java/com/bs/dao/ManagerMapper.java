@@ -3,6 +3,8 @@ package com.bs.dao;
 import com.bs.pojo.Manager;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author 张靖烽
  * @description 管理员dao层
@@ -89,4 +91,8 @@ public interface ManagerMapper {
      * @createtime 2017-12-26 13:35
      */
     Manager login(@Param("username") String username, @Param("password") String password);
+
+    List<String> getGrade();
+
+    List<String> getMajor(String grade);
 }

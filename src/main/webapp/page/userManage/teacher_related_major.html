@@ -21,28 +21,22 @@
             <form id="teacher_related_major" class="form-horizontal">
                 <div class="from-box">
                     <div class="title">
-                        <label class="from-title">姓 名:</label>
+                        <label for="grade" class="from-title">年  级:</label>
                     </div>
                     <div>
-                        <select style="border-radius: 55px">
-                            <option>First option</option>
-                            <option>Second option</option>
-                            <option>Third option</option>
-                            <option>Fourth option</option>
-                            <option>Fifth option</option>
-                            <option>惺惺相惜</option>
-                            <option>尺寸参差</option>
-                            <option>重中之重</option>
+                        <select id="grade" name="grade">
+
                         </select>
                     </div>
                 </div>
                 <div class="from-box">
                     <div class="title">
-                        <label for="name" class="from-title">姓 名:</label>
+                        <label for="major" class="from-title">专  业:</label>
                     </div>
                     <div>
-                        <input type="text" id="name" name="name" class="from-text"/>
-                        <span style="color:red">*</span>
+                        <select id="major" name="major" style="height: 50px">
+
+                        </select>
                     </div>
                 </div>
             </form>
@@ -68,8 +62,19 @@
 <script src="../../js/iframeTools.js" type="text/javascript"></script>
 <script src="../../js/common.js"></script>
 <script src="../../js/select2.min.js"></script>
+<script src="../../js/template.js"></script>
 <script src="Manage.js" type="text/javascript"></script>
 <script>
-    $('select').select2();
+    $(function () {
+        $('select').select2();
+        getGrade();
+    });
+</script>
+<!--用于存放模版-->
+<script id="gradeModal" type="text/html">
+    <option selected>--请选择--</option>
+    {{each data as i}}
+    <option>{{i}}</option>
+    {{/each}}
 </script>
 </html>

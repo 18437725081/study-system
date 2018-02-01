@@ -68,14 +68,14 @@ function remove() {
                 if (data.status === 10) {
                     window.location.href = "../../login.html";
                 } else {
-                    showDialog("信息",data.msg)
+                    showDialog("信息", data.msg)
                     if (data.status === 0) {
                         var _page = document.getElementById("page").value;
                         paging(_page);
                     }
                 }
             },
-            error:function () {
+            error: function () {
                 window.location.href = "../other/error500.html";
             }
         });
@@ -93,14 +93,14 @@ function getTeacher(pkTeacher) {
         },
         type: 'post',
         success: function (data) {
-            if (data.status === 10){
+            if (data.status === 10) {
                 window.location.href = "../../login.html";
             }
             $("#username").val(data.data.username);
             $("#name").val(data.data.name);
             $("#phone").val(data.data.phone);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });
@@ -141,13 +141,13 @@ function query() {
         type: 'post',
         dataType: "json",
         success: function (data) {
-            if (data.status === 10){
+            if (data.status === 10) {
                 window.location.href = "../../login.html";
             }
             document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });
@@ -164,9 +164,9 @@ function paging(pageNum) {
         type: 'post',
         data: {
             pageNum: pageNum,
-            username:username,
-            name:name,
-            phone:phone
+            username: username,
+            name: name,
+            phone: phone
         },
         success: function (data) {
             if (data.status === 10) {
@@ -180,3 +180,50 @@ function paging(pageNum) {
         }
     });
 }
+
+function addMajor() {
+    $.dialog.open('teacher_related_major.html', {
+        id: "teacher_related_major",
+        title: "关联专业",
+        lock: true,
+        height: '400px',
+        width: '400px',
+        cancelDisplay: false,
+        resize: false
+    });
+}
+
+function getGrade() {
+    $.ajax({
+        url: '../../manage/getGrade.do',
+        type: 'post',
+        success: function (data) {
+            if (data.status === 10) {
+                window.location.href = "../../login.html";
+            }
+            document.getElementById('grade').innerHTML = template('gradeModal', data);
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+$("#grade").change(function () {
+    $.ajax({
+        url: '../../manage/getMajor.do',
+        type: 'post',
+        data: {
+            grade: $("#grade").val()
+        },
+        success: function (data) {
+            if (data.status === 10) {
+                window.location.href = "../../login.html";
+            }
+            document.getElementById('major').innerHTML = template('gradeModal', data);
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+});
