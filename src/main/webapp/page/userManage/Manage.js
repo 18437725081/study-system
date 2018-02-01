@@ -13,8 +13,7 @@ function loadTeacher() {
             if (data.status === 10) {
                 window.location.href = "../../login.html";
             }
-            var res = template('template', data);
-            document.getElementById('tab').innerHTML = res;
+            document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
         },
         error: function () {
@@ -29,7 +28,7 @@ function add() {
         id: "addTeacher",
         title: "新增教师",
         lock: true,
-        height: '350px',
+        height: '300px',
         width: '400px',
         cancelDisplay: false,
         resize: false
@@ -45,7 +44,7 @@ function modify() {
             id: "modifyTeacher",
             title: "修改教师",
             lock: true,
-            height: '350px',
+            height: '300px',
             width: '400px',
             cancelDisplay: false,
             resize: false
@@ -56,19 +55,20 @@ function modify() {
 }
 
 //获取单条专业信息
-function getMajor(pkMajor) {
+function getTeacher(pkTeacher) {
     $.ajax({
-        url: '../../manage/getMajorInfo.do',
+        url: '../../manage/getTeacherInfo.do',
         data: {
-            pkMajor: pkMajor
+            pkTeacher: pkTeacher
         },
         type: 'post',
         success: function (data) {
             if (data.status === 10){
                 window.location.href = "../../login.html";
             }
-            $("#grade").val(data.data.grade);
-            $("#major").val(data.data.major);
+            $("#username").val(data.data.username);
+            $("#name").val(data.data.name);
+            $("#phone").val(data.data.phone);
         },
         error:function () {
             window.location.href = "../other/error500.html";
@@ -79,10 +79,9 @@ function getMajor(pkMajor) {
 //提交
 function sub() {
     var username = $("#username").val(),
-        password = $("#password").val(),
         name = $("#name").val(),
         phone = $("#phone").val();
-    if (isNull(username) || isNull(password) || isNull(name) || isNull(phone)) {
+    if (isNull(username) || isNull(name) || isNull(phone)) {
         msg("参数不能为空");
         return false;
     }
@@ -94,7 +93,7 @@ function sub() {
             if (data.status === 10) {
                 window.location.href = "../../login.html";
             }
-            _page = window.parent.document.getElementById("page").value;
+            var _page = window.parent.document.getElementById("page").value;
             window.parent.paging(_page);
             msg(data.msg);
         },

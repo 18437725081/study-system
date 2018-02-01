@@ -103,7 +103,7 @@ public class ManageService {
                 return ServerResponse.createBySuccessMessage("修改失败");
             } else {
                 //将密码加密
-                teacher.setPassword(MD5.md5EncodeUtf8(teacher.getPassword()));
+                teacher.setPassword(MD5.md5EncodeUtf8(teacher.getUsername()));
                 //检查用户名是否已存在
                 int result = teacherMapper.selectUsername(teacher.getUsername());
                 if (result > 0) {
