@@ -2,30 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>修改教师页面</title>
+    <title>教师关联专业页面</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="../../css/matrix-style2.css"/>
     <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../../css/select2.min.css"/>
     <link rel="stylesheet" href="../../css/common.css"/>
 </head>
 <body>
 <div id="content">
     <div id="content-header">
-        <h1>修改教师</h1>
+        <h1>关联专业</h1>
     </div>
     <div class="container-fluid">
         <div class="contact-box">
-            <form id="add_teacher" class="form-horizontal">
-                <input id="pkTeacher" name="pkTeacher" type="hidden" value=""/>
+            <form id="teacher_related_major" class="form-horizontal">
                 <div class="from-box">
                     <div class="title">
-                        <label for="username" class="from-title">用户名:</label>
+                        <label class="from-title">姓 名:</label>
                     </div>
                     <div>
-                        <input type="text" id="username" name="username" class="from-text"/>
-                        <span style="color:red">*</span>
+                        <select style="border-radius: 55px">
+                            <option>First option</option>
+                            <option>Second option</option>
+                            <option>Third option</option>
+                            <option>Fourth option</option>
+                            <option>Fifth option</option>
+                            <option>惺惺相惜</option>
+                            <option>尺寸参差</option>
+                            <option>重中之重</option>
+                        </select>
                     </div>
                 </div>
                 <div class="from-box">
@@ -37,15 +45,6 @@
                         <span style="color:red">*</span>
                     </div>
                 </div>
-                <div class="from-box">
-                    <div class="title">
-                        <label for="phone" class="from-title">电 话:</label>
-                    </div>
-                    <div>
-                        <input type="text" id="phone" name="phone" class="from-text"/>
-                        <span style="color:red">*</span>
-                    </div>
-                </div>
             </form>
         </div>
     </div>
@@ -54,7 +53,7 @@
             <div class="msgs" id="msgs"></div>
         </div>
         <div class="btn-boxs">
-            <button type="button" class="btn btn-info" onclick="sub()">确定</button>
+            <button type="button" class="btn btn-info" onclick="related()">关联</button>
             <button type="button" class="btn btn-info" onclick="back()">返回</button>
         </div>
     </div>
@@ -68,12 +67,9 @@
 <script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
 <script src="../../js/iframeTools.js" type="text/javascript"></script>
 <script src="../../js/common.js"></script>
+<script src="../../js/select2.min.js"></script>
 <script src="Manage.js" type="text/javascript"></script>
 <script>
-    $(function () {
-        var pkTeacher = art.dialog.data('pkTeacher');
-        $("#pkTeacher").val(pkTeacher);
-        getTeacher(pkTeacher);
-    });
+    $('select').select2();
 </script>
 </html>
