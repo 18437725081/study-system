@@ -24,7 +24,7 @@ function loadTeacher() {
 
 //跳转新增教师页面
 function add() {
-    $.dialog.open('addTeacher.html', {
+    $.dialog.open('teacherAdd.html', {
         id: "addTeacher",
         title: "新增教师",
         lock: true,
@@ -40,7 +40,7 @@ function modify() {
     if (selectedTr !== null) {
         var pkTeacher = selectedTr.childNodes[1].innerHTML;
         art.dialog.data("pkTeacher", pkTeacher);
-        $.dialog.open('modifyTeacher.html', {
+        $.dialog.open('teacherModify.html', {
             id: "modifyTeacher",
             title: "修改教师",
             lock: true,
@@ -48,6 +48,36 @@ function modify() {
             width: '400px',
             cancelDisplay: false,
             resize: false
+        });
+    } else {
+        showDialog("错误", "请选择一条信息！")
+    }
+}
+
+//删除教师
+function remove() {
+    if (selectedTr !== null) {
+        var pkTeacher = selectedTr.childNodes[1].innerHTML;
+        $.ajax({
+            url: '../../manage/delTeacher.do',
+            data: {
+                pkTeacher: pkTeacher
+            },
+            type: 'post',
+            success: function (data) {
+                if (data.status === 10) {
+                    window.location.href = "../../login.html";
+                } else {
+                    showDialog("信息",data.msg)
+                    if (data.status === 0) {
+                        var _page = document.getElementById("page").value;
+                        paging(_page);
+                    }
+                }
+            },
+            error:function () {
+                window.location.href = "../other/error500.html";
+            }
         });
     } else {
         showDialog("错误", "请选择一条信息！")

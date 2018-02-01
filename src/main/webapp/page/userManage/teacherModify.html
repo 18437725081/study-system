@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改教师页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../../css/matrix-style2.css"/>
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../../css/common.css"/>
+</head>
+<body>
+<div id="content">
+    <div id="content-header">
+        <h1>修改教师</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="contact-box">
+            <form id="add_teacher" class="form-horizontal">
+                <input id="pkTeacher" name="pkTeacher" type="hidden" value=""/>
+                <div class="from-box">
+                    <div class="title">
+                        <label for="username" class="from-title">用户名:</label>
+                    </div>
+                    <div>
+                        <input type="text" id="username" name="username" class="from-text"/>
+                        <span style="color:red">*</span>
+                    </div>
+                </div>
+                <div class="from-box">
+                    <div class="title">
+                        <label for="name" class="from-title">姓 名:</label>
+                    </div>
+                    <div>
+                        <input type="text" id="name" name="name" class="from-text"/>
+                        <span style="color:red">*</span>
+                    </div>
+                </div>
+                <div class="from-box">
+                    <div class="title">
+                        <label for="phone" class="from-title">电 话:</label>
+                    </div>
+                    <div>
+                        <input type="text" id="phone" name="phone" class="from-text"/>
+                        <span style="color:red">*</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="btn-box">
+        <div class="msg-box">
+            <div class="msgs" id="msgs"></div>
+        </div>
+        <div class="btn-boxs">
+            <button type="button" class="btn btn-info" onclick="sub()">确定</button>
+            <button type="button" class="btn btn-info" onclick="back()">返回</button>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../../js/jquery-2.1.1.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery.uniform.js"></script>
+<script src="../../js/jquery.form.js"></script>
+<script src="../../js/matrix.js"></script>
+<script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
+<script src="../../js/iframeTools.js" type="text/javascript"></script>
+<script src="../../js/common.js"></script>
+<script src="Manage.js" type="text/javascript"></script>
+<script>
+    $(function () {
+        var pkTeacher = art.dialog.data('pkTeacher');
+        $("#pkTeacher").val(pkTeacher);
+        getTeacher(pkTeacher);
+    });
+</script>
+</html>

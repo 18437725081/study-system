@@ -53,6 +53,36 @@ function modify() {
     }
 }
 
+//删除专业
+function remove() {
+    if (selectedTr !== null) {
+        var pkMajor = selectedTr.childNodes[1].innerHTML;
+        $.ajax({
+            url: '../../manage/delMajor.do',
+            data: {
+                pkMajor: pkMajor
+            },
+            type: 'post',
+            success: function (data) {
+                if (data.status === 10) {
+                    window.location.href = "../../login.html";
+                } else {
+                    showDialog("信息",data.msg)
+                    if (data.status === 0) {
+                        var _page = document.getElementById("page").value;
+                        paging(_page);
+                    }
+                }
+            },
+            error:function () {
+                window.location.href = "../other/error500.html";
+            }
+        });
+    } else {
+        showDialog("错误", "请选择一条信息！")
+    }
+}
+
 //获取单条专业信息
 function getMajor(pkMajor) {
     $.ajax({
