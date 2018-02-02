@@ -186,7 +186,7 @@ function addMajor() {
         id: "teacher_related_major",
         title: "关联专业",
         lock: true,
-        height: '400px',
+        height: '330px',
         width: '400px',
         cancelDisplay: false,
         resize: false

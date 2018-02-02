@@ -52,7 +52,9 @@ button.aui_state_highlight:active { border-color:#1c6a9e; filter: progid:DXImage
 .aui_w, .aui_e { background-image:url(opera/s2.png); background-repeat:repeat-y; }
 .aui_w { background-position:left top; _png:opera/ie6/aui_w.png; }
 .aui_e { background-position: right bottom; _png:opera/ie6/aui_e.png; }
-.aui_icon, .aui_main { padding-top:10px; }
+.aui_icon, .aui_main {
+    /*padding-top:10px;*/
+}
 .aui_state_noTitle .aui_nw, .aui_state_noTitle .aui_ne, .aui_state_noTitle .aui_sw, .aui_state_noTitle .aui_se { width:3px; height:3px; }
 .aui_state_noTitle .aui_inner { border:1px solid #666; background:#FFF; }
 .aui_state_noTitle .aui_outer { box-shadow:none; }
