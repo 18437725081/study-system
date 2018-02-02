@@ -117,3 +117,24 @@ function msg(str) {
         $("#msgs").html("");
     }, 2000);
 }
+
+/*toast提示信息*/
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "progressBar": false,
+    "positionClass": "toast-top-center",
+    "onclick": null,
+    "showDuration": "400",
+    "hideDuration": "1000",
+    "timeOut": "3000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
+
+function toast(status,title,content) {
+    toastr[status](content, title)
+}

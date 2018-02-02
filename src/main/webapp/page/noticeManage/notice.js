@@ -9,7 +9,7 @@ function loadNotice() {
         type: 'post',
         success: function (data) {
             if (data.status === 10){
-                window.parent.location.href = "../../login.html";
+                window.location.href = "../../login.html";
             }
             document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
@@ -62,7 +62,7 @@ function getNotice(pkNotice) {
         type: 'post',
         success: function (data) {
             if (data.status === 10){
-                window.parent.location.href = "../../login.html";
+                window.location.href = "../../login.html";
             }
             $("#noticeContent").html(data.data.noticeContent);
             $("#flag").val(data.data.flag);
@@ -88,7 +88,7 @@ function sub() {
         dataType: "json",
         success: function (data) {
             if (data.status === 10){
-                window.parent.location.href = "../../login.html";
+                window.location.href = "../../login.html";
             }
             var _page = window.parent.document.getElementById("page").value;
             window.parent.paging(_page);
@@ -135,7 +135,7 @@ function paging(pageNum) {
         },
         success: function (data) {
             if (data.status === 10){
-                window.parent.location.href = "../../login.html";
+                window.location.href = "../../login.html";
             }
             document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
