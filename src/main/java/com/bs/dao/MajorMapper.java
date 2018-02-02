@@ -79,4 +79,8 @@ public interface MajorMapper {
      * @createtime 2018-01-17 15:00
      */
     List<Major> queryMajor(Major major);
+
+    List<String> getGrade();
+
+    List<Major> getMajor(String grade);
 }

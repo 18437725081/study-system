@@ -1,5 +1,6 @@
 package com.bs.dao;
 
+import com.bs.pojo.Major;
 import com.bs.pojo.Manager;
 import org.apache.ibatis.annotations.Param;
 
@@ -92,7 +93,4 @@ public interface ManagerMapper {
      */
     Manager login(@Param("username") String username, @Param("password") String password);
 
-    List<String> getGrade();
-
-    List<String> getMajor(String grade);
 }

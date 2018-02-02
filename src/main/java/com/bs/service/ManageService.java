@@ -459,12 +459,12 @@ public class ManageService {
     }
 
     public ServerResponse getGrade() {
-        List<String> gradeList = managerMapper.getGrade();
+        List<String> gradeList = majorMapper.getGrade();
         return ServerResponse.createBySuccess(gradeList);
     }
 
     public ServerResponse getMajor(String grade) {
-        List<String> majorList = managerMapper.getMajor(grade);
+        List<Major> majorList = majorMapper.getMajor(grade);
         return ServerResponse.createBySuccess(majorList);
     }
 }

@@ -19,6 +19,7 @@
     <div class="container-fluid">
         <div class="contact-box">
             <form id="teacher_related_major" class="form-horizontal">
+                <input id="pkTeacher" name="pkTeacher" type="hidden" value=""/>
                 <div class="from-box">
                     <div class="title">
                         <label for="grade" class="from-title">年  级:</label>
@@ -34,7 +35,7 @@
                         <label for="major" class="from-title">专  业:</label>
                     </div>
                     <div>
-                        <select id="major" name="major" style="height: 50px">
+                        <select id="major" name="pkMajor" style="height: 50px">
 
                         </select>
                     </div>
@@ -63,18 +64,28 @@
 <script src="../../js/common.js"></script>
 <script src="../../js/select2.min.js"></script>
 <script src="../../js/template.js"></script>
-<script src="Manage.js" type="text/javascript"></script>
+<script src="teacherManage.js" type="text/javascript"></script>
 <script>
     $(function () {
+        var pkTeacher = art.dialog.data('pkTeacher');
+        $("#pkTeacher").val(pkTeacher);
         $('select').select2();
         getGrade();
     });
 </script>
 <!--用于存放模版-->
+<!--年级模版-->
 <script id="gradeModal" type="text/html">
     <option selected>--请选择--</option>
     {{each data as i}}
     <option>{{i}}</option>
+    {{/each}}
+</script>
+<!--专业模版-->
+<script id="majorModal" type="text/html">
+    <option selected>--请选择--</option>
+    {{each data as i}}
+    <option value="{{i.pkMajor}}">{{i.major}}</option>
     {{/each}}
 </script>
 </html>

@@ -122,4 +122,15 @@
             </if>
         </where>
     </select>
+
+    <select id="getGrade" resultType="string">
+        SELECT DISTINCT grade
+        FROM bs_major
+    </select>
+
+    <select id="getMajor" parameterType="string" resultMap="BaseResultMap">
+        SELECT DISTINCT <include refid="Base_Column_List"/>
+        FROM bs_major
+        WHERE grade = #{grade}
+    </select>
 </mapper>

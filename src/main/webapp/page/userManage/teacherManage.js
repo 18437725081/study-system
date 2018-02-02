@@ -68,7 +68,7 @@ function remove() {
                 if (data.status === 10) {
                     window.location.href = "../../login.html";
                 } else {
-                    showDialog("信息", data.msg)
+                    showDialog("信息", data.msg);
                     if (data.status === 0) {
                         var _page = document.getElementById("page").value;
                         paging(_page);
@@ -181,7 +181,8 @@ function paging(pageNum) {
     });
 }
 
-function addMajor() {
+function addMajor(pkTeacher) {
+    art.dialog.data("pkTeacher", pkTeacher);
     $.dialog.open('teacher_related_major.html', {
         id: "teacher_related_major",
         title: "关联专业",
@@ -220,10 +221,14 @@ $("#grade").change(function () {
             if (data.status === 10) {
                 window.location.href = "../../login.html";
             }
-            document.getElementById('major').innerHTML = template('gradeModal', data);
+            document.getElementById('major').innerHTML = template('majorModal', data);
         },
         error: function () {
             window.location.href = "../other/error500.html";
         }
     });
 });
+
+function related() {
+    alert($("#major").val());
+}
