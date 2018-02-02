@@ -8,13 +8,16 @@ function loadNotice() {
         url: '../../notice/queryNotice.do',
         type: 'post',
         success: function (data) {
-            if (data.status === 10){
-                window.location.href = "../../login.html";
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("提示", data.msg);
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
-            document.getElementById('tab').innerHTML = template('template', data);
-            showPaging(data);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });
@@ -48,7 +51,7 @@ function modify() {
             resize: false
         });
     } else {
-        showDialog("错误", "请选择一条通知！")
+        swal("错误", "请选择一条通知！");
     }
 }
 
@@ -61,15 +64,18 @@ function getNotice(pkNotice) {
         },
         type: 'post',
         success: function (data) {
-            if (data.status === 10){
-                window.location.href = "../../login.html";
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                //swal("获取通知内容失败", data.msg);
+            } else {
+                $("#noticeContent").html(data.data.noticeContent);
+                $("#flag").val(data.data.flag);
+                var content = data.data.noticeContent;
+                $("#text-count").text(content.length);
             }
-            $("#noticeContent").html(data.data.noticeContent);
-            $("#flag").val(data.data.flag);
-            var content = data.data.noticeContent;
-            $("#text-count").text(content.length);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });
@@ -79,7 +85,7 @@ function getNotice(pkNotice) {
 function sub() {
     var noticeContent = $("#noticeContent").val();
     if (noticeContent.trim() === null || noticeContent.trim() === "") {
-        msg("通知内容不能为空！");
+        swal("提示", "通知内容不能为空！");
         return false;
     }
     $("#add_notice").ajaxSubmit({
@@ -87,14 +93,17 @@ function sub() {
         type: 'post',
         dataType: "json",
         success: function (data) {
-            if (data.status === 10){
-                window.location.href = "../../login.html";
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.toast("error", data.msg)
+            } else {
+                var _page = window.parent.document.getElementById("page").value;
+                window.parent.paging(_page);
+                window.parent.toast("success", data.msg)
             }
-            var _page = window.parent.document.getElementById("page").value;
-            window.parent.paging(_page);
-            msg(data.msg);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });
@@ -108,13 +117,16 @@ function query() {
         type: 'post',
         dataType: "json",
         success: function (data) {
-            if (data.status === 10){
+            if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                toast("error", data.msg)
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
-            document.getElementById('tab').innerHTML = template('template', data);
-            showPaging(data);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });
@@ -134,13 +146,16 @@ function paging(pageNum) {
             noticeContent: noticeContent
         },
         success: function (data) {
-            if (data.status === 10){
-                window.location.href = "../../login.html";
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                toast("error", data.msg)
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
-            document.getElementById('tab').innerHTML = template('template', data);
-            showPaging(data);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });

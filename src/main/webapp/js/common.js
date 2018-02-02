@@ -135,6 +135,6 @@ toastr.options = {
     "hideMethod": "fadeOut"
 };
 
-function toast(status,title,content) {
-    toastr[status](content, title)
+function toast(status,content) {
+    toastr[status](content)
 }

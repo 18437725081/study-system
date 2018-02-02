@@ -50,7 +50,7 @@ public class NoticeController {
 
     /**
      * @author 张靖烽
-     * @description 查询
+     * @description 查询通知
      * @createtime 2017-12-29 12:44
      */
     @RequestMapping("queryNotice.do")
@@ -88,17 +88,6 @@ public class NoticeController {
             return noticeService.addOrModifyNotice(notice, manager);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
-    }
-
-    /**
-     * @author 张靖烽
-     * @description 删除通知, 预留接口
-     * @createtime 2017-12-29 12:51
-     */
-    @RequestMapping("deleteNotice.do")
-    @ResponseBody
-    public ServerResponse deleteNotice(HttpSession session, Notice notice) {
-        return null;
     }
 
     /**

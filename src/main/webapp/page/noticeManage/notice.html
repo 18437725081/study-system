@@ -7,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
     <link rel="stylesheet" href="../../css/matrix-style2.css"/>
     <link rel="stylesheet" href="../../css/opera.css">
-    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
     <link rel="stylesheet" href="../../css/toastr.min.css">
+    <link rel="stylesheet" href="../../css/sweetalert.css">
     <link rel="stylesheet" href="../../css/common.css">
 </head>
 
@@ -76,7 +77,6 @@
                         </table>
                         <div class="paginationBox" id="paging">
                             <div class="pagination alternate">
-
                             </div>
                         </div>
                     </div>
@@ -91,18 +91,19 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/jquery.uniform.js"></script>
 <script src="../../js/matrix.js"></script>
-<script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
-<script src="../../js/iframeTools.js" type="text/javascript"></script>
+<script src="../../js/jquery.artDialog.js"></script>
+<script src="../../js/iframeTools.js"></script>
 <script src="../../js/jquery.form.js"></script>
 <script src="../../js/template.js"></script>
 <script src="../../js/toastr.min.js"></script>
+<script src="../../js/sweetalert.min.js"></script>
 <script src="../../js/common.js"></script>
-<script src="notice.js" type="text/javascript"></script>
+<script src="notice.js"></script>
 <!--存放模版-->
 <script id="template" type="text/html">
     {{if data.total == 0}}
     <tr>
-        <td colspan=2>未搜索到结果</td>
+        <td colspan=2>未找到通知</td>
     </tr>
     {{else}}
     {{each data.list as i}}
