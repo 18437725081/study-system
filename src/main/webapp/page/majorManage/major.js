@@ -9,13 +9,13 @@ function loadMajor() {
         url: '../../manage/queryMajor.do',
         type: 'post',
         success: function (data) {
-            if (data.status === 10){
-                window.location.href = "../../login.html";
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
             }
             document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });
@@ -65,16 +65,16 @@ function remove() {
             type: 'post',
             success: function (data) {
                 if (data.status === 10) {
-                    window.location.href = "../../login.html";
+                    window.parent.location.href = "../../login.html";
                 } else {
-                    showDialog("信息",data.msg)
+                    showDialog("信息", data.msg)
                     if (data.status === 0) {
                         var _page = document.getElementById("page").value;
                         paging(_page);
                     }
                 }
             },
-            error:function () {
+            error: function () {
                 window.location.href = "../other/error500.html";
             }
         });
@@ -92,13 +92,13 @@ function getMajor(pkMajor) {
         },
         type: 'post',
         success: function (data) {
-            if (data.status === 10){
-                window.location.href = "../../login.html";
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
             }
             $("#grade").val(data.data.grade);
             $("#major").val(data.data.major);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });
@@ -117,14 +117,14 @@ function sub() {
         type: 'post',
         dataType: "json",
         success: function (data) {
-            if (data.status === 10){
-                window.location.href = "../../login.html";
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
             }
             var _page = window.parent.document.getElementById("page").value;
             window.parent.paging(_page);
             msg(data.msg);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });
@@ -138,13 +138,13 @@ function query() {
         type: 'post',
         dataType: "json",
         success: function (data) {
-            if (data.status === 10){
-                window.location.href = "../../login.html";
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
             }
             document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });
@@ -163,16 +163,16 @@ function paging(pageNum) {
             pageNum: pageNum,
             pageSize: pageSize,
             grade: grade,
-            major:major
+            major: major
         },
         success: function (data) {
-            if (data.status === 10){
-                window.location.href = "../../login.html";
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
             }
             document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
         },
-        error:function () {
+        error: function () {
             window.location.href = "../other/error500.html";
         }
     });

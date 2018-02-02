@@ -62,8 +62,10 @@
                 url: 'notice/showNotice.do',
                 type: 'post',
                 success: function(data) {
-                    var res = template('template', data);
-                    document.getElementById('vertical-timeline').innerHTML = res
+                    if (data.status === 10){
+                        window.parent.location.href = "../../login.html";
+                    }
+                    document.getElementById('vertical-timeline').innerHTML = template('template', data);
                 },
                 error: function() {}
             });

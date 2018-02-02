@@ -129,8 +129,19 @@
     </select>
 
     <select id="getMajor" parameterType="string" resultMap="BaseResultMap">
-        SELECT DISTINCT <include refid="Base_Column_List"/>
+        SELECT DISTINCT
+        <include refid="Base_Column_List"/>
         FROM bs_major
         WHERE grade = #{grade}
+    </select>
+
+    <select id="selectMajorByPk" resultMap="BaseResultMap" parameterType="list">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bs_major
+        WHERE pk_major IN
+        <foreach collection="pkMajorList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 </mapper>

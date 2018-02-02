@@ -36,7 +36,7 @@ public class ManageController {
 
     /**
      * @author 张靖烽
-     * @description 用户登录
+     * @description 管理员登录
      * @createtime 2017-12-27 12:45
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
@@ -156,12 +156,12 @@ public class ManageController {
 
     /**
      * @author 张靖烽
-     * @description 获取学生信息
-     * @createtime 2018-01-05 10:18
+     * @description 查询学生
+     * @createtime 2018-01-17 15:01
      */
-    @RequestMapping("getStudentList.do")
+    @RequestMapping("queryStudent.do")
     @ResponseBody
-    public ServerResponse getStudentList(HttpSession session) {
+    public ServerResponse queryStudent(HttpSession session, Student student) {
         //判断登录
         Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
         if (manager == null) {
@@ -169,7 +169,7 @@ public class ManageController {
         }
         //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            return manageService.getStudentList();
+            return manageService.queryStudent(student);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }
@@ -318,7 +318,7 @@ public class ManageController {
 
     /**
      * @author 张靖烽
-     * @description
+     * @description 获取年级
      * @createtime 2018-02-01 22:46
      */
     @RequestMapping("getGrade.do")
@@ -338,12 +338,12 @@ public class ManageController {
 
     /**
      * @author 张靖烽
-     * @description
+     * @description 获取指定年级下专业
      * @createtime 2018-02-01 22:46
      */
     @RequestMapping("getMajor.do")
     @ResponseBody
-    public ServerResponse getMajor(HttpSession session,String grade) {
+    public ServerResponse getMajor(HttpSession session, String grade) {
         //判断登录
         Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
         if (manager == null) {
@@ -352,6 +352,28 @@ public class ManageController {
         //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.getMajor(grade);
+        }
+        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 获取教师关联的专业信息
+     * @createtime 2018-02-02 13:34
+     */
+    @RequestMapping("getTeacherMajor.do")
+    @ResponseBody
+    public ServerResponse getTeacherMajor(HttpSession session, String pkTeacher,
+                                          @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                          @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
+        //判断登录
+        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        if (manager == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
+            return manageService.getTeacherMajor(pkTeacher,pageNum,pageSize);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }
@@ -438,7 +460,6 @@ public class ManageController {
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }
 
-
     /**
      * @author 张靖烽
      * @description 重置教师密码
@@ -475,26 +496,6 @@ public class ManageController {
         //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.resetStudentPwd(pkStudent);
-        }
-        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
-    }
-
-    /**
-     * @author 张靖烽
-     * @description 查询学生
-     * @createtime 2018-01-17 15:01
-     */
-    @RequestMapping("queryStudent.do")
-    @ResponseBody
-    public ServerResponse queryStudent(HttpSession session, Student student) {
-        //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
-        if (manager == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
-        }
-        //判断权限，业务处理
-        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            return manageService.queryStudent(student);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }

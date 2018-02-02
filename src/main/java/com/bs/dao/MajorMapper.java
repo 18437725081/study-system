@@ -1,6 +1,7 @@
 package com.bs.dao;
 
 import com.bs.pojo.Major;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -83,4 +84,6 @@ public interface MajorMapper {
     List<String> getGrade();
 
     List<Major> getMajor(String grade);
+
+    List<Major> selectMajorByPk(@Param("pkMajorList")List<Integer> pkMajorList);
 }

@@ -16,40 +16,56 @@
     <div id="content-header">
         <h1>关联专业</h1>
     </div>
+
     <div class="container-fluid">
-        <div class="contact-box">
-            <form id="teacher_related_major" class="form-horizontal">
-                <input id="pkTeacher" name="pkTeacher" type="hidden" value=""/>
-                <div class="from-box">
-                    <div class="title">
-                        <label for="grade" class="from-title">年  级:</label>
-                    </div>
-                    <div>
-                        <select id="grade" name="grade">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content nopadding">
+                        <form id="rel_major">
+                            <input id="pkTeacher" name="pkTeacher" type="hidden" value=""/>
+                            <div style="margin: 20px 0">
+                                <label for="grade" class="from-title">年  级:</label>
+                                <select id="grade" name="grade">
 
-                        </select>
+                                </select>
+                                <label for="major" class="from-title">专  业:</label>
+                                <select id="major" name="pkMajor" style="height: 50px">
+
+                                </select>
+                                <button type="button" class="btn btn-info left30" onclick="related()">关联</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="from-box">
-                    <div class="title">
-                        <label for="major" class="from-title">专  业:</label>
-                    </div>
-                    <div>
-                        <select id="major" name="pkMajor" style="height: 50px">
-
-                        </select>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
-    <div class="btn-box">
-        <div class="msg-box">
-            <div class="msgs" id="msgs"></div>
-        </div>
-        <div class="btn-boxs">
-            <button type="button" class="btn btn-info" onclick="related()">关联</button>
-            <button type="button" class="btn btn-info" onclick="back()">返回</button>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th width="30%">年级</th>
+                                <th width="50%">专业</th>
+                                <th width="20%">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tab">
+                            </tbody>
+                        </table>
+                        <div class="paginationBox" id="paging">
+                            <div class="pagination alternate">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -71,6 +87,7 @@
         $("#pkTeacher").val(pkTeacher);
         $('select').select2();
         getGrade();
+        getTeacherMajor(pkTeacher);
     });
 </script>
 <!--用于存放模版-->
@@ -87,5 +104,20 @@
     {{each data as i}}
     <option value="{{i.pkMajor}}">{{i.major}}</option>
     {{/each}}
+</script>
+<script id="majorTable" type="text/html">
+    {{if data.total == 0}}
+    <tr>
+        <td colspan=3>该教师未分配专业</td>
+    </tr>
+    {{else}}
+    {{each data.list as i}}
+    <tr>
+        <td>{{i.grade}}</td>
+        <td>{{i.major}}</td>
+        <td><button type="button" class="btn btn-danger" onclick="delete('{{i.pkMajor}}')">删除</button></td>
+    </tr>
+    {{/each}}
+    {{/if}}
 </script>
 </html>

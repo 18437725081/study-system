@@ -11,7 +11,7 @@ function loadTeacher() {
         type: 'post',
         success: function (data) {
             if (data.status === 10) {
-                window.location.href = "../../login.html";
+                window.parent.location.href = "../../login.html";
             }
             document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
@@ -66,7 +66,7 @@ function remove() {
             type: 'post',
             success: function (data) {
                 if (data.status === 10) {
-                    window.location.href = "../../login.html";
+                    window.parent.location.href = "../../login.html";
                 } else {
                     showDialog("信息", data.msg);
                     if (data.status === 0) {
@@ -94,7 +94,7 @@ function getTeacher(pkTeacher) {
         type: 'post',
         success: function (data) {
             if (data.status === 10) {
-                window.location.href = "../../login.html";
+                window.parent.location.href = "../../login.html";
             }
             $("#username").val(data.data.username);
             $("#name").val(data.data.name);
@@ -121,7 +121,7 @@ function sub() {
         dataType: "json",
         success: function (data) {
             if (data.status === 10) {
-                window.location.href = "../../login.html";
+                window.parent.location.href = "../../login.html";
             }
             var _page = window.parent.document.getElementById("page").value;
             window.parent.paging(_page);
@@ -142,7 +142,7 @@ function query() {
         dataType: "json",
         success: function (data) {
             if (data.status === 10) {
-                window.location.href = "../../login.html";
+                window.parent.location.href = "../../login.html";
             }
             document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
@@ -170,7 +170,7 @@ function paging(pageNum) {
         },
         success: function (data) {
             if (data.status === 10) {
-                window.location.href = "../../login.html";
+                window.parent.location.href = "../../login.html";
             }
             document.getElementById('tab').innerHTML = template('template', data);
             showPaging(data);
@@ -181,26 +181,28 @@ function paging(pageNum) {
     });
 }
 
+//跳转至教师关联专业页面
 function addMajor(pkTeacher) {
     art.dialog.data("pkTeacher", pkTeacher);
     $.dialog.open('teacher_related_major.html', {
         id: "teacher_related_major",
         title: "关联专业",
         lock: true,
-        height: '330px',
-        width: '400px',
+        height: '550px',
+        width: '780px',
         cancelDisplay: false,
         resize: false
     });
 }
 
+//获取年级
 function getGrade() {
     $.ajax({
         url: '../../manage/getGrade.do',
         type: 'post',
         success: function (data) {
             if (data.status === 10) {
-                window.location.href = "../../login.html";
+                window.parent.location.href = "../../login.html";
             }
             document.getElementById('grade').innerHTML = template('gradeModal', data);
         },
@@ -210,6 +212,7 @@ function getGrade() {
     });
 }
 
+//获取专业
 $("#grade").change(function () {
     $.ajax({
         url: '../../manage/getMajor.do',
@@ -219,7 +222,7 @@ $("#grade").change(function () {
         },
         success: function (data) {
             if (data.status === 10) {
-                window.location.href = "../../login.html";
+                window.parent.location.href = "../../login.html";
             }
             document.getElementById('major').innerHTML = template('majorModal', data);
         },
@@ -228,6 +231,27 @@ $("#grade").change(function () {
         }
     });
 });
+
+//获取教师关联的专业
+function getTeacherMajor(pkTeacher) {
+    $.ajax({
+        url: '../../manage/getTeacherMajor.do',
+        type: 'post',
+        data: {
+            pkTeacher: pkTeacher
+        },
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.parent.location.href = "../../login.html";
+            }
+            document.getElementById('tab').innerHTML = template('majorTable', data);
+            showPaging(data);
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
 
 function related() {
     alert($("#major").val());

@@ -375,7 +375,6 @@ public class ManageService {
                 }
                 return ServerResponse.createBySuccessMessage("修改失败");
             } else {
-
                 int result = majorMapper.insert(major);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("新增成功");
@@ -458,13 +457,41 @@ public class ManageService {
         return ServerResponse.createBySuccess(studentVOList);
     }
 
+    /**
+     * @author 张靖烽
+     * @description 获取年级
+     * @createtime 2018-02-01 22:46
+     */
     public ServerResponse getGrade() {
         List<String> gradeList = majorMapper.getGrade();
         return ServerResponse.createBySuccess(gradeList);
     }
 
+    /**
+     * @author 张靖烽
+     * @description 获取指定年级下专业
+     * @createtime 2018-02-01 22:46
+     */
     public ServerResponse getMajor(String grade) {
         List<Major> majorList = majorMapper.getMajor(grade);
         return ServerResponse.createBySuccess(majorList);
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 获取教师关联的专业信息
+     * @createtime 2018-02-02 13:34
+     */
+    public ServerResponse getTeacherMajor(String pkTeacher,Integer pageNum,Integer pageSize) {
+        List<Integer> pkMajorList = relTeacherMajorMapper.selectFkMajorList(pkTeacher);
+        if (pkMajorList.size() > 0){
+            PageHelper.startPage(pageNum, pageSize);
+            List<Major> majorList = majorMapper.selectMajorByPk(pkMajorList);
+            PageInfo pageInfo = new PageInfo(majorList);
+            pageInfo.setList(majorList);
+            return ServerResponse.createBySuccess(pageInfo);
+        }
+        PageInfo pageInfo = new PageInfo(pkMajorList);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 }

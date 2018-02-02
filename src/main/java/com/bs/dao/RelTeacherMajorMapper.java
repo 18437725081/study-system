@@ -91,4 +91,6 @@ public interface RelTeacherMajorMapper {
      * @createtime 2018-01-10 14:20
      */
     int delete(@Param("pkTeacher") Integer pkTeacher, @Param("pkMajor") Integer pkMajor);
+
+    List<Integer> selectFkMajorList(String pkTeacher);
 }

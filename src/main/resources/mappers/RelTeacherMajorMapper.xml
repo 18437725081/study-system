@@ -121,4 +121,10 @@
     WHERE fk_teacher = #{pkTeacher}
     AND fk_major = #{pkMajor}
   </delete>
+
+  <select id="selectFkMajorList" parameterType="string" resultType="Integer">
+    SELECT fk_major
+    FROM bs_rel_teacher_major
+    WHERE fk_teacher = #{pkTeacher}
+  </select>
 </mapper>
