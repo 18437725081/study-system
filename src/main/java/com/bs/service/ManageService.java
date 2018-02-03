@@ -46,19 +46,19 @@ public class ManageService {
      */
     public ServerResponse login(String username, String password) {
         if (StringUtils.isAnyBlank(username, password)) {
-            return ServerResponse.createByErrorMessage("登录失败：请检查是否正确填写用户名和密码");
+            return ServerResponse.createByErrorMessage("请检查是否正确填写用户名和密码");
         }
         //检查用户名是否存在
         int resultCount = managerMapper.checkUsername(username);
         //用户名不存在
         if (resultCount <= 0) {
-            return ServerResponse.createByErrorMessage("登录失败：用户名不存在");
+            return ServerResponse.createByErrorMessage("用户名不存在");
         }
         //检查用户输入的用户名和密码是否匹配
         Manager manager = managerMapper.login(username, password);
         //用户名和密码不匹配
         if (manager == null) {
-            return ServerResponse.createByErrorMessage("登录失败：密码不正确");
+            return ServerResponse.createByErrorMessage("密码不正确");
         }
         //通过校验，将密码置为空
         manager.setPassword(StringUtils.EMPTY);
@@ -100,21 +100,21 @@ public class ManageService {
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("修改成功");
                 }
-                return ServerResponse.createBySuccessMessage("修改失败");
+                return ServerResponse.createByErrorMessage("修改失败");
             } else {
                 //将密码加密
                 teacher.setPassword(MD5.md5EncodeUtf8(teacher.getUsername()));
                 //检查用户名是否已存在
                 int result = teacherMapper.selectUsername(teacher.getUsername());
                 if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("用户名已存在");
+                    return ServerResponse.createByErrorMessage("用户名已存在");
                 }
                 teacher.setRole("1");
                 result = teacherMapper.insert(teacher);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("新增成功");
                 }
-                return ServerResponse.createBySuccessMessage("新增失败");
+                return ServerResponse.createByErrorMessage("新增失败");
             }
         }
         return ServerResponse.createByErrorMessage("参数不正确");
@@ -153,7 +153,7 @@ public class ManageService {
         if (result > 0) {
             return ServerResponse.createBySuccessMessage("删除成功");
         }
-        return ServerResponse.createBySuccessMessage("删除失败,该教师不存在或已被删除");
+        return ServerResponse.createByErrorMessage("删除失败,该教师不存在或已被删除");
     }
 
     /**
@@ -188,19 +188,19 @@ public class ManageService {
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("修改成功");
                 }
-                return ServerResponse.createBySuccessMessage("修改失败");
+                return ServerResponse.createByErrorMessage("修改失败");
             } else {
                 student.setPassword(MD5.md5EncodeUtf8(student.getPassword()));
                 //检查用户名是否已存在
                 int result = studentMapper.selectUsername(student.getUsername());
                 if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("用户名已存在");
+                    return ServerResponse.createByErrorMessage("用户名已存在");
                 }
                 result = studentMapper.insert(student);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("新增成功");
                 }
-                return ServerResponse.createBySuccessMessage("新增失败");
+                return ServerResponse.createByErrorMessage("新增失败");
             }
         }
         return ServerResponse.createByErrorMessage("参数不正确");
@@ -259,7 +259,7 @@ public class ManageService {
         if (result > 0) {
             return ServerResponse.createBySuccessMessage("删除成功");
         }
-        return ServerResponse.createBySuccessMessage("删除失败，该学生不存在或已被删除");
+        return ServerResponse.createByErrorMessage("删除失败，该学生不存在或已被删除");
     }
 
     /**
@@ -307,10 +307,11 @@ public class ManageService {
         relTeacherMajor.setCreatedBy(manager.getPkManager());
         relTeacherMajor.setLastUpdatedBy(manager.getPkManager());
         int result = relTeacherMajorMapper.insert(relTeacherMajor);
+        System.out.println(result);
         if (result > 0) {
             return ServerResponse.createBySuccessMessage("新增成功");
         }
-        return ServerResponse.createBySuccessMessage("新增失败");
+        return ServerResponse.createByErrorMessage("新增失败");
     }
 
     /**
@@ -323,10 +324,10 @@ public class ManageService {
             return ServerResponse.createByErrorMessage("参数错误");
         }
         int result = relTeacherMajorMapper.delete(pkTeacher, pkMajor);
-        if (result > 1) {
+        if (result > 0) {
             return ServerResponse.createBySuccessMessage("删除成功");
         }
-        return ServerResponse.createBySuccessMessage("删除失败");
+        return ServerResponse.createByErrorMessage("该教师未关联该班级");
     }
 
     /**
@@ -373,13 +374,13 @@ public class ManageService {
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("修改成功");
                 }
-                return ServerResponse.createBySuccessMessage("修改失败");
+                return ServerResponse.createByErrorMessage("修改失败");
             } else {
                 int result = majorMapper.insert(major);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("新增成功");
                 }
-                return ServerResponse.createBySuccessMessage("新增失败");
+                return ServerResponse.createByErrorMessage("新增失败");
             }
         }
         return ServerResponse.createByErrorMessage("参数不正确");
@@ -398,7 +399,7 @@ public class ManageService {
         if (result > 0) {
             return ServerResponse.createBySuccessMessage("删除成功");
         }
-        return ServerResponse.createBySuccessMessage("删除失败");
+        return ServerResponse.createByErrorMessage("删除失败");
     }
 
     /**
@@ -418,7 +419,7 @@ public class ManageService {
         if (result > 0) {
             return ServerResponse.createBySuccessMessage("重置密码成功");
         }
-        return ServerResponse.createBySuccessMessage("重置密码失败");
+        return ServerResponse.createByErrorMessage("重置密码失败");
     }
 
     /**
@@ -438,7 +439,7 @@ public class ManageService {
         if (result > 0) {
             return ServerResponse.createBySuccessMessage("重置密码成功");
         }
-        return ServerResponse.createBySuccessMessage("重置密码失败");
+        return ServerResponse.createByErrorMessage("重置密码失败");
     }
 
     /**

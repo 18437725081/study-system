@@ -1,6 +1,6 @@
 var selectedTr = null;
 
-//加载全部通知
+//获取专业信息数据
 function loadMajor() {
     $("#grade").val("");
     $("#major").val("");
@@ -11,9 +11,12 @@ function loadMajor() {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("错误", data.msg);
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
-            document.getElementById('tab').innerHTML = template('template', data);
-            showPaging(data);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -49,7 +52,7 @@ function modify() {
             resize: false
         });
     } else {
-        showDialog("错误", "请选择一条信息！")
+        swal("错误", "请选择一条信息！")
     }
 }
 
@@ -66,12 +69,12 @@ function remove() {
             success: function (data) {
                 if (data.status === 10) {
                     window.parent.location.href = "../../login.html";
+                } else if (data.status === 1) {
+                    toast("error", data.msg);
                 } else {
-                    showDialog("信息", data.msg)
-                    if (data.status === 0) {
-                        var _page = document.getElementById("page").value;
-                        paging(_page);
-                    }
+                    toast("success", data.msg);
+                    var _page = document.getElementById("page").value;
+                    paging(_page);
                 }
             },
             error: function () {
@@ -79,7 +82,7 @@ function remove() {
             }
         });
     } else {
-        showDialog("错误", "请选择一条信息！")
+        swal("错误", "请选择一条信息！")
     }
 }
 
@@ -94,9 +97,12 @@ function getMajor(pkMajor) {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.swal("错误", data.msg);
+            } else {
+                $("#grade").val(data.data.grade);
+                $("#major").val(data.data.major);
             }
-            $("#grade").val(data.data.grade);
-            $("#major").val(data.data.major);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -119,10 +125,13 @@ function sub() {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.toast("error", data.msg)
+            } else {
+                var _page = window.parent.document.getElementById("page").value;
+                window.parent.paging(_page);
+                window.parent.toast("success", data.msg)
             }
-            var _page = window.parent.document.getElementById("page").value;
-            window.parent.paging(_page);
-            msg(data.msg);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -140,9 +149,12 @@ function query() {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("错误", data.msg)
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
-            document.getElementById('tab').innerHTML = template('template', data);
-            showPaging(data);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -168,9 +180,12 @@ function paging(pageNum) {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("错误", data.msg)
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
-            document.getElementById('tab').innerHTML = template('template', data);
-            showPaging(data);
         },
         error: function () {
             window.location.href = "../other/error500.html";

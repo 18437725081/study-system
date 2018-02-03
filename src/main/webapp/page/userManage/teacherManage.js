@@ -12,9 +12,12 @@ function loadTeacher() {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("提示", data.msg);
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
-            document.getElementById('tab').innerHTML = template('template', data);
-            showPaging(data);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -50,7 +53,7 @@ function modify() {
             resize: false
         });
     } else {
-        showDialog("错误", "请选择一条信息！")
+        swal("提示", "请选择一条信息！")
     }
 }
 
@@ -67,12 +70,13 @@ function remove() {
             success: function (data) {
                 if (data.status === 10) {
                     window.parent.location.href = "../../login.html";
+                } else if (data.status === 1) {
+                    toast("error", data.msg);
                 } else {
-                    showDialog("信息", data.msg);
-                    if (data.status === 0) {
-                        var _page = document.getElementById("page").value;
-                        paging(_page);
-                    }
+                    toast("success", data.msg);
+                    var _page = document.getElementById("page").value;
+                    paging(_page);
+
                 }
             },
             error: function () {
@@ -80,11 +84,11 @@ function remove() {
             }
         });
     } else {
-        showDialog("错误", "请选择一条信息！")
+        swal("错误", "请选择一条信息！")
     }
 }
 
-//获取单条专业信息
+//获取单条教师信息
 function getTeacher(pkTeacher) {
     $.ajax({
         url: '../../manage/getTeacherInfo.do',
@@ -95,10 +99,13 @@ function getTeacher(pkTeacher) {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.swal("错误", data.msg);
+            } else {
+                $("#username").val(data.data.username);
+                $("#name").val(data.data.name);
+                $("#phone").val(data.data.phone);
             }
-            $("#username").val(data.data.username);
-            $("#name").val(data.data.name);
-            $("#phone").val(data.data.phone);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -122,10 +129,13 @@ function sub() {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.toast("error", data.msg)
+            } else {
+                var _page = window.parent.document.getElementById("page").value;
+                window.parent.paging(_page);
+                window.parent.toast("success", data.msg)
             }
-            var _page = window.parent.document.getElementById("page").value;
-            window.parent.paging(_page);
-            msg(data.msg);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -143,9 +153,12 @@ function query() {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("错误", data.msg)
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
-            document.getElementById('tab').innerHTML = template('template', data);
-            showPaging(data);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -171,9 +184,12 @@ function paging(pageNum) {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("错误", data.msg)
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
-            document.getElementById('tab').innerHTML = template('template', data);
-            showPaging(data);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -203,8 +219,11 @@ function getGrade() {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.swal("获取年级信息失败", data.msg)
+            } else {
+                document.getElementById('grade').innerHTML = template('gradeModal', data);
             }
-            document.getElementById('grade').innerHTML = template('gradeModal', data);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -223,8 +242,11 @@ $("#grade").change(function () {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.swal("获取专业信息失败", data.msg)
+            } else {
+                document.getElementById('major').innerHTML = template('majorModal', data);
             }
-            document.getElementById('major').innerHTML = template('majorModal', data);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -243,9 +265,12 @@ function getTeacherMajor(pkTeacher) {
         success: function (data) {
             if (data.status === 10) {
                 window.parent.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.swal("提示", data.msg);
+            } else {
+                document.getElementById('tab').innerHTML = template('majorTable', data);
+                showPaging(data);
             }
-            document.getElementById('tab').innerHTML = template('majorTable', data);
-            showPaging(data);
         },
         error: function () {
             window.location.href = "../other/error500.html";
@@ -253,6 +278,50 @@ function getTeacherMajor(pkTeacher) {
     });
 }
 
+//关联教师和专业
 function related() {
-    alert($("#major").val());
+    $("#rel_major").ajaxSubmit({
+        url: '../../manage/addRelTeacherMajor.do',
+        type: 'post',
+        dataType: "json",
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.toast("error", data.msg);
+            } else {
+                window.parent.toast("success", data.msg);
+                getTeacherMajor($("#pkTeacher").val());
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+//删除教师关联的班级
+function del(pkMajor) {
+    var pkTeacher = $("#pkTeacher").val();
+    $.ajax({
+        url: '../../manage/delRelTeacherMajor.do',
+        type: 'post',
+        data: {
+            pkMajor: pkMajor,
+            pkTeacher: pkTeacher
+        },
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.toast("error", data.msg);
+            } else {
+                window.parent.toast("success", data.msg);
+                getTeacherMajor(pkTeacher);
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
 }

@@ -51,7 +51,7 @@ function modify() {
             resize: false
         });
     } else {
-        swal("错误", "请选择一条通知！");
+        swal("提示", "请选择一条通知！");
     }
 }
 
@@ -67,7 +67,7 @@ function getNotice(pkNotice) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                //swal("获取通知内容失败", data.msg);
+                window.parent.swal("错误",data.msg);
             } else {
                 $("#noticeContent").html(data.data.noticeContent);
                 $("#flag").val(data.data.flag);
@@ -120,7 +120,7 @@ function query() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                toast("error", data.msg)
+                swal("错误", data.msg)
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -149,7 +149,7 @@ function paging(pageNum) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                toast("error", data.msg)
+                swal("错误", data.msg)
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);

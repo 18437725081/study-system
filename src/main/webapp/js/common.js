@@ -118,23 +118,22 @@ function msg(str) {
     }, 2000);
 }
 
-/*toast提示信息*/
-toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "progressBar": false,
-    "positionClass": "toast-top-center",
-    "onclick": null,
-    "showDuration": "400",
-    "hideDuration": "1000",
-    "timeOut": "3000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-};
-
 function toast(status,content) {
-    toastr[status](content)
+    /*toast提示信息*/
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "progressBar": false,
+        "positionClass": "toast-bottom-right",
+        "onclick": null,
+        "showDuration": "400",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+    toastr[status](content);
 }
