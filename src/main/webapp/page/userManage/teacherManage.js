@@ -280,6 +280,11 @@ function getTeacherMajor(pkTeacher) {
 
 //关联教师和专业
 function related() {
+    var major = $("#major").val(),
+        pkTeacher = $("#pkTeacher").val();
+    if (isNull(major) || isNull(pkTeacher)){
+        window.parent.swal("提示","请选择年级和专业");
+    }
     $("#rel_major").ajaxSubmit({
         url: '../../manage/addRelTeacherMajor.do',
         type: 'post',

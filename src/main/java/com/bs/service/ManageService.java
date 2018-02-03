@@ -299,7 +299,7 @@ public class ManageService {
      */
     public ServerResponse addRelTeacherMajor(Integer pkTeacher, Integer pkMajor, Manager manager) {
         if (pkTeacher == null || pkMajor == null) {
-            return ServerResponse.createByErrorMessage("参数错误");
+            return ServerResponse.createByErrorMessage("请选择年级和专业！");
         }
         RelTeacherMajor relTeacherMajor = new RelTeacherMajor();
         relTeacherMajor.setFkTeacher(pkTeacher);
