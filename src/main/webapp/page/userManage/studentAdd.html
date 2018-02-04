@@ -2,9 +2,116 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>新增学生页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../../css/matrix-style2.css"/>
+    <link rel="stylesheet" href="../../css/select2.min.css"/>
+    <link rel="stylesheet" href="../../css/common.css"/>
 </head>
 <body>
-
+<div id="content">
+    <div id="content-header">
+        <h1>新增学生</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="contact-box">
+            <form id="add_student" class="form-horizontal">
+                <div class="from-box">
+                    <div class="title">
+                        <label for="username" class="from-title">用户名:</label>
+                    </div>
+                    <div>
+                        <input type="text" id="username" name="username" class="from-text"/>
+                        <span style="color:red">*</span>
+                    </div>
+                </div>
+                <div class="from-box">
+                    <div class="title">
+                        <label for="name" class="from-title">姓 名:</label>
+                    </div>
+                    <div>
+                        <input type="text" id="name" name="name" class="from-text"/>
+                        <span style="color:red">*</span>
+                    </div>
+                </div>
+                <div class="from-box">
+                    <div class="title">
+                        <label for="studentId" class="from-title">学 号:</label>
+                    </div>
+                    <div>
+                        <input type="text" id="studentId" name="studentId" class="from-text"/>
+                        <span style="color:red">*</span>
+                    </div>
+                </div>
+                <div class="from-box">
+                    <div class="title">
+                        <label for="grade" class="from-title">年  级:</label>
+                    </div>
+                    <div>
+                        <select id="grade" name="grade">
+                            <option selected>--请选择--</option>
+                        </select>
+                        <span style="color:red">*</span>
+                    </div>
+                </div>
+                <div class="from-box">
+                    <div class="title">
+                        <label for="major" class="from-title">专  业:</label>
+                    </div>
+                    <div>
+                        <select id="major" name="pkMajor" style="height: 50px">
+                            <option selected>--请选择--</option>
+                        </select>
+                        <span style="color:red">*</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="btn-box">
+        <div class="msg-box">
+            <div class="msgs" id="msgs"></div>
+        </div>
+        <div class="btn-boxs">
+            <button type="button" class="btn btn-info" onclick="sub()">确定</button>
+            <button type="button" class="btn btn-info" onclick="back()">返回</button>
+        </div>
+    </div>
+</div>
 </body>
+<script src="../../js/jquery-2.1.1.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery.uniform.js"></script>
+<script src="../../js/jquery.form.js"></script>
+<script src="../../js/matrix.js"></script>
+<script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
+<script src="../../js/iframeTools.js" type="text/javascript"></script>
+<script src="../../js/select2.min.js"></script>
+<script src="../../js/template.js"></script>
+<script src="../../js/common.js"></script>
+<script src="studentManage.js" type="text/javascript"></script>
+<script>
+    $(function () {
+        $('select').select2();
+        getGrade();
+    });
+</script>
+<!--用于存放模版-->
+<!--年级模版-->
+<script id="gradeModal" type="text/html">
+    <option selected>--请选择--</option>
+    {{each data as i}}
+    <option>{{i}}</option>
+    {{/each}}
+</script>
+<!--专业模版-->
+<script id="majorModal" type="text/html">
+    <option selected>--请选择--</option>
+    {{each data as i}}
+    <option value="{{i.pkMajor}}">{{i.major}}</option>
+    {{/each}}
+</script>
 </html>

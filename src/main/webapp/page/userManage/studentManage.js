@@ -1,6 +1,6 @@
 var selectedTr = null;
 
-//加载教师信息
+//加载学生信息
 function loadStudent() {
     $("#username").val("");
     $("#name").val("");
@@ -22,5 +22,18 @@ function loadStudent() {
         error: function () {
             window.location.href = "../other/error500.html";
         }
+    });
+}
+
+//跳转新增学生页面
+function add() {
+    $.dialog.open('studentAdd.html', {
+        id: "studentAdd",
+        title: "新增学生",
+        lock: true,
+        height: '500px',
+        width: '400px',
+        cancelDisplay: false,
+        resize: false
     });
 }
