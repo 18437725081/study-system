@@ -161,7 +161,9 @@ public class ManageController {
      */
     @RequestMapping("queryStudent.do")
     @ResponseBody
-    public ServerResponse queryStudent(HttpSession session, Student student) {
+    public ServerResponse queryStudent(HttpSession session, Student student,
+                                       @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         //判断登录
         Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
         if (manager == null) {
@@ -169,7 +171,7 @@ public class ManageController {
         }
         //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            return manageService.queryStudent(student);
+            return manageService.queryStudent(student, pageNum, pageSize);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }
@@ -373,7 +375,7 @@ public class ManageController {
         }
         //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            return manageService.getTeacherMajor(pkTeacher,pageNum,pageSize);
+            return manageService.getTeacherMajor(pkTeacher, pageNum, pageSize);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }

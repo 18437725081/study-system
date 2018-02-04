@@ -1,10 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>学生管理页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../../css/matrix-style2.css"/>
+    <link rel="stylesheet" href="../../css/toastr.min.css">
+    <link rel="stylesheet" href="../../css/sweetalert.css">
+    <link rel="stylesheet" href="../../css/select2.min.css"/>
+    <link rel="stylesheet" href="../../css/opera.css">
+    <link rel="stylesheet" href="../../css/common.css">
 </head>
+
 <body>
-学生管理页面
+<div id="myModal" class="modal hide">
+    <p class="modal-header"></p>
+    <p class="modal-body"></p>
+</div>
+<div id="content">
+    <div id="content-header">
+        <h1>学生管理</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div style="margin-top: 16px">
+                    <button type="button" class="btn btn-info" onclick="queryOpen()"><i class="icon-search"></i> 查询
+                    </button>
+                    <button type="button" class="btn btn-info" onclick="add()"><i class="icon-plus"></i> 新增
+                    </button>
+                    <button type="button" class="btn btn-info" onclick="modify()"><i class="icon-edit"></i> 修改</button>
+                    <button type="button" class="btn btn-info" onclick="remove()"><i class="icon-remove"></i> 删除
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="queryBox" style="display:none;">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content nopadding">
+                        <form id="query">
+                            <div style="margin: 20px">
+                                <div>
+                                    <label for="name">姓  名：</label>
+                                    <input type="text" class="inputText" id="name" name="name"/>
+                                    <label for="studentId">学  号：</label>
+                                    <input type="text" class="inputText" id="studentId" name="studentId"/>
+                                    <label for="username">用户名：</label>
+                                    <input type="text" class="inputText" id="username" name="username"/>
+                                </div>
+                                <div style="margin-top: 5px">
+                                    <label for="grade">年  级：</label>
+                                    <select id="grade" name="grade">
+                                        <option selected>--请选择--</option>
+                                    </select>
+                                    <label for="major">专  业：</label>
+                                    <select id="major" name="pkMajor">
+                                        <option selected>--请选择--</option>
+                                    </select>
+                                    <button type="button" class="btn btn-info left80" onclick="query()">查询</button>
+                                    <button type="button" class="btn btn-info left50" onclick="loadTeacher()">显示全部</button>
+                                </div>
+
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
+                        <h5>学生管理</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th width="20%">学号</th>
+                                <th width="20%">姓名</th>
+                                <th width="20%">年级</th>
+                                <th width="20%">专业</th>
+                                <th width="20%">用户名</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tab">
+                            </tbody>
+                        </table>
+                        <div class="paginationBox" id="paging">
+                            <div class="pagination alternate">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="page" name="page">
 </body>
+<script src="http://www.jq22.com/jquery/jquery-1.7.1.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery.uniform.js"></script>
+<script src="../../js/matrix.js"></script>
+<script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
+<script src="../../js/iframeTools.js" type="text/javascript"></script>
+<script src="../../js/jquery.form.js"></script>
+<script src="../../js/template.js"></script>
+<script src="../../js/toastr.min.js"></script>
+<script src="../../js/sweetalert.min.js"></script>
+<script src="../../js/select2.min.js"></script>
+<script src="../../js/common.js"></script>
+<script src="studentManage.js" type="text/javascript"></script>
+<!--用于存放模版-->
+<!--年级模版-->
+<script id="gradeModal" type="text/html">
+    <option selected>--请选择--</option>
+    {{each data as i}}
+    <option>{{i}}</option>
+    {{/each}}
+</script>
+<!--专业模版-->
+<script id="majorModal" type="text/html">
+    <option selected>--请选择--</option>
+    {{each data as i}}
+    <option value="{{i.pkMajor}}">{{i.major}}</option>
+    {{/each}}
+</script>
+<script id="template" type="text/html">
+    {{if data.total == 0}}
+    <tr>
+        <td colspan=5>未找到数据</td>
+    </tr>
+    {{else}}
+    {{each data.list as i}}
+    <tr>
+        <td style="display: none">{{i.pkStudent}}</td>
+        <td>{{i.studentId}}</td>
+        <td>{{i.name}}</td>
+        <td>{{i.grade}}</td>
+        <td>{{i.major}}</td>
+        <td>{{i.username}}</td>
+    </tr>
+    {{/each}}
+    {{/if}}
+</script>
+<script>
+    $(function () {
+        $('select').select2();
+        loadStudent();
+        getGrade();
+    });
+</script>
 </html>

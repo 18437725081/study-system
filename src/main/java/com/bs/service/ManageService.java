@@ -158,23 +158,6 @@ public class ManageService {
 
     /**
      * @author 张靖烽
-     * @description 获取学生信息
-     * @createtime 2018-01-09 14:16
-     */
-    public ServerResponse getStudentList() {
-        List<Student> list = studentMapper.selectAllStudent();
-
-        List<StudentVO> studentVOList = Lists.newArrayList();
-        //将密码,找回密码问题、答案置为空
-        for (Student s : list) {
-            StudentVO studentVO = setStudentVO(s);
-            studentVOList.add(studentVO);
-        }
-        return ServerResponse.createBySuccess(studentVOList);
-    }
-
-    /**
-     * @author 张靖烽
      * @description 新增或修改学生信息
      * @createtime 2018-01-09 20:35
      */
@@ -447,7 +430,8 @@ public class ManageService {
      * @description 查询学生
      * @createtime 2018-01-17 15:01
      */
-    public ServerResponse queryStudent(Student student) {
+    public ServerResponse queryStudent(Student student,Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         List<Student> list =  studentMapper.queryStudent(student);
         List<StudentVO> studentVOList = Lists.newArrayList();
         //将密码,找回密码问题、答案置为空
@@ -455,7 +439,9 @@ public class ManageService {
             StudentVO studentVO = setStudentVO(s);
             studentVOList.add(studentVO);
         }
-        return ServerResponse.createBySuccess(studentVOList);
+        PageInfo pageInfo = new PageInfo(list);
+        pageInfo.setList(studentVOList);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**

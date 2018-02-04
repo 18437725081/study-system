@@ -137,3 +137,46 @@ function toast(status,content) {
     };
     toastr[status](content);
 }
+
+//获取年级
+function getGrade() {
+    $.ajax({
+        url: '../../manage/getGrade.do',
+        type: 'post',
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.swal("获取年级信息失败", data.msg)
+            } else {
+                document.getElementById('grade').innerHTML = template('gradeModal', data);
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+//获取专业
+$("#grade").change(function () {
+    $.ajax({
+        url: '../../manage/getMajor.do',
+        type: 'post',
+        data: {
+            grade: $("#grade").val()
+        },
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                window.parent.swal("获取专业信息失败", data.msg)
+            } else {
+                document.getElementById('major').innerHTML = template('majorModal', data);
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+});
