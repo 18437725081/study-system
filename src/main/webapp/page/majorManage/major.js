@@ -115,7 +115,7 @@ function sub() {
     var major = $("#major").val();
     var grade = $("#grade").val();
     if (isNull(major) || isNull(grade)) {
-        msg("年级或专业不能为空");
+        window.parent.swal("提示","参数不能为空");
         return false;
     }
     $("#add_Major").ajaxSubmit({

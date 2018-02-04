@@ -119,7 +119,7 @@ function sub() {
         name = $("#name").val(),
         phone = $("#phone").val();
     if (isNull(username) || isNull(name) || isNull(phone)) {
-        msg("参数不能为空");
+        window.parent.swal("提示","参数不能为空");
         return false;
     }
     $("#add_teacher").ajaxSubmit({

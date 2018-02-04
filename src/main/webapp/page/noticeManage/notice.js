@@ -85,7 +85,7 @@ function getNotice(pkNotice) {
 function sub() {
     var noticeContent = $("#noticeContent").val();
     if (noticeContent.trim() === null || noticeContent.trim() === "") {
-        swal("提示", "通知内容不能为空！");
+        window.parent.swal("提示", "通知内容不能为空！");
         return false;
     }
     $("#add_notice").ajaxSubmit({
