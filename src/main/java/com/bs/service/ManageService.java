@@ -1,5 +1,6 @@
 package com.bs.service;
 
+import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
 import com.bs.dao.*;
 import com.bs.pojo.*;
@@ -103,12 +104,12 @@ public class ManageService {
                 return ServerResponse.createByErrorMessage("修改失败");
             } else {
                 //将密码加密
-                teacher.setPassword(MD5.md5EncodeUtf8(teacher.getUsername()));
                 //检查用户名是否已存在
                 int result = teacherMapper.selectUsername(teacher.getUsername());
                 if (result > 0) {
                     return ServerResponse.createByErrorMessage("用户名已存在");
                 }
+                teacher.setPassword(MD5.md5EncodeUtf8(teacher.getUsername()));
                 teacher.setRole("1");
                 result = teacherMapper.insert(teacher);
                 if (result > 0) {
@@ -173,12 +174,13 @@ public class ManageService {
                 }
                 return ServerResponse.createByErrorMessage("修改失败");
             } else {
-                student.setPassword(MD5.md5EncodeUtf8(student.getPassword()));
                 //检查用户名是否已存在
                 int result = studentMapper.selectUsername(student.getUsername());
                 if (result > 0) {
                     return ServerResponse.createByErrorMessage("用户名已存在");
                 }
+                student.setPassword(MD5.md5EncodeUtf8(student.getUsername()));
+                student.setRole(Constant.Role.ROLE_STUDENT);
                 result = studentMapper.insert(student);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("新增成功");
@@ -203,7 +205,8 @@ public class ManageService {
             student.setPassword(StringUtils.EMPTY);
             student.setQuestion(StringUtils.EMPTY);
             student.setAnswer(StringUtils.EMPTY);
-            return ServerResponse.createBySuccess(student);
+            StudentVO studentVO = this.setStudentVO(student);
+            return ServerResponse.createBySuccess(studentVO);
         }
         return ServerResponse.createByErrorMessage("学生不存在或已被删除");
     }
