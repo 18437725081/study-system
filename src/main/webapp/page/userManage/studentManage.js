@@ -76,35 +76,9 @@ function getStudent(pkStudent) {
                 $("#studentId").val(data.data.studentId);
                 var grade = $("#grade").select2();
                 grade.val(data.data.grade).trigger("change");
-                tt(data.data.grade, data.data.major);
-                var major = $("#major").select2();
-                major.val(data.data.major).trigger("change");
-            }
-        },
-        error: function () {
-            window.location.href = "../other/error500.html";
-        }
-    });
-}
-
-function tt(grade, major1) {
-
-    $.ajax({
-        url: '../../manage/getMajor.do',
-        type: 'post',
-        data: {
-            grade: grade
-        },
-        success: function (data) {
-            if (data.status === 10) {
-                window.parent.location.href = "../../login.html";
-            } else if (data.status === 1) {
-                window.parent.swal("获取专业信息失败", data.msg)
-            } else {
-                $("#major").empty();
-                document.getElementById('major').innerHTML = template('majorModal', data);
-                var major = $("#major").select2();
-                major.val(major1).trigger("change");
+                $("#majorValue").val(data.data.major);
+                // var major = $("#major").select2();
+                // major.val(data.data.major).trigger("change");
             }
         },
         error: function () {

@@ -27,11 +27,11 @@
                             <div style="margin: 20px 0">
                                 <label for="grade" class="from-title">年  级:</label>
                                 <select id="grade" name="grade">
-                                    <option selected>--请选择--</option>
+                                    <option selected value="">--请选择--</option>
                                 </select>
                                 <label for="major" class="from-title">专  业:</label>
                                 <select id="major" name="pkMajor" style="height: 50px">
-                                    <option selected>--请选择--</option>
+                                    <option selected value="">--请选择--</option>
                                 </select>
                                 <button type="button" class="btn btn-info left30" onclick="related()">关联</button>
                             </div>
@@ -93,14 +93,14 @@
 <!--用于存放模版-->
 <!--年级模版-->
 <script id="gradeModal" type="text/html">
-    <option selected>--请选择--</option>
+    <option selected value="">--请选择--</option>
     {{each data as i}}
     <option>{{i}}</option>
     {{/each}}
 </script>
 <!--专业模版-->
 <script id="majorModal" type="text/html">
-    <option selected>--请选择--</option>
+    <option selected value="">--请选择--</option>
     {{each data as i}}
     <option value="{{i.pkMajor}}">{{i.major}}</option>
     {{/each}}

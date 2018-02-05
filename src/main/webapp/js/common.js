@@ -173,6 +173,17 @@ $("#grade").change(function () {
                 window.parent.swal("获取专业信息失败", data.msg)
             } else {
                 document.getElementById('major').innerHTML = template('majorModal', data);
+                var m = $("#majorValue").val();
+                if (!isNull(m)){
+                    var n;
+                    for (var i = 0;i<data.data.length;i++){
+                        if (data.data[i].major === m ){
+                            n = i+1;
+                        }
+                    }
+                    var major = $("#major").select2();
+                    major.val(n).trigger("change");
+                }
             }
         },
         error: function () {

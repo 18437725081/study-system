@@ -241,6 +241,7 @@ function related() {
         pkTeacher = $("#pkTeacher").val();
     if (isNull(major) || isNull(pkTeacher)){
         window.parent.swal("提示","请选择年级和专业");
+        return;
     }
     $("#rel_major").ajaxSubmit({
         url: '../../manage/addRelTeacherMajor.do',
