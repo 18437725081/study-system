@@ -66,17 +66,6 @@ function showPaging(data) {
     $("#page").val(pageNum);
 }
 
-//提示信息
-function showDialog(title, msg) {
-    var _myModal = $("#myModal");
-    _myModal.find(".modal-header").html(title);
-    _myModal.attr('class', 'modal');
-    _myModal.find(".modal-body").html(msg);
-    setTimeout(function () {
-        _myModal.attr('class', 'modal hide');
-    }, 2000);
-}
-
 //表格绑定点击背景色改变
 $('#tab').on('click','tr', function() {
     this.style.backgroundColor = "#b4b4bb";
@@ -108,14 +97,6 @@ function queryOpen() {
 //空判断
 function isNull(val) {
     return val === null || val === "" || val === undefined;
-}
-
-//消息提示
-function msg(str) {
-    $("#msgs").html(str);
-    setTimeout(function () {
-        $("#msgs").html("");
-    }, 2000);
 }
 
 function toast(status,content) {
@@ -175,14 +156,7 @@ $("#grade").change(function () {
                 document.getElementById('major').innerHTML = template('majorModal', data);
                 var m = $("#majorValue").val();
                 if (!isNull(m)){
-                    var n;
-                    for (var i = 0;i<data.data.length;i++){
-                        if (data.data[i].major === m ){
-                            n = i+1;
-                        }
-                    }
-                    var major = $("#major").select2();
-                    major.val(n).trigger("change");
+                    $("#major").select2().val(m).trigger("change");
                 }
             }
         },

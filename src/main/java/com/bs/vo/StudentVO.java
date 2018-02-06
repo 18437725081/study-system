@@ -17,6 +17,8 @@ public class StudentVO {
     private String name;
     /** 学号 */
     private String studentId;
+    /** 专业主键 */
+    private String pkMajor;
     /** 专业 */
     private String major;
     /** 年级 */
@@ -33,6 +35,7 @@ public class StudentVO {
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", studentId='" + studentId + '\'' +
+                ", pkMajor='" + pkMajor + '\'' +
                 ", major='" + major + '\'' +
                 ", grade='" + grade + '\'' +
                 ", createdTime=" + createdTime +
@@ -70,6 +73,14 @@ public class StudentVO {
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;
+    }
+
+    public String getPkMajor() {
+        return pkMajor;
+    }
+
+    public void setPkMajor(String pkMajor) {
+        this.pkMajor = pkMajor;
     }
 
     public String getMajor() {

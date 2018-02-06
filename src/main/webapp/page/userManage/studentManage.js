@@ -4,7 +4,11 @@ var selectedTr = null;
 function loadStudent() {
     $("#username").val("");
     $("#name").val("");
-    $("#phone").val("");
+    $("#studentId").val("");
+    var grade = $("#grade").select2();
+    grade.val(1).trigger("change");
+    var major = $("#major").select2();
+    major.val(1).trigger("change");
     selectedTr = null;
     $.ajax({
         url: '../../manage/queryStudent.do',
@@ -57,6 +61,37 @@ function modify() {
     }
 }
 
+//删除教师
+function remove() {
+    if (selectedTr !== null) {
+        var pkStudent = selectedTr.childNodes[1].innerHTML;
+        $.ajax({
+            url: '../../manage/delStudent.do',
+            data: {
+                pkStudent: pkStudent
+            },
+            type: 'post',
+            success: function (data) {
+                if (data.status === 10) {
+                    window.parent.location.href = "../../login.html";
+                } else if (data.status === 1) {
+                    toast("error", data.msg);
+                } else {
+                    toast("success", data.msg);
+                    var _page = document.getElementById("page").value;
+                    paging(_page);
+
+                }
+            },
+            error: function () {
+                window.location.href = "../other/error500.html";
+            }
+        });
+    } else {
+        swal("错误", "请选择一条信息！")
+    }
+}
+
 //获取单条学生信息
 function getStudent(pkStudent) {
     $.ajax({
@@ -74,11 +109,8 @@ function getStudent(pkStudent) {
                 $("#username").val(data.data.username);
                 $("#name").val(data.data.name);
                 $("#studentId").val(data.data.studentId);
-                var grade = $("#grade").select2();
-                grade.val(data.data.grade).trigger("change");
-                $("#majorValue").val(data.data.major);
-                // var major = $("#major").select2();
-                // major.val(data.data.major).trigger("change");
+                $("#grade").select2().val(data.data.grade).trigger("change");
+                $("#majorValue").val(data.data.pkMajor);
             }
         },
         error: function () {
@@ -110,6 +142,29 @@ function sub() {
                 var _page = window.parent.document.getElementById("page").value;
                 window.parent.paging(_page);
                 window.parent.toast("success", data.msg)
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+//查询
+function query() {
+    selectedTr = null;
+    $("#query").ajaxSubmit({
+        url: '../../manage/queryStudent.do',
+        type: 'post',
+        dataType: "json",
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("错误", data.msg)
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
         },
         error: function () {

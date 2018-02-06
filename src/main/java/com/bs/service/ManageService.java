@@ -227,6 +227,7 @@ public class ManageService {
             studentVO.setMajor(major.getMajor());
             studentVO.setGrade(major.getGrade());
         }
+        studentVO.setPkMajor(String.valueOf(student.getFkMajor()));
         studentVO.setCreatedTime(student.getCreatedTime());
         studentVO.setLastUpdatedTime(student.getLastUpdatedTime());
         return studentVO;
@@ -295,9 +296,9 @@ public class ManageService {
         int result = relTeacherMajorMapper.insert(relTeacherMajor);
         System.out.println(result);
         if (result > 0) {
-            return ServerResponse.createBySuccessMessage("新增成功");
+            return ServerResponse.createBySuccessMessage("关联成功");
         }
-        return ServerResponse.createByErrorMessage("新增失败");
+        return ServerResponse.createByErrorMessage("关联失败");
     }
 
     /**
