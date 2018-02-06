@@ -61,32 +61,46 @@ function modify() {
     }
 }
 
-//删除教师
+//删除学生
 function remove() {
     if (selectedTr !== null) {
-        var pkStudent = selectedTr.childNodes[1].innerHTML;
-        $.ajax({
-            url: '../../manage/delStudent.do',
-            data: {
-                pkStudent: pkStudent
+        swal({
+                title: "您确定要删除这条信息吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
             },
-            type: 'post',
-            success: function (data) {
-                if (data.status === 10) {
-                    window.parent.location.href = "../../login.html";
-                } else if (data.status === 1) {
-                    toast("error", data.msg);
-                } else {
-                    toast("success", data.msg);
-                    var _page = document.getElementById("page").value;
-                    paging(_page);
+            function (isConfirm) {
+                if (isConfirm) {
+                    var pkStudent = selectedTr.childNodes[1].innerHTML;
+                    $.ajax({
+                        url: '../../manage/delStudent.do',
+                        data: {
+                            pkStudent: pkStudent
+                        },
+                        type: 'post',
+                        success: function (data) {
+                            swal.close();
+                            if (data.status === 10) {
+                                window.parent.location.href = "../../login.html";
+                            } else if (data.status === 1) {
+                                toast("error", data.msg);
+                            } else {
+                                toast("success", data.msg);
+                                var _page = document.getElementById("page").value;
+                                paging(_page);
 
+                            }
+                        },
+                        error: function () {
+                            window.location.href = "../other/error500.html";
+                        }
+                    });
                 }
-            },
-            error: function () {
-                window.location.href = "../other/error500.html";
-            }
-        });
+            });
     } else {
         swal("错误", "请选择一条信息！")
     }

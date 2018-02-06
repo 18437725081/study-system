@@ -60,29 +60,43 @@ function modify() {
 //删除教师
 function remove() {
     if (selectedTr !== null) {
-        var pkTeacher = selectedTr.childNodes[1].innerHTML;
-        $.ajax({
-            url: '../../manage/delTeacher.do',
-            data: {
-                pkTeacher: pkTeacher
+        swal({
+                title: "您确定要删除这条信息吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
             },
-            type: 'post',
-            success: function (data) {
-                if (data.status === 10) {
-                    window.parent.location.href = "../../login.html";
-                } else if (data.status === 1) {
-                    toast("error", data.msg);
-                } else {
-                    toast("success", data.msg);
-                    var _page = document.getElementById("page").value;
-                    paging(_page);
+            function (isConfirm) {
+                if (isConfirm) {
+                    var pkTeacher = selectedTr.childNodes[1].innerHTML;
+                    $.ajax({
+                        url: '../../manage/delTeacher.do',
+                        data: {
+                            pkTeacher: pkTeacher
+                        },
+                        type: 'post',
+                        success: function (data) {
+                            swal.close();
+                            if (data.status === 10) {
+                                window.parent.location.href = "../../login.html";
+                            } else if (data.status === 1) {
+                                toast("error", data.msg);
+                            } else {
+                                toast("success", data.msg);
+                                var _page = document.getElementById("page").value;
+                                paging(_page);
 
+                            }
+                        },
+                        error: function () {
+                            window.location.href = "../other/error500.html";
+                        }
+                    });
                 }
-            },
-            error: function () {
-                window.location.href = "../other/error500.html";
-            }
-        });
+            });
     } else {
         swal("错误", "请选择一条信息！")
     }
@@ -119,7 +133,7 @@ function sub() {
         name = $("#name").val(),
         phone = $("#phone").val();
     if (isNull(username) || isNull(name) || isNull(phone)) {
-        window.parent.swal("提示","参数不能为空");
+        window.parent.swal("提示", "参数不能为空");
         return false;
     }
     $("#add_teacher").ajaxSubmit({
@@ -239,8 +253,8 @@ function getTeacherMajor(pkTeacher) {
 function related() {
     var major = $("#major").val(),
         pkTeacher = $("#pkTeacher").val();
-    if (isNull(major) || isNull(pkTeacher)){
-        window.parent.swal("提示","请选择年级和专业");
+    if (isNull(major) || isNull(pkTeacher)) {
+        window.parent.swal("提示", "请选择年级和专业");
         return;
     }
     $("#rel_major").ajaxSubmit({
@@ -265,26 +279,40 @@ function related() {
 
 //删除教师关联的班级
 function del(pkMajor) {
-    var pkTeacher = $("#pkTeacher").val();
-    $.ajax({
-        url: '../../manage/delRelTeacherMajor.do',
-        type: 'post',
-        data: {
-            pkMajor: pkMajor,
-            pkTeacher: pkTeacher
+    window.parent.swal({
+            title: "您确定要删除这条信息吗",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            closeOnConfirm: false
         },
-        success: function (data) {
-            if (data.status === 10) {
-                window.parent.parent.location.href = "../../login.html";
-            } else if (data.status === 1) {
-                window.parent.toast("error", data.msg);
-            } else {
-                window.parent.toast("success", data.msg);
-                getTeacherMajor(pkTeacher);
+        function (isConfirm) {
+            if (isConfirm) {
+                var pkTeacher = $("#pkTeacher").val();
+                $.ajax({
+                    url: '../../manage/delRelTeacherMajor.do',
+                    type: 'post',
+                    data: {
+                        pkMajor: pkMajor,
+                        pkTeacher: pkTeacher
+                    },
+                    success: function (data) {
+                        window.parent.swal.close();
+                        if (data.status === 10) {
+                            window.parent.parent.location.href = "../../login.html";
+                        } else if (data.status === 1) {
+                            window.parent.toast("error", data.msg);
+                        } else {
+                            window.parent.toast("success", data.msg);
+                            getTeacherMajor(pkTeacher);
+                        }
+                    },
+                    error: function () {
+                        window.location.href = "../other/error500.html";
+                    }
+                });
             }
-        },
-        error: function () {
-            window.location.href = "../other/error500.html";
-        }
-    });
+        });
 }
