@@ -23,7 +23,8 @@
 1. 数据绑定对象。
 1. Mybatis分页
 1. Bootstrap。
-1. artTemplate，artDialog，iframe...
+1. artTemplate，artDialog，iframe前端模板使用。
+1. select2、toastr、sweetalert等等前端插件的使用。
 
 ### 项目时间轴：
 ***
@@ -48,5 +49,11 @@
 
 2018.01.25  优化页面，专业管理完成。
 
-2018.02.03  教师管理，关联专业完成。引入前端插件toastr和sweetalert，优化信息提示。        
+2018.02.03  教师管理，关联专业完成。引入前端插件toastr和sweetalert，优化信息提示。
+
+2018.02.06  学生管理完成。
+***
+至此，管理员功能基本完成。还有一些细节和功能将在以后的开发中补充。
+***
+        
       
