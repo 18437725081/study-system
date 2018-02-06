@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author 张靖烽
@@ -92,18 +93,25 @@ public class ManageService {
      */
     public ServerResponse addOrModifyTeacher(Teacher teacher, Manager manager) {
         if (teacher != null) {
-            //设置创建人和更新人
-            teacher.setCreatedBy(manager.getPkManager());
             teacher.setLastUpdatedBy(manager.getPkManager());
             //根据主键是否为空决定新增还是修改
             if (teacher.getPkTeacher() != null) {
+                //通过主键获取数据库里该学生信息
+                Teacher tea = teacherMapper.selectByPrimaryKey(teacher.getPkTeacher());
+                //如果当前传入用户名与原来不一致，则查看用户名是否已存在
+                if (!Objects.equals(tea.getUsername(), teacher.getUsername())){
+                    int result = teacherMapper.selectUsername(teacher.getUsername());
+                    if (result > 0) {
+                        return ServerResponse.createByErrorMessage("用户名已存在");
+                    }
+                }
                 int result = teacherMapper.updateByPrimaryKeySelective(teacher);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("修改成功");
                 }
                 return ServerResponse.createByErrorMessage("修改失败");
             } else {
-                //将密码加密
+                teacher.setCreatedBy(manager.getPkManager());
                 //检查用户名是否已存在
                 int result = teacherMapper.selectUsername(teacher.getUsername());
                 if (result > 0) {
@@ -164,10 +172,18 @@ public class ManageService {
      */
     public ServerResponse addOrModifyStudent(Student student, Manager manager) {
         if (student != null) {
-            student.setCreatedBy(manager.getPkManager());
             student.setLastUpdatedBy(manager.getPkManager());
             //根据主键是否为空决定新增还是修改
             if (student.getPkStudent() != null) {
+                //通过主键获取数据库里该学生信息
+                Student stu = studentMapper.selectByPrimaryKey(student.getPkStudent());
+                //如果当前传入用户名与原来不一致，则查看用户名是否已存在
+                if (!Objects.equals(stu.getUsername(), student.getUsername())){
+                    int result = studentMapper.selectUsername(student.getUsername());
+                    if (result > 0) {
+                        return ServerResponse.createByErrorMessage("用户名已存在");
+                    }
+                }
                 int result = studentMapper.updateByPrimaryKeySelective(student);
                 if (result > 0) {
                     return ServerResponse.createBySuccessMessage("修改成功");
@@ -179,6 +195,7 @@ public class ManageService {
                 if (result > 0) {
                     return ServerResponse.createByErrorMessage("用户名已存在");
                 }
+                student.setCreatedBy(manager.getPkManager());
                 student.setPassword(MD5.md5EncodeUtf8(student.getUsername()));
                 student.setRole(Constant.Role.ROLE_STUDENT);
                 result = studentMapper.insert(student);
@@ -288,13 +305,16 @@ public class ManageService {
         if (pkTeacher == null || pkMajor == null) {
             return ServerResponse.createByErrorMessage("请选择年级和专业！");
         }
+        int result = relTeacherMajorMapper.selectRelCount(pkTeacher,pkMajor);
+        if (result > 0) {
+            return ServerResponse.createByErrorMessage("操作失败：教师和专业已关联");
+        }
         RelTeacherMajor relTeacherMajor = new RelTeacherMajor();
         relTeacherMajor.setFkTeacher(pkTeacher);
         relTeacherMajor.setFkMajor(pkMajor);
         relTeacherMajor.setCreatedBy(manager.getPkManager());
         relTeacherMajor.setLastUpdatedBy(manager.getPkManager());
-        int result = relTeacherMajorMapper.insert(relTeacherMajor);
-        System.out.println(result);
+        result = relTeacherMajorMapper.insert(relTeacherMajor);
         if (result > 0) {
             return ServerResponse.createBySuccessMessage("关联成功");
         }
@@ -312,7 +332,7 @@ public class ManageService {
         }
         int result = relTeacherMajorMapper.delete(pkTeacher, pkMajor);
         if (result > 0) {
-            return ServerResponse.createBySuccessMessage("删除成功");
+            return ServerResponse.createBySuccessMessage("删除关联成功");
         }
         return ServerResponse.createByErrorMessage("该教师未关联该班级");
     }
@@ -353,24 +373,28 @@ public class ManageService {
      */
     public ServerResponse addOrModifyMajor(Major major, Manager manager) {
         if (major != null) {
-            major.setCreatedBy(manager.getPkManager());
+            int result = majorMapper.selectMajorCount(major);
+            if (result > 0) {
+                return ServerResponse.createByErrorMessage("操作失败：该专业已存在");
+            }
             major.setLastUpdatedBy(manager.getPkManager());
             //根据主键是否为空决定新增还是修改
             if (major.getPkMajor() != null) {
-                int result = majorMapper.updateByPrimaryKey(major);
+                result = majorMapper.updateByPrimaryKey(major);
                 if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("修改成功");
+                    return ServerResponse.createBySuccessMessage("修改专业信息成功");
                 }
-                return ServerResponse.createByErrorMessage("修改失败");
+                return ServerResponse.createByErrorMessage("修改专业信息失败");
             } else {
-                int result = majorMapper.insert(major);
+                major.setCreatedBy(manager.getPkManager());
+                result = majorMapper.insert(major);
                 if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("新增成功");
+                    return ServerResponse.createBySuccessMessage("新增专业信息成功");
                 }
-                return ServerResponse.createByErrorMessage("新增失败");
+                return ServerResponse.createByErrorMessage("新增专业信息失败");
             }
         }
-        return ServerResponse.createByErrorMessage("参数不正确");
+        return ServerResponse.createByErrorMessage("参数不正确，请确认");
     }
 
     /**
@@ -380,13 +404,13 @@ public class ManageService {
      */
     public ServerResponse delMajor(Integer pkMajor) {
         if (pkMajor == null) {
-            return ServerResponse.createByErrorMessage("参数错误");
+            return ServerResponse.createByErrorMessage("参数不正确，请确认");
         }
         int result = majorMapper.deleteByPrimaryKey(pkMajor);
         if (result > 0) {
-            return ServerResponse.createBySuccessMessage("删除成功");
+            return ServerResponse.createBySuccessMessage("删除专业信息成功");
         }
-        return ServerResponse.createByErrorMessage("删除失败");
+        return ServerResponse.createByErrorMessage("删除专业信息失败");
     }
 
     /**
@@ -434,9 +458,9 @@ public class ManageService {
      * @description 查询学生
      * @createtime 2018-01-17 15:01
      */
-    public ServerResponse queryStudent(Student student,Integer pageNum, Integer pageSize) {
+    public ServerResponse queryStudent(Student student, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Student> list =  studentMapper.queryStudent(student);
+        List<Student> list = studentMapper.queryStudent(student);
         List<StudentVO> studentVOList = Lists.newArrayList();
         //将密码,找回密码问题、答案置为空
         for (Student s : list) {
@@ -473,9 +497,9 @@ public class ManageService {
      * @description 获取教师关联的专业信息
      * @createtime 2018-02-02 13:34
      */
-    public ServerResponse getTeacherMajor(String pkTeacher,Integer pageNum,Integer pageSize) {
+    public ServerResponse getTeacherMajor(String pkTeacher, Integer pageNum, Integer pageSize) {
         List<Integer> pkMajorList = relTeacherMajorMapper.selectFkMajorList(pkTeacher);
-        if (pkMajorList.size() > 0){
+        if (pkMajorList.size() > 0) {
             PageHelper.startPage(pageNum, pageSize);
             List<Major> majorList = majorMapper.selectMajorByPk(pkMajorList);
             PageInfo pageInfo = new PageInfo(majorList);

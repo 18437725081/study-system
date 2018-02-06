@@ -144,4 +144,11 @@
             #{item}
         </foreach>
     </select>
+
+    <select id="selectMajorCount" resultType="int" parameterType="com.bs.pojo.Major">
+        SELECT COUNT(1)
+        FROM bs_major
+        WHERE major = #{major}
+        AND grade = #{grade}
+    </select>
 </mapper>

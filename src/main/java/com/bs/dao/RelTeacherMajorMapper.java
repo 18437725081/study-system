@@ -92,5 +92,24 @@ public interface RelTeacherMajorMapper {
      */
     int delete(@Param("pkTeacher") Integer pkTeacher, @Param("pkMajor") Integer pkMajor);
 
+    /**
+     * 通过教师查询已关联的专业主键list
+     *
+     * @param pkTeacher 教师外键
+     * @return List<Integer>
+     * @author 张靖烽
+     * @createtime 2018-02-06 19:17
+     */
     List<Integer> selectFkMajorList(String pkTeacher);
+
+    /**
+     * 查询教师是否和专业关联
+     *
+     * @param pkTeacher 教师外键
+     * @param pkMajor 专业外键
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-02-06 19:18
+     */
+    int selectRelCount(@Param("pkTeacher")Integer pkTeacher, @Param("pkMajor")Integer pkMajor);
 }

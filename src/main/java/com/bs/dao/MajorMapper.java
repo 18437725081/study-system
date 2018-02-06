@@ -72,7 +72,7 @@ public interface MajorMapper {
     int updateByPrimaryKey(Major major);
 
     /**
-     * 查询专业
+     * 查询专业信息
      *
      * @param major 专业类
      * @return List<Major>
@@ -81,9 +81,42 @@ public interface MajorMapper {
      */
     List<Major> queryMajor(Major major);
 
+    /**
+     * 获取年级列表
+     *
+     * @return List<String>
+     * @author 张靖烽
+     * @createtime 2018-02-06 19:02
+     */
     List<String> getGrade();
 
+    /**
+     * 根据年级获取相应专业列表
+     *
+     * @param grade 年级
+     * @return List<Major>
+     * @author 张靖烽
+     * @createtime 2018-02-06 19:03
+     */
     List<Major> getMajor(String grade);
 
+    /**
+     * 根据专业主键查询专业信息
+     *
+     * @param pkMajorList 专业主键list
+     * @return List<Major>
+     * @author 张靖烽
+     * @createtime 2018-02-06 19:05
+     */
     List<Major> selectMajorByPk(@Param("pkMajorList")List<Integer> pkMajorList);
+
+    /**
+     * 查询是否存在该年级专业
+     *
+     * @param major 专业类
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-02-06 19:06
+     */
+    int selectMajorCount(Major major);
 }

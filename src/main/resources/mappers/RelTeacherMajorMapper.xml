@@ -127,4 +127,11 @@
     FROM bs_rel_teacher_major
     WHERE fk_teacher = #{pkTeacher}
   </select>
+
+  <select id="selectRelCount" resultType="int" parameterType="map">
+    SELECT COUNT(1)
+    FROM bs_rel_teacher_major
+    WHERE fk_teacher = #{pkTeacher}
+    AND fk_major = #{pkMajor}
+  </select>
 </mapper>
