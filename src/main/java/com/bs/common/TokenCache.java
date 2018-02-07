@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by geely
+ * @author 张靖烽
+ * @description 缓存工具类
+ * @createtime 2018-02-07 8:58
  */
 public class TokenCache {
 
@@ -17,7 +19,9 @@ public class TokenCache {
 
     public static final String TOKEN_PREFIX = "token_";
 
-    //LRU算法
+    public static final String NULL = "null";
+
+    /**LRU算法*/
     private static LoadingCache<String, String> localCache = CacheBuilder.newBuilder().initialCapacity(1000).maximumSize(10000).expireAfterAccess(12, TimeUnit.HOURS)
             .build(new CacheLoader<String, String>() {
                 //默认的数据加载实现,当调用get取值的时候,如果key没有对应的值,就调用这个方法进行加载.
@@ -32,10 +36,10 @@ public class TokenCache {
     }
 
     public static String getKey(String key) {
-        String value = null;
+        String value;
         try {
             value = localCache.get(key);
-            if ("null".equals(value)) {
+            if (NULL.equals(value)) {
                 return null;
             }
             return value;
