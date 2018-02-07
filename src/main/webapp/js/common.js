@@ -66,8 +66,9 @@ function showPaging(data) {
     $("#page").val(pageNum);
 }
 
+var tab = $('#tab');
 //表格绑定点击背景色改变
-$('#tab').on('click','tr', function() {
+tab.on('click','tr', function() {
     this.style.backgroundColor = "#b4b4bb";
     if (selectedTr !== null)
         selectedTr.style.backgroundColor = "#f9f9f9";
@@ -79,7 +80,7 @@ $('#tab').on('click','tr', function() {
 });
 
 //绑定按钮阻止冒泡
-$('#tab').on('click','.btn', function(event) {
+tab.on('click','.btn', function(event) {
     event.stopPropagation();
     event.preventDefault();
 });
@@ -165,3 +166,8 @@ $("#grade").change(function () {
         }
     });
 });
+
+/** @namespace data.msg */
+/** @namespace data.data.pages */
+/** @namespace data.data.hasNextPage */
+/** @namespace data.data.hasPreviousPage */
