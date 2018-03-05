@@ -2,6 +2,12 @@
     float: left;
     width: 80px;
 }
+
+.title120{
+    float: left;
+    width: 120px;
+}
+
 .from-box {
     padding: 10px 0 10px 0;
 }

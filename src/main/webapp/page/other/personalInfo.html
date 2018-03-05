@@ -4,95 +4,113 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css" />
-    <link rel="stylesheet" href="../../css/matrix-style2.css" />
-    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="../../css/matrix-style2.css"/>
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../../css/common.css"/>
 </head>
 <body>
-    <!-- /navbar -->
-    <div class="wrapper">
-        <div class="container">
-            <div class="row">
-                <!--/.span3-->
-                <div class="span9">
-                    <div class="content">
-                        <div class="module">
-                            <div class="module-body">
-                                <div class="profile-head media">
-                                    <a href="#" class="media-avatar pull-left">
-                                        <img src="../../img/123.ico">
-                                    </a>
-                                    <div class="media-body">
-                                        <h4>
-                                            John Donga <small>Offline</small>
-                                        </h4>
-                                        <p class="profile-brief">
-                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
-                                        </p>
-                                    </div>
+<!-- /navbar -->
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <!--/.span3-->
+            <div class="span9">
+                <div class="content">
+                    <div class="module">
+                        <div class="module-body">
+                            <div class="profile-head media">
+                                <a href="#" class="media-avatar pull-left">
+                                    <img src="../../img/123.ico">
+                                </a>
+                                <div class="media-body">
+                                    <h4>
+                                        张靖烽
+                                    </h4>
+                                    <p class="profile-brief">
+                                        个人简介,吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧啦~~~
+                                    </p>
                                 </div>
-                                <ul class="profile-tab nav nav-tabs">
-                                    <li class="active"><a href="#activity" data-toggle="tab">修改密码</a></li>
-                                    <li><a href="#friends" data-toggle="tab">设置问题</a></li>
-                                </ul>
-                                <div class="profile-tab-content tab-content">
-                                    <div class="tab-pane fade active in" id="activity">
-                                        <div class="stream-list">
-                                            <!--/.media .stream-->
-                                            <div class="media stream">
-                                                <a href="#" class="media-avatar medium pull-left">
-                                                    <img src="../../img/123.ico">
-                                                </a>
-                                                <div class="media-body">
-                                                    <div class="stream-headline">
-                                                        <h5 class="stream-author">
-                                                            John Donga <small>08 July, 2014</small>
-                                                        </h5>
-                                                        <div class="stream-text">
-                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
+                            </div>
+                            <ul class="profile-tab nav nav-tabs">
+                                <li class="active"><a href="#activity" data-toggle="tab">设置问题</a></li>
+                                <li><a href="#friends" data-toggle="tab">修改密码</a></li>
+                            </ul>
+                            <div class="profile-tab-content tab-content">
+
+                                <div class="tab-pane fade active in" id="activity">
+                                    <div class="stream-list">
+                                        <!--/.media .stream-->
+                                        <div class="media stream">
+                                            <div class="media-body">
+                                                <div class="stream-headline">
+                                                    <div class="from-box">
+                                                        <div class="title120">
+                                                            <label for="question" class="from-title">找回密码答案:</label>
+                                                        </div>
+                                                        <div><input type="text" id="question" name="question"
+                                                                    class="from-text"/>
+                                                            <span style="color:red">*</span>
                                                         </div>
                                                     </div>
+
+
+                                                    <div class="from-box">
+                                                        <div class="title120">
+                                                            <label for="answer" class="from-title">找回密码答案:</label>
+                                                        </div>
+                                                        <div><input type="text" id="answer" name="answer"
+                                                                    class="from-text"/>
+                                                            <span style="color:red">*</span>
+                                                        </div>
+                                                    </div>
+
+
                                                 </div>
                                             </div>
-                                            <!--/.media .stream-->
                                         </div>
-                                        <!--/.stream-list-->
+                                        <!--/.media .stream-->
                                     </div>
-                                    <div class="tab-pane fade" id="friends">
-                                        <div class="module-body">
-                                            <div class="row-fluid">
-                                                <div class="span12">
-                                                    <div class="media user">
-                                                        <a class="media-avatar pull-left" href="#">
-                                                            <img src="../../img/123.ico">
-                                                        </a>
-                                                        <div class="media-body">
-                                                            <h3 class="media-title">
-                                                                John Donga</h3>
-                                                            <p>
-                                                                <small class="muted">Pakistan</small></p>
-                                                        </div>
+                                    <!--/.stream-list-->
+                                </div>
+
+
+                                <div class="tab-pane fade" id="friends">
+                                    <div class="module-body">
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <div class="media user">
+                                                    <a class="media-avatar pull-left" href="#">
+                                                        <img src="../../img/123.ico">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <h3 class="media-title">
+                                                            John Donga</h3>
+                                                        <p>
+                                                            <small class="muted">Pakistan</small>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--/.row-fluid-->
                                         </div>
+                                        <!--/.row-fluid-->
                                     </div>
                                 </div>
                             </div>
-                            <!--/.module-body-->
                         </div>
-                        <!--/.module-->
+                        <!--/.module-body-->
                     </div>
-                    <!--/.content-->
+                    <!--/.module-->
                 </div>
-                <!--/.span9-->
+                <!--/.content-->
             </div>
+            <!--/.span9-->
         </div>
-        <!--/.container-->
     </div>
+    <!--/.container-->
+</div>
 </body>
 <script src="http://www.jq22.com/jquery/jquery-1.7.1.js"></script>
 <script src="../../js/jquery.ui.custom.js"></script>
