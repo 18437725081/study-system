@@ -8,6 +8,11 @@
     width: 120px;
 }
 
+.title150{
+    float: left;
+    width: 150px;
+}
+
 .from-box {
     padding: 10px 0 10px 0;
 }
@@ -123,4 +128,8 @@
 }
 .left80{
     margin-left: 80px;
+}
+
+.w280{
+    width: 280px;
 }

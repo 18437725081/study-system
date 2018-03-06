@@ -156,8 +156,8 @@ public class TeacherService {
         tea.setLastUpdatedBy(teacher.getPkTeacher());
         int result = teacherMapper.updateByPrimaryKeySelective(tea);
         if (result > 0){
-            return ServerResponse.createBySuccessMessage("设置找回密码问题答案成功");
+            return ServerResponse.createBySuccessMessage("设置成功");
         }
-        return ServerResponse.createByErrorMessage("设置找回密码问题答案失败");
+        return ServerResponse.createByErrorMessage("设置失败");
     }
 }

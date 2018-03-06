@@ -210,7 +210,7 @@
     count(1)
     FROM bs_teacher
     WHERE password = #{password}
-    AND pk_student = #{pkStudent}
+    AND pk_teacher = #{pkTeacher}
   </select>
 
     <select id="selectUsername" resultType="int" parameterType="string">

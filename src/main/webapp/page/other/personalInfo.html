@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css"/>
     <link rel="stylesheet" href="../../css/matrix-style2.css"/>
     <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../../css/toastr.min.css">
+    <link rel="stylesheet" href="../../css/sweetalert.css">
     <link rel="stylesheet" href="../../css/common.css"/>
 </head>
 <body>
@@ -36,7 +38,7 @@
                             </div>
                             <ul class="profile-tab nav nav-tabs">
                                 <li class="active"><a href="#activity" data-toggle="tab">设置问题</a></li>
-                                <li><a href="#friends" data-toggle="tab">修改密码</a></li>
+                                <li><a href="#modifyPwd" data-toggle="tab">修改密码</a></li>
                             </ul>
                             <div class="profile-tab-content tab-content">
 
@@ -47,7 +49,7 @@
                                             <div class="media-body">
                                                 <div class="stream-headline">
                                                     <div class="from-box">
-                                                        <div class="title120">
+                                                        <div class="title150">
                                                             <label for="question" class="from-title">找回密码答案:</label>
                                                         </div>
                                                         <div><input type="text" id="question" name="question"
@@ -58,7 +60,7 @@
 
 
                                                     <div class="from-box">
-                                                        <div class="title120">
+                                                        <div class="title150">
                                                             <label for="answer" class="from-title">找回密码答案:</label>
                                                         </div>
                                                         <div><input type="text" id="answer" name="answer"
@@ -67,7 +69,9 @@
                                                         </div>
                                                     </div>
 
-
+                                                    <div class="from-box">
+                                                        <button type="button" class="btn btn-info w280 left50" onclick="setQuestion()">提交</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -77,26 +81,51 @@
                                 </div>
 
 
-                                <div class="tab-pane fade" id="friends">
-                                    <div class="module-body">
-                                        <div class="row-fluid">
-                                            <div class="span12">
-                                                <div class="media user">
-                                                    <a class="media-avatar pull-left" href="#">
-                                                        <img src="../../img/123.ico">
-                                                    </a>
-                                                    <div class="media-body">
-                                                        <h3 class="media-title">
-                                                            John Donga</h3>
-                                                        <p>
-                                                            <small class="muted">Pakistan</small>
-                                                        </p>
+                                <div class="tab-pane fade" id="modifyPwd">
+                                    <div class="stream-list">
+                                        <!--/.media .stream-->
+                                        <div class="media stream">
+                                            <div class="media-body">
+                                                <div class="stream-headline">
+                                                    <div class="from-box">
+                                                        <div class="title150">
+                                                            <label for="passwordOld" class="from-title">旧密码:</label>
+                                                        </div>
+                                                        <div><input type="password" id="passwordOld" name="passwordOld"
+                                                                    class="from-text"/>
+                                                            <span style="color:red">*</span>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="from-box">
+                                                        <div class="title150">
+                                                            <label for="passwordNew" class="from-title">新密码:</label>
+                                                        </div>
+                                                        <div><input type="password" id="passwordNew" name="passwordNew"
+                                                                    class="from-text"/>
+                                                            <span style="color:red">*</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="from-box">
+                                                        <div class="title150">
+                                                            <label for="passwordNew2" class="from-title">确认新密码:</label>
+                                                        </div>
+                                                        <div><input type="password" id="passwordNew2" name="passwordNew2"
+                                                                    class="from-text"/>
+                                                            <span style="color:red">*</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="from-box">
+                                                        <button type="button" class="btn btn-info w280 left50" onclick="modifyPwd()">提交</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--/.row-fluid-->
+                                        <!--/.media .stream-->
                                     </div>
+                                    <!--/.stream-list-->
                                 </div>
                             </div>
                         </div>
@@ -112,8 +141,12 @@
     <!--/.container-->
 </div>
 </body>
-<script src="http://www.jq22.com/jquery/jquery-1.7.1.js"></script>
+<script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/jquery.ui.custom.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/matrix.js"></script>
+<script src="../../js/toastr.min.js"></script>
+<script src="../../js/sweetalert.min.js"></script>
+<script src="../../js/common.js"></script>
+<script src="other.js"></script>
 </html>
