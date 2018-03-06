@@ -3,16 +3,16 @@
 
 <head>
     <title>Matrix Admin</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
-    <link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="css/login.css" />
-    <link rel="stylesheet" href="css/sweetalert.css" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="css/login.css"/>
+    <link rel="stylesheet" href="css/sweetalert.css"/>
     <style type="text/css">
         input {
-            font-family: "Microsoft Yahei",serif;
+            font-family: "Microsoft Yahei", serif;
         }
 
         .control-label {
@@ -23,40 +23,129 @@
 </head>
 
 <body>
-    <div id="loginbox">
-        <div class="control-group normal_text">
-            <h2 style="color:#B2DFEE;font-size:28px;">南京大学金陵学院在线测试系统</h2>
-            <span style="font-size:14px;color:gray;">版权所有 &copy; 青夕：272969888@qq.com</span>
+<div id="loginbox">
+    <div class="control-group normal_text">
+        <h2 style="color:#B2DFEE;font-size:28px;">南京大学金陵学院在线测试系统</h2>
+        <span style="font-size:14px;color:gray;">版权所有 &copy; 青夕：272969888@qq.com</span>
+    </div>
+    <!--登录-->
+    <form id="loginform" class="form-vertical">
+        <div class="control-group">
+            <label for="username" class="control-label">登陆账号</label>
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lb"><i class="icon-user" style="font-size:16px;"></i></span><input
+                        type="text" id="username"/>
+                </div>
+            </div>
         </div>
-        <form id="loginform" class="form-vertical">
-            <div class="control-group">
-                <label for="username" class="control-label">登陆账号</label>
-                <div class="controls">
-                    <div class="main_input_box">
-                        <span class="add-on bg_lb"><i class="icon-user" style="font-size:16px;"></i></span><input type="text" id="username" />
-                    </div>
+        <div class="control-group2">
+            <label for="password" class="control-label">登陆密码</label>
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_ly"><i class="icon-lock" style="font-size:16px;"></i></span><input
+                        id="password" type="password"/>
                 </div>
             </div>
-            <div class="control-group2">
-                <label for="password" class="control-label">登陆密码</label>
-                <div class="controls">
-                    <div class="main_input_box">
-                        <span class="add-on bg_ly"><i class="icon-lock" style="font-size:16px;"></i></span><input id="password" type="password" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-actions">
+        </div>
+
+        <div class="form-actions">
                 <span class="pull-left"><select style="width: 100px" id="role" title="">
                     <option value="2">学生</option>
                     <option value="1">教师</option>
                     <option value="0">管理员</option>
                 </select></span>
-                <span class="pull-right"><input type="button" id="checkBtn" onclick="checkLogin()" class="btn btn-success" style="width:335px;" value=" 登&nbsp;&nbsp;&nbsp;&nbsp;录"/></span>
+            <span class="pull-right"><input type="button" id="checkBtn" onclick="checkLogin()" class="btn btn-success"
+                                            style="width:335px;" value=" 登&nbsp;&nbsp;&nbsp;&nbsp;录"/></span>
+            <span class="pull-right"><a href="#" id="to-recover">忘记密码？</a></span>
+        </div>
+    </form>
+
+    <!--获取问题-->
+    <form id="recoverform" class="form-vertical">
+        <div class="control-group">
+            <label for="name" class="control-label">输入用户名</label>
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lb"><i class="icon-user" style="font-size:16px;"></i></span><input
+                        type="text" id="name"/>
+                </div>
             </div>
-        </form>
-    </div>
+        </div>
+        <div class="form-actions">
+                <span class="pull-left"><select style="width: 100px" id="role2" title="">
+                    <option value="">--请选择--</option>
+                    <option value="2">学生</option>
+                    <option value="1">教师</option>
+                </select></span>
+            <span class="pull-right"><input type="button" id="changePwd" class="btn btn-info" onclick="getQuestion()"
+                                            style="width:335px;" value=" 提&nbsp;&nbsp;&nbsp;&nbsp;交"></span>
+            <span class="pull-right"><a href="#" id="to-login">&laquo; 返回登录</a></span>
+        </div>
+    </form>
+
+    <!--校验问题答案-->
+    <form id="checkAnswer" class="form-vertical" style="display: none">
+        <div class="control-group">
+            <label for="question" class="control-label">问题</label>
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lb"><i class="icon-user" style="font-size:16px;"></i></span><input
+                        type="text" id="question" readonly="readonly"/>
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="answer" class="control-label">答案</label>
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lb"><i class="icon-user" style="font-size:16px;"></i></span><input
+                        type="text" id="answer"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <span class="pull-left"><a href="#" class="flip-link btn btn-success"
+                                       onclick="tologin()">&laquo; 返回登录</a></span>
+            <span class="pull-right"><input type="button" class="btn btn-info" onclick="checkQuestion()"
+                                            style="width:335px;" value="提&nbsp;&nbsp;&nbsp;&nbsp;交"></span>
+        </div>
+    </form>
+
+    <!--重置密码-->
+    <form id="resetPwd" class="form-vertical" style="display: none">
+        <div class="control-group">
+            <label for="pwd" class="control-label">密码</label>
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lb"><i class="icon-user" style="font-size:16px;"></i></span><input
+                        type="text" id="pwd"/>
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="pwd2" class="control-label">确认密码</label>
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lb"><i class="icon-user" style="font-size:16px;"></i></span><input
+                        type="text" id="pwd2"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <span class="pull-left"><a href="#" class="flip-link btn btn-success"
+                                       onclick="tologin()">&laquo; 返回登录</a></span>
+            <span class="pull-right"><input type="button" class="btn btn-info" onclick="resetPwd()" style="width:335px;"
+                                            value="提&nbsp;&nbsp;&nbsp;&nbsp;交"></span>
+        </div>
+    </form>
+
+
+    <input type="hidden" id="forgetToken" name="forgetToken">
+</div>
 </body>
 <script src="js/jquery-2.1.1.min.js"></script>
 <script src="js/sweetalert.min.js"></script>
+<script src="js/common.js"></script>
 <script src="js/login.js"></script>
 </html>

@@ -70,7 +70,7 @@ public class TeacherService {
         if (StringUtils.isNotBlank(question)) {
             return ServerResponse.createBySuccess(question);
         }
-        return ServerResponse.createByErrorMessage("找回密码的问题是空的");
+        return ServerResponse.createByErrorMessage("为设置找回密码的问题");
     }
 
     /**
@@ -79,14 +79,14 @@ public class TeacherService {
      * @createtime 2018-01-12 13:40
      */
     public ServerResponse<String> checkAnswer(String username, String question, String answer) {
-        int resultCount = teacherMapper.checkAnswer(username,question,answer);
-        if(resultCount>0){
+        int resultCount = teacherMapper.checkAnswer(username, question, answer);
+        if (resultCount > 0) {
             //说明问题及问题答案是这个用户的,并且是正确的
             String forgetToken = UUID.randomUUID().toString();
-            TokenCache.setKey(TokenCache.TOKEN_PREFIX+username,forgetToken);
+            TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
             return ServerResponse.createBySuccess(forgetToken);
         }
-        return ServerResponse.createByErrorMessage("问题的答案错误");
+        return ServerResponse.createByErrorMessage("答案错误");
     }
 
     /**
@@ -95,8 +95,8 @@ public class TeacherService {
      * @createtime 2018-01-12 13:41
      */
     public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
-        if(StringUtils.isBlank(forgetToken)){
-            return ServerResponse.createByErrorMessage("参数错误，请重新尝试");
+        if (StringUtils.isBlank(forgetToken)) {
+            return ServerResponse.createByErrorMessage("请求超时");
         }
         //检查用户名是否存在
         int resultCount = teacherMapper.checkUsername(username);
@@ -104,20 +104,20 @@ public class TeacherService {
         if (resultCount <= 0) {
             return ServerResponse.createByErrorMessage("用户名不存在");
         }
-        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX+username);
-        if(StringUtils.isBlank(token)){
-            return ServerResponse.createByErrorMessage("token无效或者过期");
+        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
+        if (StringUtils.isBlank(token)) {
+            return ServerResponse.createByErrorMessage("请求超时，请重试");
         }
-        if(StringUtils.equals(forgetToken,token)){
-            String md5Password  = MD5.md5EncodeUtf8(passwordNew);
-            int rowCount = teacherMapper.updatePasswordByUsername(username,md5Password);
-            if(rowCount > 0){
-                return ServerResponse.createBySuccessMessage("修改密码成功");
+        if (StringUtils.equals(forgetToken, token)) {
+            String md5Password = MD5.md5EncodeUtf8(passwordNew);
+            int rowCount = teacherMapper.updatePasswordByUsername(username, md5Password);
+            if (rowCount > 0) {
+                return ServerResponse.createBySuccessMessage("重置密码成功");
             }
-        }else{
-            return ServerResponse.createByErrorMessage("token错误,请重新获取重置密码的token");
+        } else {
+            return ServerResponse.createByErrorMessage("请求错误");
         }
-        return ServerResponse.createByErrorMessage("修改密码失败");
+        return ServerResponse.createByErrorMessage("重置密码失败");
     }
 
     /**
@@ -127,14 +127,14 @@ public class TeacherService {
      */
     public ServerResponse<String> resetTeacherPassword(String passwordNew, String passwordOld, Teacher teacher) {
         //防止横向越权,要校验一下这个用户的旧密码,一定要指定是这个用户.因为我们会查询一个count(1),如果不指定id,那么结果就是true啦count>0;
-        int resultCount = teacherMapper.checkPassword(MD5.md5EncodeUtf8(passwordOld),teacher.getPkTeacher());
-        if(resultCount == 0){
+        int resultCount = teacherMapper.checkPassword(MD5.md5EncodeUtf8(passwordOld), teacher.getPkTeacher());
+        if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("旧密码错误");
         }
 
         teacher.setPassword(MD5.md5EncodeUtf8(passwordNew));
         int updateCount = teacherMapper.updateByPrimaryKeySelective(teacher);
-        if(updateCount > 0){
+        if (updateCount > 0) {
             return ServerResponse.createBySuccessMessage("密码更新成功");
         }
         return ServerResponse.createByErrorMessage("密码更新失败");
@@ -146,7 +146,7 @@ public class TeacherService {
      * @createtime 2018-01-12 13:42
      */
     public ServerResponse updateTeacherInformation(String question, String answer, Teacher teacher) {
-        if(StringUtils.isBlank(question) || StringUtils.isBlank(answer)){
+        if (StringUtils.isBlank(question) || StringUtils.isBlank(answer)) {
             return ServerResponse.createByErrorMessage("请填写问题和答案");
         }
         Teacher tea = new Teacher();
@@ -155,7 +155,7 @@ public class TeacherService {
         tea.setAnswer(answer);
         tea.setLastUpdatedBy(teacher.getPkTeacher());
         int result = teacherMapper.updateByPrimaryKeySelective(tea);
-        if (result > 0){
+        if (result > 0) {
             return ServerResponse.createBySuccessMessage("设置成功");
         }
         return ServerResponse.createByErrorMessage("设置失败");
