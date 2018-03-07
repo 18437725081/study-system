@@ -39,8 +39,8 @@ public class TestsController {
     @RequestMapping("queryTests.do")
     @ResponseBody
     public ServerResponse queryTests(HttpSession session, Tests tests,
-                                       @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                       @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+                                     @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                     @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         //判断登录
         Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
         if (teacher == null) {
@@ -52,6 +52,10 @@ public class TestsController {
         }
         return ServerResponse.createByErrorMessage("不是教师，无法操作");
     }
+
+
+    //查询我的试题
+    // Todo
 
 
     /**
@@ -73,4 +77,10 @@ public class TestsController {
         }
         return ServerResponse.createByErrorMessage("不是教师，无法操作");
     }
+
+    //修改试题状态
+    // Todo
+
+    //新增试题
+    // Todo
 }
