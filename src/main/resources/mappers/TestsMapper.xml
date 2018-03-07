@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.dao.TestsMapper" >
+  <resultMap id="BaseResultMap" type="com.bs.pojo.Tests" >
+    <constructor >
+      <idArg column="pk_test" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="test_type" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="test_subject" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="test_title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="test_content" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="test_answer" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="test_analyze" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="flag" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="created_by" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="last_updated_by" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="last_updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pk_test, test_type, test_subject, test_title, test_content, test_answer, test_analyze, 
+    flag, created_by, created_time, last_updated_by, last_updated_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_tests
+    where pk_test = #{pkTest,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bs_tests
+    where pk_test = #{pkTest,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bs.pojo.Tests" >
+    insert into bs_tests (pk_test, test_type, test_subject, 
+      test_title, test_content, test_answer, 
+      test_analyze, flag, created_by, 
+      created_time, last_updated_by, last_updated_time
+      )
+    values (#{pkTest,jdbcType=INTEGER}, #{testType,jdbcType=CHAR}, #{testSubject,jdbcType=VARCHAR}, 
+      #{testTitle,jdbcType=VARCHAR}, #{testContent,jdbcType=VARCHAR}, #{testAnswer,jdbcType=VARCHAR}, 
+      #{testAnalyze,jdbcType=VARCHAR}, #{flag,jdbcType=CHAR}, #{createdBy,jdbcType=INTEGER}, 
+      now(), #{lastUpdatedBy,jdbcType=INTEGER}, now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bs.pojo.Tests" >
+    insert into bs_tests
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkTest != null" >
+        pk_test,
+      </if>
+      <if test="testType != null" >
+        test_type,
+      </if>
+      <if test="testSubject != null" >
+        test_subject,
+      </if>
+      <if test="testTitle != null" >
+        test_title,
+      </if>
+      <if test="testContent != null" >
+        test_content,
+      </if>
+      <if test="testAnswer != null" >
+        test_answer,
+      </if>
+      <if test="testAnalyze != null" >
+        test_analyze,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="lastUpdatedBy != null" >
+        last_updated_by,
+      </if>
+      <if test="lastUpdatedTime != null" >
+        last_updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkTest != null" >
+        #{pkTest,jdbcType=INTEGER},
+      </if>
+      <if test="testType != null" >
+        #{testType,jdbcType=CHAR},
+      </if>
+      <if test="testSubject != null" >
+        #{testSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="testTitle != null" >
+        #{testTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="testContent != null" >
+        #{testContent,jdbcType=VARCHAR},
+      </if>
+      <if test="testAnswer != null" >
+        #{testAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="testAnalyze != null" >
+        #{testAnalyze,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=CHAR},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        now(),
+      </if>
+      <if test="lastUpdatedBy != null" >
+        #{lastUpdatedBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastUpdatedTime != null" >
+        now(),
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bs.pojo.Tests" >
+    update bs_tests
+    <set >
+      <if test="testType != null" >
+        test_type = #{testType,jdbcType=CHAR},
+      </if>
+      <if test="testSubject != null" >
+        test_subject = #{testSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="testTitle != null" >
+        test_title = #{testTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="testContent != null" >
+        test_content = #{testContent,jdbcType=VARCHAR},
+      </if>
+      <if test="testAnswer != null" >
+        test_answer = #{testAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="testAnalyze != null" >
+        test_analyze = #{testAnalyze,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+      <if test="lastUpdatedBy != null" >
+        last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastUpdatedTime != null" >
+        last_updated_time = now(),
+      </if>
+    </set>
+    where pk_test = #{pkTest,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bs.pojo.Tests" >
+    update bs_tests
+    set test_type = #{testType,jdbcType=CHAR},
+      test_subject = #{testSubject,jdbcType=VARCHAR},
+      test_title = #{testTitle,jdbcType=VARCHAR},
+      test_content = #{testContent,jdbcType=VARCHAR},
+      test_answer = #{testAnswer,jdbcType=VARCHAR},
+      test_analyze = #{testAnalyze,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=CHAR},
+      last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
+      last_updated_time = now()
+    where pk_test = #{pkTest,jdbcType=INTEGER}
+  </update>
+</mapper>

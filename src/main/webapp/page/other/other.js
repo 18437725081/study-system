@@ -2,7 +2,7 @@ function setQuestion() {
     var question = $("#question").val(),
         answer = $("#answer").val();
     if(isNull(question) || isNull(answer)){
-        swal("错误", "问题和答案不能为空");
+        swal("", "问题和答案不能为空","error");
         return;
     }
     $.ajax({
@@ -31,11 +31,11 @@ function modifyPwd() {
         passwordNew = $("#passwordNew").val(),
         passwordNew2 = $("#passwordNew2").val();
     if(isNull(passwordNew) || isNull(passwordNew2) || isNull(passwordOld)){
-        swal("错误", "密码不能为空");
+        swal("", "密码不能为空","error");
         return;
     }
     if(passwordNew !== passwordNew2){
-        swal("错误", "两次输入密码不一致");
+        swal("", "两次输入密码不一致","error");
         return false;
     }
     $.ajax({

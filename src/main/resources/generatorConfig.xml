@@ -69,7 +69,7 @@
         </javaClientGenerator>
 
 
-        <table tableName="bs_teacher" domainObjectName="Teacher" enableCountByExample="false"
+        <table tableName="bs_tests" domainObjectName="Tests" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
         <!--<table tableName="bs_rel_teacher_major" domainObjectName="RelTeacherMajor" enableCountByExample="false"-->

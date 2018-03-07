@@ -32,7 +32,7 @@ public class ManageController {
     @Autowired
     private ManageService manageService;
 
-    private static final Logger logger = LoggerFactory.getLogger(ManageController.class);
+    private static final Logger log = LoggerFactory.getLogger(ManageController.class);
 
     /**
      * @author 张靖烽
@@ -312,7 +312,7 @@ public class ManageController {
         }
         //判断权限，业务处理
         if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            logger.info(manager.getPkManager() + "执行了删除教师：" + pkTeacher + " 关联的：" + pkMajor + " 专业的操作");
+            log.info(manager.getPkManager() + "执行了删除教师：" + pkTeacher + " 关联的：" + pkMajor + " 专业的操作");
             return manageService.delRelTeacherMajor(pkTeacher, pkMajor);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无法操作");
