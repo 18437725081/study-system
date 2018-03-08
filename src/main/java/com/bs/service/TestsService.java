@@ -9,6 +9,7 @@ import com.bs.pojo.Tests;
 import com.bs.vo.TestVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +37,12 @@ public class TestsService {
     public ServerResponse queryTests(Tests tests, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Tests> list = testsMapper.queryTests(tests);
+        List<TestVO> lists = Lists.newArrayList();
+        for (Tests t :list){
+            lists.add(setTestVO(t));
+        }
         PageInfo pageInfo = new PageInfo(list);
-        pageInfo.setList(list);
+        pageInfo.setList(lists);
         return ServerResponse.createBySuccess(pageInfo);
     }
 
@@ -49,8 +54,12 @@ public class TestsService {
     public ServerResponse queryMyTests(Tests tests, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Tests> list = testsMapper.queryMyTests(tests);
+        List<TestVO> lists = Lists.newArrayList();
+        for (Tests t :list){
+            lists.add(setTestVO(t));
+        }
         PageInfo pageInfo = new PageInfo(list);
-        pageInfo.setList(list);
+        pageInfo.setList(lists);
         return ServerResponse.createBySuccess(pageInfo);
     }
 

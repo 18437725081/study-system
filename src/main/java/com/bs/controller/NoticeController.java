@@ -45,6 +45,7 @@ public class NoticeController {
         if (session.getAttribute(Constant.CURRENT_USER) == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
+        notice.setFlag("Y");
         return noticeService.queryNotice(notice, pageNum, pageSize);
     }
 

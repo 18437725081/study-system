@@ -121,7 +121,7 @@
         AND notice_content LIKE '%${noticeContent}%'
       </if>
       <if test="flag != null">
-        AND flag = #{flag}
+        AND flag = #{flag} order by last_updated_time desc
       </if>
     </where>
   </select>
