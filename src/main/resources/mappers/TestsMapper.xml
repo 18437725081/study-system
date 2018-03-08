@@ -168,4 +168,12 @@
       last_updated_time = now()
     where pk_test = #{pkTest,jdbcType=INTEGER}
   </update>
+
+  <select id="queryTests" resultMap="BaseResultMap" parameterType="com.bs.pojo.Tests">
+
+  </select>
+
+  <select id="queryMyTests" resultMap="BaseResultMap" parameterType="com.bs.pojo.Tests">
+
+  </select>
 </mapper>

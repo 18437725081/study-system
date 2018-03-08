@@ -1,6 +1,9 @@
 package com.bs.dao;
 
 import com.bs.pojo.Tests;
+
+import java.util.List;
+
 /**
  * @author 张靖烽
  * @description 试题DAO层
@@ -66,4 +69,24 @@ public interface TestsMapper {
      * @createtime 2018-03-07 19:18
      */
     int updateByPrimaryKey(Tests tests);
+
+    /**
+     * 查询试题
+     *
+     * @param tests 试题类
+     * @return Tests
+     * @author 张靖烽
+     * @createtime 2018-03-08 12:49
+     */
+    List<Tests> queryTests(Tests tests);
+
+    /**
+     * 查询我的试题
+     *
+     * @param tests 试题类
+     * @return Tests
+     * @author 张靖烽
+     * @createtime 2018-03-08 12:49
+     */
+    List<Tests> queryMyTests(Tests tests);
 }

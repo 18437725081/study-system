@@ -54,8 +54,28 @@ public class TestsController {
     }
 
 
-    //查询我的试题
-    // Todo
+    /**
+     * @author 张靖烽
+     * @description 查询我的试题
+     * @createtime 2018-03-08 12:39
+     */
+    @RequestMapping("queryMyTests.do")
+    @ResponseBody
+    public ServerResponse queryMyTests(HttpSession session, Tests tests,
+                                     @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                     @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        //判断登录
+        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_TEACHER.equals(teacher.getRole())) {
+            tests.setCreatedBy(teacher.getPkTeacher());
+            return testsService.queryMyTests(tests, pageNum, pageSize);
+        }
+        return ServerResponse.createByErrorMessage("不是教师，无法操作");
+    }
 
 
     /**
