@@ -6,7 +6,6 @@ import com.bs.pojo.Teacher;
 import com.bs.pojo.Tests;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,5 +65,51 @@ public class TestsService {
         return ServerResponse.createByErrorMessage("试题不存在或已被删除");
     }
 
+    /**
+     * @author 张靖烽
+     * @description 新增试题
+     * @createtime 2018-03-08 13:32
+     */
+    public ServerResponse addTest(Tests tests, Teacher teacher) {
+        if (tests != null){
+            tests.setCreatedBy(teacher.getPkTeacher());
+            tests.setLastUpdatedBy(teacher.getPkTeacher());
+            int result = testsMapper.insert(tests);
+            if (result > 0) {
+                return ServerResponse.createBySuccessMessage("新增成功");
+            }
+            return ServerResponse.createByErrorMessage("新增失败");
+        }
+        return ServerResponse.createByErrorMessage("参数不正确");
+    }
 
+    /**
+     * @author 张靖烽
+     * @description 修改试题状态
+     * @createtime 2018-03-08 13:38
+     */
+    public ServerResponse modifyTestFlag(Integer pkTest, String flag, Teacher teacher) {
+        if (pkTest != null && flag !=null){
+            Tests tests = new Tests();
+            tests.setPkTest(pkTest);
+            tests.setFlag(flag);
+            tests.setLastUpdatedBy(teacher.getPkTeacher());
+            int result = testsMapper.updateByPrimaryKeySelective(tests);
+            if (result > 0) {
+                return ServerResponse.createBySuccessMessage("修改成功");
+            }
+            return ServerResponse.createByErrorMessage("修改失败");
+        }
+        return ServerResponse.createByErrorMessage("参数不正确");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 查询科目列表
+     * @createtime 2018-03-08 13:42
+     */
+    public ServerResponse selectSubjectList() {
+        List<String> list = testsMapper.selectSubjectList();
+        return ServerResponse.createBySuccess(list);
+    }
 }

@@ -89,4 +89,13 @@ public interface TestsMapper {
      * @createtime 2018-03-08 12:49
      */
     List<Tests> queryMyTests(Tests tests);
+
+    /**
+     * 查询科目列表
+     *
+     * @return String
+     * @author 张靖烽
+     * @createtime 2018-03-08 13:44
+     */
+    List<String> selectSubjectList();
 }
