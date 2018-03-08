@@ -1,9 +1,12 @@
 package com.bs.service;
 
+import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
+import com.bs.dao.TeacherMapper;
 import com.bs.dao.TestsMapper;
 import com.bs.pojo.Teacher;
 import com.bs.pojo.Tests;
+import com.bs.vo.TestVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,8 @@ public class TestsService {
 
     @Autowired
     private TestsMapper testsMapper;
+    @Autowired
+    private TeacherMapper teacherMapper;
 
     /**
      * @author 张靖烽
@@ -60,7 +65,8 @@ public class TestsService {
         }
         Tests tests = testsMapper.selectByPrimaryKey(pkTest);
         if (tests != null) {
-            return ServerResponse.createBySuccess(tests);
+            TestVO testVO = setTestVO(tests);
+            return ServerResponse.createBySuccess(testVO);
         }
         return ServerResponse.createByErrorMessage("试题不存在或已被删除");
     }
@@ -71,7 +77,7 @@ public class TestsService {
      * @createtime 2018-03-08 13:32
      */
     public ServerResponse addTest(Tests tests, Teacher teacher) {
-        if (tests != null){
+        if (tests != null) {
             tests.setCreatedBy(teacher.getPkTeacher());
             tests.setLastUpdatedBy(teacher.getPkTeacher());
             int result = testsMapper.insert(tests);
@@ -89,7 +95,7 @@ public class TestsService {
      * @createtime 2018-03-08 13:38
      */
     public ServerResponse modifyTestFlag(Integer pkTest, String flag, Teacher teacher) {
-        if (pkTest != null && flag !=null){
+        if (pkTest != null && flag != null) {
             Tests tests = new Tests();
             tests.setPkTest(pkTest);
             tests.setFlag(flag);
@@ -98,7 +104,7 @@ public class TestsService {
             if (result > 0) {
                 return ServerResponse.createBySuccessMessage("修改成功");
             }
-            return ServerResponse.createByErrorMessage("修改失败");
+            return ServerResponse.createByErrorMessage("试题不存在或已被删除");
         }
         return ServerResponse.createByErrorMessage("参数不正确");
     }
@@ -111,5 +117,38 @@ public class TestsService {
     public ServerResponse selectSubjectList() {
         List<String> list = testsMapper.selectSubjectList();
         return ServerResponse.createBySuccess(list);
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 设置TestVO返回对象
+     * @createtime 2018-03-08 15:50
+     */
+    private TestVO setTestVO(Tests tests) {
+        TestVO testVO = new TestVO();
+        testVO.setPkTest(tests.getPkTest());
+        if (Constant.TestType.TEST_CHOICE.equals(tests.getTestType())) {
+            testVO.setTestType("选择题");
+        } else if (Constant.TestType.TEST_JUDGE.equals(tests.getTestType())) {
+            testVO.setTestType("判断题");
+        } else if (Constant.TestType.TEST_FILL.equals(tests.getTestType())) {
+            testVO.setTestType("填空题");
+        } else {
+            testVO.setTestType("其他");
+        }
+        testVO.setTestSubject(tests.getTestSubject());
+        testVO.setTestTitle(tests.getTestTitle());
+        testVO.setTestContent(tests.getTestContent());
+        testVO.setTestAnswer(tests.getTestAnswer());
+        testVO.setTestAnalyze(tests.getTestAnalyze());
+        if (Constant.FLAG_Y.equals(tests.getFlag())){
+            testVO.setFlag("可以使用");
+        }else {
+            testVO.setFlag("无法使用");
+        }
+        testVO.setLastUpdatedTime(tests.getLastUpdatedTime());
+        String createdBy = teacherMapper.selectTeacherName(tests.getCreatedBy());
+        testVO.setCreatedBy(createdBy);
+        return testVO;
     }
 }

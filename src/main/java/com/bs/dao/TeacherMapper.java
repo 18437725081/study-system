@@ -155,4 +155,14 @@ public interface TeacherMapper {
      * @createtime 2018-01-17 15:00
      */
     List<Teacher> queryTeacher(Teacher teacher);
+
+    /**
+     * 查询教师姓名
+     *
+     * @param pkTeacher 教师主键
+     * @return String
+     * @author 张靖烽
+     * @createtime 2018-03-08 15:36
+     */
+    String selectTeacherName(Integer pkTeacher);
 }

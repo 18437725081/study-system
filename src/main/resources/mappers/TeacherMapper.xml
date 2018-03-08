@@ -235,4 +235,10 @@
             </if>
         </where>
     </select>
+
+    <select id="selectTeacherName" parameterType="int" resultType="string">
+        SELECT b.name
+        FROM bs_teacher b
+        WHERE b.pk_teacher = #{pkTeacher}
+    </select>
 </mapper>

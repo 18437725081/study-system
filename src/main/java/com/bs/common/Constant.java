@@ -37,4 +37,30 @@ public class Constant {
          */
         String ROLE_STUDENT = "2";
     }
+
+    public interface TestType {
+        /**
+         * 选择题
+         */
+        String TEST_CHOICE = "1";
+        /**
+         * 判断题
+         */
+        String TEST_JUDGE = "2";
+        /**
+         * 填空题
+         */
+        String TEST_FILL = "3";
+    }
+
+    /**
+     * 有效
+     */
+    public static final String FLAG_Y = "Y";
+
+    /**
+     * 无效
+     */
+    public static final String FLAG_N = "N";
+
 }
