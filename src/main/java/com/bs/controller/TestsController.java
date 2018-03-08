@@ -3,7 +3,6 @@ package com.bs.controller;
 import com.bs.common.Constant;
 import com.bs.common.ResponseCode;
 import com.bs.common.ServerResponse;
-import com.bs.pojo.Manager;
 import com.bs.pojo.Teacher;
 import com.bs.pojo.Tests;
 import com.bs.service.TestsService;
