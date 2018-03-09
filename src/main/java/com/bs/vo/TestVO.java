@@ -1,6 +1,5 @@
 package com.bs.vo;
 
-import java.util.Date;
 
 /**
  * @author 张靖烽
@@ -48,7 +47,7 @@ public class TestVO {
     /**
      * 最后一次更新时间
      */
-    private Date lastUpdatedTime;
+    private String lastUpdatedTime;
 
     @Override
     public String toString() {
@@ -138,11 +137,11 @@ public class TestVO {
         this.createdBy = createdBy;
     }
 
-    public Date getLastUpdatedTime() {
+    public String getLastUpdatedTime() {
         return lastUpdatedTime;
     }
 
-    public void setLastUpdatedTime(Date lastUpdatedTime) {
+    public void setLastUpdatedTime(String lastUpdatedTime) {
         this.lastUpdatedTime = lastUpdatedTime;
     }
 }

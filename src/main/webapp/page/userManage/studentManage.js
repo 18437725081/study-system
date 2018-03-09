@@ -57,7 +57,7 @@ function modify() {
             resize: false
         });
     } else {
-        swal("提示", "请选择一条信息！")
+        swal("", "请选择一条信息！","error")
     }
 }
 

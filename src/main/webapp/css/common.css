@@ -60,10 +60,13 @@
     background-color: #f4f4f4;
     margin: 15px 0;
 }
+.btn-box{
+    height: 35px;
+}
 
 .btn-boxs{
     float: right;
-    padding: 10px 30px 0 0;
+    padding: 0 30px 0 0;
 }
 
 .limit{
@@ -129,7 +132,18 @@
 .left80{
     margin-left: 80px;
 }
+.left150{
+    margin-left: 150px;
+}
 
 .w280{
     width: 280px;
+}
+
+.left{
+    float: left;
+}
+
+.right{
+    float: right;
 }

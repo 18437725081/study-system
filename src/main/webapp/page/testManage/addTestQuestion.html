@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>新增试题页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../../css/matrix-style2.css"/>
+    <link rel="stylesheet" href="../../css/toastr.min.css">
+    <link rel="stylesheet" href="../../css/sweetalert.css">
+    <link rel="stylesheet" href="../../css/select2.min.css"/>
+    <link rel="stylesheet" href="../../css/opera.css">
+    <link rel="stylesheet" href="../../css/common.css">
+</head>
+
+<body>
+<div id="content">
+    <div id="content-header">
+        <h1>新增试题</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div style="margin-top: 16px">
+                    <button type="button" class="btn btn-primary" id="addSelect">选择题</button>
+                    <button type="button" class="btn btn-info" id="aa">判断题</button>
+                    <button type="button" class="btn btn-success" onclick="remind()">填空题</button>
+                    <button type="button" class="btn btn-warning" onclick="remind()">简答题</button>
+                    <button type="button" class="btn btn-danger" onclick="remind()">计算题</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="one">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
+                        <h5>添加选择题</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        11111
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="two" style="display: none">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
+                        <h5>添加判断题</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        22222222222
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p style="text-align: center;font-size: 28px;color: #d75d4e;padding: 10px 0">请选择添加试题类型</p>
+</div>
+<input type="hidden" id="page" name="page">
+</body>
+<script src="../../js/jquery-2.1.1.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery.uniform.js"></script>
+<script src="../../js/matrix.js"></script>
+<script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
+<script src="../../js/iframeTools.js" type="text/javascript"></script>
+<script src="../../js/jquery.form.js"></script>
+<script src="../../js/template.js"></script>
+<script src="../../js/toastr.min.js"></script>
+<script src="../../js/sweetalert.min.js"></script>
+<script src="../../js/select2.min.js"></script>
+<script src="../../js/common.js"></script>
+<script src="testQuestion.js" type="text/javascript"></script>
+</html>
