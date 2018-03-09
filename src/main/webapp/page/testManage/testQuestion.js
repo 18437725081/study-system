@@ -89,12 +89,14 @@ function remind() {
 }
 
 $('#addSelect').click(function () {
-    $("#two").slideUp();
     $("#one").fadeIn();
+    $("#two").hide();
+    $("#p").hide();
 });
 
 $('#aa').click(function () {
-    $("#one").slideUp();
+    $("#one").hide();
     $("#two").fadeIn();
+    $("#p").hide();
     remind();
 });

@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <div class="container-fluid" id="one">
+    <div class="container-fluid" id="one" style="display: none">
         <div class="row-fluid">
             <div class="span12">
                 <div class="widget-box">
@@ -43,7 +43,74 @@
                         <h5>添加选择题</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        11111
+                        <form id="add_Tests" class="form-horizontal">
+                            <input type="hidden" id="testType" name="testType" value="1">
+                            <div class="from-box">
+                                <div class="title">
+                                    <label for="testSubject" class="from-title">学科:</label>
+                                </div>
+                                <div><select id="testSubject">
+                                    <option selected="selected">--请选择--</option>
+                                    <option value="Java">Java</option>
+                                    <option value="Android">Android</option>
+                                    <option value="Linux">Linux</option>
+                                    <option value="C++">C++</option>
+                                </select>
+                                    <span style="color:red">*</span>
+                                </div>
+                            </div>
+                            <div class="from-box">
+                                <div class="title">
+                                    <label for="testTitle" class="from-title">题目:</label>
+                                </div>
+                                <div>
+                                    <textarea id="testTitle" name="testTitle"
+                                              style="height: 50px;width: 520px;resize: none;"></textarea>
+                                    <span style="color:red">*</span>
+                                </div>
+                            </div>
+                            <div class="from-box">
+                                <div class="title">
+                                    <label  class="from-title">选项:</label>
+                                </div>
+                                <div><input type="text" id="a" name="testContent" class=""/>
+                                    <span style="color:red">*</span>
+                                </div>
+                                <div><input type="text" id="b" name="testContent" class=""/>
+                                    <span style="color:red">*</span>
+                                </div>
+                                <div><input type="text" id="c" name="testContent" class=""/>
+                                    <span style="color:red">*</span>
+                                </div>
+                                <div><input type="text" id="d" name="testContent" class=""/>
+                                    <span style="color:red">*</span>
+                                </div>
+                            </div>
+                            <div class="from-box">
+                                <div class="title">
+                                    <label for="testAnswer" class="from-title">答案:</label>
+                                </div>
+                                <div><select id="testAnswer">
+                                    <option selected="selected">--请选择--</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                </select>
+                                    <span style="color:red">*</span>
+                                </div>
+                            </div>
+                            <div class="from-box">
+                                <div class="title">
+                                    <label for="testAnalyze" class="from-title">解析:</label>
+                                </div>
+                                <div>
+                                     <textarea id="testAnalyze" name="testAnalyze"
+                                               style="height: 50px;width: 520px;resize: none;"></textarea>
+                                    <span style="color:red">*</span>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -64,7 +131,9 @@
             </div>
         </div>
     </div>
-    <p style="text-align: center;font-size: 28px;color: #d75d4e;padding: 10px 0">请选择添加试题类型</p>
+    <div id="p" style="top: 50%;position: absolute;left: 42%">
+        <p style="text-align: center;font-size: 28px;color: #99d7d7;padding: 10px 0">请选择添加试题类型</p>
+    </div>
 </div>
 <input type="hidden" id="page" name="page">
 </body>
