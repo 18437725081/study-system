@@ -102,7 +102,7 @@ function remove() {
                 }
             });
     } else {
-        swal("错误", "请选择一条信息！")
+        swal("", "请选择一条信息！","error")
     }
 }
 

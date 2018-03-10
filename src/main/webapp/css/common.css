@@ -1,14 +1,14 @@
-.title{
+.title {
     float: left;
     width: 80px;
 }
 
-.title120{
+.title120 {
     float: left;
     width: 120px;
 }
 
-.title150{
+.title150 {
     float: left;
     width: 150px;
 }
@@ -22,7 +22,7 @@
     line-height: 30px;
 }
 
-.notice-title{
+.notice-title {
     height: 60px;
     line-height: 60px;
 }
@@ -40,110 +40,131 @@
     max-width: 750px;
     height: 60px;
     max-height: 100px;
-    maxlength:150;
+    maxlength: 150;
     padding: 5px 15px;
 }
 
-.from-text{
+.from-text {
     border-radius: 25px;
 }
 
-#text-count{
+#text-count {
     position: relative;
     bottom: 0;
     right: 5px;
 }
 
-.contact-box{
+.contact-box {
     -webkit-box-shadow: 2px 2px 5px #888888;
-            box-shadow: 2px 2px 5px #888888;
+    box-shadow: 2px 2px 5px #888888;
     background-color: #f4f4f4;
     margin: 15px 0;
 }
-.btn-box{
+
+.btn-box {
     height: 35px;
 }
 
-.btn-boxs{
+.btn-boxs {
     float: right;
     padding: 0 30px 0 0;
 }
 
-.limit{
+.limit {
     position: absolute;
     right: 128px;
     bottom: -10px;
 }
 
-.msg-box{
+.msg-box {
     float: left;
     padding: 10px 30px 0 50px;
 }
 
-.msgs{
+.msgs {
     color: #de0002;
 }
 
-.disabled{
+.disabled {
     pointer-events: none;
     cursor: default;
     opacity: 0.6;
 }
 
-.paginationBox{
+.paginationBox {
     margin: 0 25px;
     background: #FFFFFF;
 }
 
-.pagination{
+.pagination {
     float: right;
 }
 
-.table th{
+.table th {
     height: 20px;
     line-height: 20px;
     font-size: 15px;
 }
 
-.table td{
+.table td {
     height: 20px;
     line-height: 20px;
     font-size: 12px;
 }
 
-.nothing{
+.nothing {
     text-align: center;
     height: 20px;
     line-height: 20px;
     padding: 0;
 }
 
-.inputText{
+.inputText {
     margin-bottom: 0;
     border-radius: 25px;
 }
 
-.left30{
+.left30 {
     margin-left: 30px;
 }
-.left50{
+
+.left50 {
     margin-left: 50px;
 }
-.left80{
+
+.left80 {
     margin-left: 80px;
 }
-.left150{
+
+.left150 {
     margin-left: 150px;
 }
 
-.w280{
+.w280 {
     width: 280px;
 }
 
-.left{
+.left {
     float: left;
 }
 
-.right{
+.right {
     float: right;
+}
+
+.textareaS {
+    height: 40px;
+    width: 520px;
+
+}
+
+.marginTextarea{
+    margin: 5px 0 5px 80px;
+}
+
+textarea{
+    resize: none;
+    border-radius: 25px;
+    padding: 3px 10px;
+    font-size: 13px;
 }
