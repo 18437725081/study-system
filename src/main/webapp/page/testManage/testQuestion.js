@@ -10,7 +10,7 @@ function loadTest() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("提示", data.msg);
+                swal("", data.msg,"warning");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -37,7 +37,7 @@ function details() {
             resize: false
         });
     } else {
-        swal("", "请选择一条试题！","error")
+        swal("", "请选择一条试题！", "error")
     }
 }
 
@@ -53,9 +53,88 @@ function getDetail(pkTest) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                window.parent.swal("错误", data.msg);
+                window.parent.swal("", data.msg,"error");
             } else {
                 setDetail(data.data);
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+//提交
+function sub() {
+    var data = checkAddTestParameter();
+    if (!data.flag) {
+        return false;
+    }
+    $.ajax({
+        url: '../../tests/addTest.do',
+        type: 'post',
+        data: data,
+        success: function (data) {
+            if (data.status === 10) {
+                window.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                toast("error", data.msg)
+            } else {
+                toast("success", data.msg)
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+//更改试题状态
+function alterFlag(flag) {
+    if (selectedTr !== null) {
+        var pkTest = selectedTr.childNodes[1].innerHTML;
+        $.ajax({
+            url: '../../tests/modifyTestFlag.do',
+            type: 'post',
+            data: {
+                pkTest:pkTest,
+                flag:flag
+            },
+            success: function (data) {
+                if (data.status === 10) {
+                    window.location.href = "../../login.html";
+                } else if (data.status === 1) {
+                    toast("error", data.msg)
+                } else {
+                    toast("success", data.msg)
+                }
+            },
+            error: function () {
+                window.location.href = "../other/error500.html";
+            }
+        });
+    } else {
+        swal("", "请选择一条试题！", "error")
+    }
+}
+
+
+//查询
+function query() {
+    selectedTr = null;
+    $("#testContent").val($("#testTitle").val());
+    $("#query").ajaxSubmit({
+        url: '../../tests/queryTests.do',
+        type: 'post',
+        dataType: "json",
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("", data.msg,"error");
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
         },
         error: function () {
@@ -67,20 +146,68 @@ function getDetail(pkTest) {
 //设置试题详情
 function setDetail(data) {
     var spans = $("span");
-    spans[0].innerHTML=data.testType;
-    spans[1].innerHTML=data.testSubject;
-    spans[2].innerHTML=data.testTitle;
+    spans[0].innerHTML = data.testType;
+    spans[1].innerHTML = data.testSubject;
+    spans[2].innerHTML = data.testTitle;
 
     var contents = data.testContent.split(";");
-    spans[3].innerHTML=contents[0]+";";
-    spans[4].innerHTML=contents[1]+";";
-    spans[5].innerHTML=contents[2]+";";
-    spans[6].innerHTML=contents[3]+";";
+    spans[3].innerHTML = contents[0] + ";";
+    spans[4].innerHTML = contents[1] + ";";
+    spans[5].innerHTML = contents[2] + ";";
+    spans[6].innerHTML = contents[3] + ";";
 
-    spans[7].innerHTML=data.testAnswer;
-    spans[8].innerHTML=data.testAnalyze;
-    spans[9].innerHTML=data.createdBy;
-    spans[10].innerHTML=data.lastUpdatedTime;
+    spans[7].innerHTML = data.testAnswer;
+    spans[8].innerHTML = data.testAnalyze;
+    spans[9].innerHTML = data.createdBy;
+    spans[10].innerHTML = data.lastUpdatedTime;
+}
+
+//新增试题参数校验
+function checkAddTestParameter() {
+    var flag = true;
+    var testType = $("#testType").val(),
+        testSubject = $("#testSubject").val(),
+        testTitle = $("#testTitle").val(),
+        testContent = "",
+        testAnswer = $("#testAnswer").val(),
+        testAnalyze = $("#testAnalyze").val();
+    if (isNull(testTitle)) {
+        swal("", "请填写试题题目标题", "error");
+        flag = false;
+    }
+    if (isNull(testAnswer)) {
+        swal("", "请选择试题打哪", "error");
+        flag = false;
+    }
+    if (isNull(testAnalyze)) {
+        swal("", "请填写试题解析", "error");
+        flag = false;
+    }
+    if (isNull(testSubject)) {
+        testSubject = $('input[name=testSubject]').val();
+        if (isNull(testSubject)) {
+            swal("", "请选择试题所属学科", "error");
+            flag = false;
+        }
+    }
+    var options = $('textarea[name=option]');
+    for (var i = 0; i < options.length; i++) {
+        if (isNull(options[i].val())) {
+            swal("", "请将四个选项填写完", "error");
+            flag = false;
+        }
+        testContent = testContent === "" ? options[i].val() : testContent + ";" + options[i].val();
+    }
+    var data = {
+        flag: flag,
+        testType: testType,
+        testSubject: testSubject,
+        testTitle: testTitle,
+        testContent: testContent,
+        testAnswer: testAnswer,
+        testAnalyze: testAnalyze
+    };
+    return data;
 }
 
 
@@ -100,3 +227,8 @@ $('#aa').click(function () {
     $("#p").hide();
     remind();
 });
+
+function zdy() {
+    $("#subject").toggle();
+    $("#userDefinedSubject").toggle();
+}

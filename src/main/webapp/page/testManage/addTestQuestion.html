@@ -50,16 +50,21 @@
                                 <div class="title">
                                     <label for="testSubject" class="from-title">学科:</label>
                                 </div>
-                                <div><select id="testSubject" name="testSubject">
+                                <div id="subject"><select id="testSubject" name="testSubject">
                                     <option selected="selected">--请选择--</option>
                                     <option value="Java">Java</option>
                                     <option value="Android">Android</option>
                                     <option value="Linux">Linux</option>
                                     <option value="C++">C++</option>
                                 </select>
-                                    <span style="color:red">*</span>
+                                    <span style="color:red">*</span><button type="button" class="btn btn-mini" onclick="zdy()">自定义</button>
+                                </div>
+                                <div id="userDefinedSubject" style="display: none">
+                                    <input type="text" name="testSubject" class="from-text">
+                                    <span style="color:red">*</span><button type="button" class="btn btn-mini" onclick="zdy()">选&nbsp&nbsp&nbsp择</button>
                                 </div>
                             </div>
+
                             <div class="from-box">
                                 <div class="title">
                                     <label for="testTitle" class="from-title">题目:</label>

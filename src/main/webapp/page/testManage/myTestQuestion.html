@@ -29,6 +29,10 @@
                     </button>
                     <button type="button" class="btn btn-info" onclick="details()"><i class="icon-plus"></i> 查看详情
                     </button>
+                    <button type="button" class="btn btn-info" onclick="alterFlag('Y')"><i class="icon-plus"></i> 启用试题
+                    </button>
+                    <button type="button" class="btn btn-info" onclick="alterFlag('N')"><i class="icon-plus"></i> 停用试题
+                    </button>
                 </div>
             </div>
         </div>
@@ -48,6 +52,7 @@
                                     <input type="text" class="inputText" id="testSubject" name="testSubject"/>
                                     <label for="testTitle">关键字：</label>
                                     <input type="text" class="inputText" id="testTitle" name="testTitle"/>
+                                    <input type="hidden" class="inputText" id="testContent" name="testContent"/>
                                     <button type="button" class="btn btn-info" onclick="query()">查询</button>
                                     <button type="button" class="btn btn-info" onclick="loadTest()">显示全部
                                     </button>
@@ -72,8 +77,9 @@
                             <tr>
                                 <th width="10%">编号</th>
                                 <th width="10%">类型</th>
-                                <th width="70%">题目</th>
+                                <th width="60%">题目</th>
                                 <th width="10%">所属学科</th>
+                                <th width="10%">状态</th>
                             </tr>
                             </thead>
                             <tbody id="tab">
@@ -118,6 +124,7 @@
         <td>{{i.testType}}</td>
         <td>{{i.testTitle}}</td>
         <td>{{i.testSubject}}</td>
+        <td>{{i.flag}}</td>
     </tr>
     {{/each}}
     {{/if}}
