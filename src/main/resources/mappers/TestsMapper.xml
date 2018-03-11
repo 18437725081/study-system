@@ -188,29 +188,9 @@
       <if test="flag != null">
         AND flag = #{flag}
       </if>
-    </where>
-  </select>
-
-  <select id="queryMyTests" resultMap="BaseResultMap" parameterType="com.bs.pojo.Tests">
-    SELECT <include refid="Base_Column_List"/>
-    FROM bs_tests
-    <where>
-      <if test="testType != null">
-        AND test_type = #{testType}
+      <if test="createdBy != null">
+        AND created_by = #{createdBy}
       </if>
-      <if test="testSubject != null">
-        AND test_subject = #{testSubject}
-      </if>
-      <if test="testTitle != null">
-        AND test_title LIKE '%${testTitle}%'
-      </if>
-      <if test="testContent != null">
-        AND test_content LIKE '%${testContent}%'
-      </if>
-      <if test="flag != null">
-        AND flag = #{flag}
-      </if>
-      AND created_by = #{createdBy}
     </where>
   </select>
 

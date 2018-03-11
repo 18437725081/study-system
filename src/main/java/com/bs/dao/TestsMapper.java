@@ -81,16 +81,6 @@ public interface TestsMapper {
     List<Tests> queryTests(Tests tests);
 
     /**
-     * 查询我的试题
-     *
-     * @param tests 试题类
-     * @return Tests
-     * @author 张靖烽
-     * @createtime 2018-03-08 12:49
-     */
-    List<Tests> queryMyTests(Tests tests);
-
-    /**
      * 查询科目列表
      *
      * @return String

@@ -3,8 +3,9 @@ var selectedTr = null;
 //加载试题数据
 function loadTest() {
     selectedTr = null;
+    var url = $("#url").val();
     $.ajax({
-        url: '../../tests/queryTests.do',
+        url: url,
         type: 'post',
         success: function (data) {
             if (data.status === 10) {
@@ -21,6 +22,7 @@ function loadTest() {
         }
     });
 }
+
 
 //跳转试题详情
 function details() {
@@ -123,8 +125,9 @@ function alterFlag(flag) {
 function query() {
     selectedTr = null;
     $("#testContent").val($("#testTitle").val());
+    var url = $("#url").val();
     $("#query").ajaxSubmit({
-        url: '../../tests/queryTests.do',
+        url: url,
         type: 'post',
         dataType: "json",
         success: function (data) {
@@ -231,4 +234,32 @@ $('#aa').click(function () {
 function zdy() {
     $("#subject").toggle();
     $("#userDefinedSubject").toggle();
+}
+
+//分页查询
+function paging(pageNum) {
+    selectedTr = null;
+
+
+    var url = $("#url").val();
+    $.ajax({
+        url: url,
+        type: 'post',
+        data: {
+            pageNum: pageNum,
+        },
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("", data.msg,"error");
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
 }

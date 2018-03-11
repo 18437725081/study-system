@@ -49,23 +49,6 @@ public class TestsService {
 
     /**
      * @author 张靖烽
-     * @description 查询我的试题
-     * @createtime 2018-03-08 12:42
-     */
-    public ServerResponse queryMyTests(Tests tests, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<Tests> list = testsMapper.queryMyTests(tests);
-        List<TestVO> lists = Lists.newArrayList();
-        for (Tests t :list){
-            lists.add(setTestVO(t));
-        }
-        PageInfo pageInfo = new PageInfo(list);
-        pageInfo.setList(lists);
-        return ServerResponse.createBySuccess(pageInfo);
-    }
-
-    /**
-     * @author 张靖烽
      * @description 获取单试题信息
      * @createtime 2018-03-07 19:33
      */

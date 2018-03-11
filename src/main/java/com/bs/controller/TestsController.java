@@ -72,7 +72,7 @@ public class TestsController {
         //判断权限，业务处理
         if (Constant.Role.ROLE_TEACHER.equals(teacher.getRole())) {
             tests.setCreatedBy(teacher.getPkTeacher());
-            return testsService.queryMyTests(tests, pageNum, pageSize);
+            return testsService.queryTests(tests, pageNum, pageSize);
         }
         return ServerResponse.createByErrorMessage("不是教师，无法操作");
     }
