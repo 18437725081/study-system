@@ -71,7 +71,7 @@ function getDetail(pkTest) {
     });
 }
 
-//提交
+//新增试题提交
 function sub() {
     var data = checkAddTestParameter();
     if (!data.flag) {
@@ -204,7 +204,7 @@ function checkAddTestParameter() {
         }
         testContent = testContent === "" ? options[i].value : testContent + ";" + options[i].value;
     }
-    var data = {
+    return {
         flag: flag,
         testType: testType,
         testSubject: testSubject,
@@ -213,7 +213,6 @@ function checkAddTestParameter() {
         testAnswer: testAnswer,
         testAnalyze: testAnalyze
     };
-    return data;
 }
 
 
@@ -221,12 +220,14 @@ function remind() {
     swal("", "此题型暂时无法创建，请等待后续通知", "warning")
 }
 
+//新增选择题
 $('#Select').click(function () {
     $("#one").fadeIn();
     $("#two").hide();
     $("#p").hide();
 });
 
+//新增判断题
 $('#Judgment').click(function () {
     $("#one").hide();
     $("#two").fadeIn();
@@ -234,6 +235,7 @@ $('#Judgment').click(function () {
     remind();
 });
 
+//自定义学科
 function zdy() {
     $("#subject").toggle();
     $("#userDefinedSubject").toggle();
