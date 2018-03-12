@@ -108,6 +108,8 @@ function alterFlag(flag) {
                 } else if (data.status === 1) {
                     toast("error", data.msg)
                 } else {
+                    var _page = document.getElementById("page").value;
+                    paging(_page);
                     toast("success", data.msg)
                 }
             },
@@ -175,28 +177,28 @@ function checkAddTestParameter() {
         testAnswer = $("#testAnswer").val(),
         testAnalyze = $("#testAnalyze").val();
     if (isNull(testTitle)) {
-        swal("", "请填写试题题目标题", "error");
+        swal("", "请填写试题题目标题", "warning");
         flag = false;
     }
     if (isNull(testAnswer)) {
-        swal("", "请选择试题打哪", "error");
+        swal("", "请选择试题打哪", "warning");
         flag = false;
     }
     if (isNull(testAnalyze)) {
-        swal("", "请填写试题解析", "error");
+        swal("", "请填写试题解析", "warning");
         flag = false;
     }
     if (isNull(testSubject)) {
         testSubject = $('input[name=testSubject]').val();
         if (isNull(testSubject)) {
-            swal("", "请选择试题所属学科", "error");
+            swal("", "请选择试题所属学科", "warning");
             flag = false;
         }
     }
     var options = $('textarea[name=option]');
     for (var i = 0; i < options.length; i++) {
-        if (isNull(options[i].val())) {
-            swal("", "请将四个选项填写完", "error");
+        if (isNull(options[i].innerHTML())) {
+            swal("", "请将四个选项填写完", "warning");
             flag = false;
         }
         testContent = testContent === "" ? options[i].val() : testContent + ";" + options[i].val();
@@ -240,13 +242,12 @@ function zdy() {
 function paging(pageNum) {
     selectedTr = null;
 
-
     var url = $("#url").val();
     $.ajax({
         url: url,
         type: 'post',
         data: {
-            pageNum: pageNum,
+            pageNum: pageNum
         },
         success: function (data) {
             if (data.status === 10) {
