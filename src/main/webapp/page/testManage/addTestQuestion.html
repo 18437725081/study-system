@@ -25,8 +25,8 @@
         <div class="row-fluid">
             <div class="span12">
                 <div style="margin-top: 16px">
-                    <button type="button" class="btn btn-primary" id="addSelect">选择题</button>
-                    <button type="button" class="btn btn-info" id="aa">判断题</button>
+                    <button type="button" class="btn btn-primary" id="Select">选择题</button>
+                    <button type="button" class="btn btn-info" id="Judgment">判断题</button>
                     <button type="button" class="btn btn-success" onclick="remind()">填空题</button>
                     <button type="button" class="btn btn-warning" onclick="remind()">简答题</button>
                     <button type="button" class="btn btn-danger" onclick="remind()">计算题</button>
@@ -50,17 +50,13 @@
                                 <div class="title">
                                     <label for="testSubject" class="from-title">学科:</label>
                                 </div>
-                                <div id="subject"><select id="testSubject" name="testSubject">
-                                    <option selected="selected">--请选择--</option>
-                                    <option value="Java">Java</option>
-                                    <option value="Android">Android</option>
-                                    <option value="Linux">Linux</option>
-                                    <option value="C++">C++</option>
+                                <div id="subject"><select id="testSubject" name="testSubject" style="width: 220px">
+                                    <option selected value="">--请选择--</option>
                                 </select>
                                     <span style="color:red">*</span><button type="button" class="btn btn-mini" onclick="zdy()">自定义</button>
                                 </div>
                                 <div id="userDefinedSubject" style="display: none">
-                                    <input type="text" name="testSubject" class="from-text">
+                                    <input type="text" name="testSubject" class="from-text" title="">
                                     <span style="color:red">*</span><button type="button" class="btn btn-mini" onclick="zdy()">选&nbsp&nbsp&nbsp择</button>
                                 </div>
                             </div>
@@ -120,7 +116,9 @@
                                     <span style="color:red">*</span>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-warning btn-large" onclick="sub()">提交</button>
+                            <div class="from-box">
+                                <button type="button" class="btn btn-info" onclick="sub()" style="margin-left: 45%;width: 100px">提交</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -136,7 +134,68 @@
                         <h5>添加判断题</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        22222222222
+                        <form id="" class="form-horizontal">
+                            <div class="from-box">
+                                <div class="title">
+                                    <label for="testSubject" class="from-title">学科:</label>
+                                </div>
+                                <div ><select name="testSubject" title="">
+                                    <option selected="selected">--请选择--</option>
+                                    <option value="Java">Java</option>
+                                    <option value="Android">Android</option>
+                                    <option value="Linux">Linux</option>
+                                    <option value="C++">C++</option>
+                                </select>
+                                    <span style="color:red">*</span><button type="button" class="btn btn-mini" onclick="zdy()">自定义</button>
+                                </div>
+                                <div  style="display: none">
+                                    <input type="text" name="testSubject" class="from-text" title="">
+                                    <span style="color:red">*</span><button type="button" class="btn btn-mini" onclick="zdy()">选&nbsp&nbsp&nbsp择</button>
+                                </div>
+                            </div>
+
+                            <div class="from-box">
+                                <div class="title">
+                                    <label for="testTitle" class="from-title">题目:</label>
+                                </div>
+                                <div>
+                                    <textarea  name="testTitle" placeholder="请输入试题题目"
+                                              style="height: 60px;width: 770px;resize: none;"></textarea>
+                                    <span style="color:red">*</span>
+                                </div>
+                            </div>
+                            <div class="from-box">
+                                <div class="title">
+                                    <label class="from-title">选项:</label>
+                                </div>
+                                <div class="marginTextarea"><input type="radio" name="x" value="" title=""/>正确
+                                    <input type="radio" name="x" value="" title=""/>错误
+                                    <span style="color:red">*</span>
+                                </div>
+                            </div>
+                            <div class="from-box">
+                                <div class="title">
+                                    <label for="testAnswer" class="from-title">答案:</label>
+                                </div>
+                                <div><select title="">
+                                    <option selected="selected">--请选择--</option>
+                                    <option value="Y">正确</option>
+                                    <option value="N">错误</option>
+                                </select>
+                                    <span style="color:red">*</span>
+                                </div>
+                            </div>
+                            <div class="from-box">
+                                <div class="title">
+                                    <label for="testAnalyze" class="from-title">解析:</label>
+                                </div>
+                                <div>
+                                     <textarea  name="testAnalyze" placeholder="请输入试题解析"
+                                               style="height: 80px;width: 770px;resize: none;"></textarea>
+                                    <span style="color:red">*</span>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -164,6 +223,13 @@
 <script>
     $(function () {
         $('select').select2();
+        getSubject();
     });
+</script>
+<script id="subjectModel" type="text/html">
+    <option selected value="">--请选择--</option>
+    {{each data as i}}
+    <option value="{{i}}">{{i}}</option>
+    {{/each}}
 </script>
 </html>

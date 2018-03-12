@@ -27,7 +27,7 @@
                 <div style="margin-top: 16px">
                     <button type="button" class="btn btn-info" onclick="queryOpen()"><i class="icon-search"></i> 查询
                     </button>
-                    <button type="button" class="btn btn-info" onclick="details()"><i class="icon-plus"></i> 查看详情
+                    <button type="button" class="btn btn-info" onclick="details()"><i class="icon-reorder"></i> 查看详情
                     </button>
                 </div>
             </div>
@@ -43,9 +43,18 @@
                             <div style="margin: 20px">
                                 <div>
                                     <label for="testType">类 型：</label>
-                                    <input type="text" class="inputText" id="testType" name="testType"/>
+                                    <select id="testType" name="testType" style="width: 220px">
+                                        <option selected value="">--请选择--</option>
+                                        <option selected value="1">选择题</option>
+                                        <option selected value="2">判断题</option>
+                                        <option selected value="3">填空题</option>
+                                        <option selected value="4">简答题</option>
+                                        <option selected value="5">计算题</option>
+                                    </select>
                                     <label for="testSubject">学 科：</label>
-                                    <input type="text" class="inputText" id="testSubject" name="testSubject"/>
+                                    <select id="testSubject" name="testSubject" style="width: 220px">
+                                        <option selected value="">--请选择--</option>
+                                    </select>
                                     <label for="testTitle">关键字：</label>
                                     <input type="text" class="inputText" id="testTitle" name="testTitle"/>
                                     <input type="hidden" class="inputText" id="testContent" name="testContent"/>
@@ -126,7 +135,15 @@
 </script>
 <script>
     $(function () {
+        $('select').select2();
         loadTest();
+        getSubject();
     });
+</script>
+<script id="subjectModel" type="text/html">
+    <option selected value="">--请选择--</option>
+    {{each data as i}}
+    <option value="{{i}}">{{i}}</option>
+    {{/each}}
 </script>
 </html>

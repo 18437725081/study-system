@@ -3,6 +3,12 @@ var selectedTr = null;
 //加载试题数据
 function loadTest() {
     selectedTr = null;
+    $("#testTitle").val("");
+    $("#testContent").val("");
+    var testType = $("#testType").select2();
+    testType.val("").trigger("change");
+    var testSubject = $("#testSubject").select2();
+    testSubject.val("").trigger("change");
     var url = $("#url").val();
     $.ajax({
         url: url,
@@ -22,7 +28,6 @@ function loadTest() {
         }
     });
 }
-
 
 //跳转试题详情
 function details() {
@@ -70,6 +75,7 @@ function getDetail(pkTest) {
 function sub() {
     var data = checkAddTestParameter();
     if (!data.flag) {
+        swal("", "请填完整的题目信息", "warning");
         return false;
     }
     $.ajax({
@@ -177,31 +183,26 @@ function checkAddTestParameter() {
         testAnswer = $("#testAnswer").val(),
         testAnalyze = $("#testAnalyze").val();
     if (isNull(testTitle)) {
-        swal("", "请填写试题题目标题", "warning");
         flag = false;
     }
     if (isNull(testAnswer)) {
-        swal("", "请选择试题打哪", "warning");
         flag = false;
     }
     if (isNull(testAnalyze)) {
-        swal("", "请填写试题解析", "warning");
         flag = false;
     }
     if (isNull(testSubject)) {
         testSubject = $('input[name=testSubject]').val();
         if (isNull(testSubject)) {
-            swal("", "请选择试题所属学科", "warning");
             flag = false;
         }
     }
-    var options = $('textarea[name=option]');
+    var options = $("textarea[name=option]");
     for (var i = 0; i < options.length; i++) {
-        if (isNull(options[i].innerHTML())) {
-            swal("", "请将四个选项填写完", "warning");
+        if (isNull(options[i].value)) {
             flag = false;
         }
-        testContent = testContent === "" ? options[i].val() : testContent + ";" + options[i].val();
+        testContent = testContent === "" ? options[i].value : testContent + ";" + options[i].value;
     }
     var data = {
         flag: flag,
@@ -220,13 +221,13 @@ function remind() {
     swal("", "此题型暂时无法创建，请等待后续通知", "warning")
 }
 
-$('#addSelect').click(function () {
+$('#Select').click(function () {
     $("#one").fadeIn();
     $("#two").hide();
     $("#p").hide();
 });
 
-$('#aa').click(function () {
+$('#Judgment').click(function () {
     $("#one").hide();
     $("#two").fadeIn();
     $("#p").hide();
@@ -236,18 +237,28 @@ $('#aa').click(function () {
 function zdy() {
     $("#subject").toggle();
     $("#userDefinedSubject").toggle();
+    var testSubject = $("#testSubject").select2();
+    testSubject.val("").trigger("change");
 }
 
 //分页查询
 function paging(pageNum) {
     selectedTr = null;
-
+    $("#testContent").val($("#testTitle").val());
+    var testContent = $("#testContent").val(),
+        testTitle = $("#testTitle").val(),
+        testSubject = $("#testTitle").val(),
+        testType = $("#testType").val();
     var url = $("#url").val();
     $.ajax({
         url: url,
         type: 'post',
         data: {
-            pageNum: pageNum
+            pageNum: pageNum,
+            testContent:testContent,
+            testTitle:testTitle,
+            testSubject:testSubject,
+            testType:testType
         },
         success: function (data) {
             if (data.status === 10) {
@@ -257,6 +268,26 @@ function paging(pageNum) {
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+//获取学科列表
+function getSubject() {
+    $.ajax({
+        url: '../../tests/selectSubjectList.do',
+        type: 'post',
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("获取信息失败", data.msg)
+            } else {
+                document.getElementById('testSubject').innerHTML = template('subjectModel', data);
             }
         },
         error: function () {

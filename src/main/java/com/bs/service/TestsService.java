@@ -73,6 +73,7 @@ public class TestsService {
         if (tests != null) {
             tests.setCreatedBy(teacher.getPkTeacher());
             tests.setLastUpdatedBy(teacher.getPkTeacher());
+            tests.setFlag("Y");
             int result = testsMapper.insert(tests);
             if (result > 0) {
                 return ServerResponse.createBySuccessMessage("新增成功");
