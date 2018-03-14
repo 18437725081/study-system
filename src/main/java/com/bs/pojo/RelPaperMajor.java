@@ -2,7 +2,7 @@ package com.bs.pojo;
 
 import java.util.Date;
 
-public class relPaperMajor {
+public class RelPaperMajor {
     private Integer pkRelPaperMajor;
 
     private Integer fkPaper;
@@ -11,14 +11,14 @@ public class relPaperMajor {
 
     private Date publishTime;
 
-    public relPaperMajor(Integer pkRelPaperMajor, Integer fkPaper, Integer fkMajor, Date publishTime) {
+    public RelPaperMajor(Integer pkRelPaperMajor, Integer fkPaper, Integer fkMajor, Date publishTime) {
         this.pkRelPaperMajor = pkRelPaperMajor;
         this.fkPaper = fkPaper;
         this.fkMajor = fkMajor;
         this.publishTime = publishTime;
     }
 
-    public relPaperMajor() {
+    public RelPaperMajor() {
         super();
     }
 
