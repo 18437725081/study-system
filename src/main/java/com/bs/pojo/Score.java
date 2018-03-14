@@ -2,17 +2,23 @@ package com.bs.pojo;
 
 import java.util.Date;
 
+/**
+ * @author 张靖烽
+ * @description 创建pojo
+ * @createtime 2018-03-14 14:30
+ */
 public class Score {
+    /** 成绩表主键 */
     private Integer pkScore;
-
+    /** 学生表外键 */
     private Integer fkStudent;
-
+    /** 试卷表外键 */
     private Integer fkTests;
-
+    /** 成绩 */
     private String score;
-
+    /** 完成状态 */
     private String flag;
-
+    /** 完成时间 */
     private Date finishTime;
 
     public Score(Integer pkScore, Integer fkStudent, Integer fkTests, String score, String flag, Date finishTime) {

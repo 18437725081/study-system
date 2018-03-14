@@ -1,16 +1,22 @@
 package com.bs.pojo;
 
+/**
+ * @author 张靖烽
+ * @description 试卷详情pojo
+ * @createtime 2018-03-14 14:29
+ */
 public class PaperDetail {
+    /** 试卷详情表主键 */
     private Integer pkPaperDetail;
-
+    /** 试卷表外键 */
     private Integer fkPaper;
-
+    /** 题目表外键 */
     private Integer fkTests;
-
+    /** 题目类型 */
     private String testsType;
-
+    /** 分值 */
     private String score;
-
+    /** 优先级 */
     private String priority;
 
     public PaperDetail(Integer pkPaperDetail, Integer fkPaper, Integer fkTests, String testsType, String score, String priority) {

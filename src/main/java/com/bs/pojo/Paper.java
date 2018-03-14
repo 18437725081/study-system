@@ -2,23 +2,29 @@ package com.bs.pojo;
 
 import java.util.Date;
 
+/**
+ * @author 张靖烽
+ * @description 试卷pojo
+ * @createtime 2018-03-14 14:29
+ */
 public class Paper {
+    /** 试卷表主键 */
     private Integer pkPaper;
-
+    /** 试卷名称 */
     private String paperName;
-
+    /** 公开状态 */
     private String flagPublic;
-
+    /** 编辑状态 */
     private String flagEdit;
-
+    /** 是否有效 */
     private String flag;
-
+    /** 创建人 */
     private Integer createdBy;
-
+    /** 创建时间 */
     private Date createdTime;
-
+    /** 最后一次更新人 */
     private Integer lastUpdatedBy;
-
+    /** 最后一次更新时间 */
     private Date lastUpdatedTime;
 
     public Paper(Integer pkPaper, String paperName, String flagPublic, String flagEdit, String flag, Integer createdBy, Date createdTime, Integer lastUpdatedBy, Date lastUpdatedTime) {

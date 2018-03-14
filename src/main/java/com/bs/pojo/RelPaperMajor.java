@@ -2,13 +2,19 @@ package com.bs.pojo;
 
 import java.util.Date;
 
+/**
+ * @author 张靖烽
+ * @description 关联pojo（试卷&专业）
+ * @createtime 2018-03-14 14:30
+ */
 public class RelPaperMajor {
+    /** 关联（试卷&专业）表主键 */
     private Integer pkRelPaperMajor;
-
+    /** 试卷表外键 */
     private Integer fkPaper;
-
+    /** 专业表外键 */
     private Integer fkMajor;
-
+    /** 发布时间 */
     private Date publishTime;
 
     public RelPaperMajor(Integer pkRelPaperMajor, Integer fkPaper, Integer fkMajor, Date publishTime) {

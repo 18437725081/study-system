@@ -14,7 +14,7 @@ public interface RelTeacherMajorMapper {
     /**
      * 根据主键删除
      *
-     * @param pkRelTeacherMajor 管理员主键
+     * @param pkRelTeacherMajor 主键
      * @return int
      * @author 张靖烽
      * @createtime 2018-01-10 14:17

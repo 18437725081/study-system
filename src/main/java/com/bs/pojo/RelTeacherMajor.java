@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * @author 张靖烽
- * @description 教师与专业关联pojo类
+ * @description 关联pojo（教师&专业）
  * @createtime 2018-01-10 14:22
  */
 public class RelTeacherMajor {

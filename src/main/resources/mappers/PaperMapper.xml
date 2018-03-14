@@ -35,7 +35,7 @@
       )
     values (#{pkPaper,jdbcType=INTEGER}, #{paperName,jdbcType=VARCHAR}, #{flagPublic,jdbcType=CHAR}, 
       #{flagEdit,jdbcType=CHAR}, #{flag,jdbcType=CHAR}, #{createdBy,jdbcType=INTEGER}, 
-      #{createdTime,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=INTEGER}, #{lastUpdatedTime,jdbcType=TIMESTAMP}
+      now(), #{lastUpdatedBy,jdbcType=INTEGER}, now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.bs.pojo.Paper" >
@@ -89,13 +89,13 @@
         #{createdBy,jdbcType=INTEGER},
       </if>
       <if test="createdTime != null" >
-        #{createdTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="lastUpdatedBy != null" >
         #{lastUpdatedBy,jdbcType=INTEGER},
       </if>
       <if test="lastUpdatedTime != null" >
-        #{lastUpdatedTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
@@ -114,17 +114,11 @@
       <if test="flag != null" >
         flag = #{flag,jdbcType=CHAR},
       </if>
-      <if test="createdBy != null" >
-        created_by = #{createdBy,jdbcType=INTEGER},
-      </if>
-      <if test="createdTime != null" >
-        created_time = #{createdTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="lastUpdatedBy != null" >
         last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
       </if>
       <if test="lastUpdatedTime != null" >
-        last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP},
+        last_updated_time = now(),
       </if>
     </set>
     where pk_paper = #{pkPaper,jdbcType=INTEGER}
@@ -135,10 +129,8 @@
       flag_public = #{flagPublic,jdbcType=CHAR},
       flag_edit = #{flagEdit,jdbcType=CHAR},
       flag = #{flag,jdbcType=CHAR},
-      created_by = #{createdBy,jdbcType=INTEGER},
-      created_time = #{createdTime,jdbcType=TIMESTAMP},
       last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
-      last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP}
+      last_updated_time = now()
     where pk_paper = #{pkPaper,jdbcType=INTEGER}
   </update>
 </mapper>
