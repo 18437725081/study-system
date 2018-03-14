@@ -194,4 +194,10 @@
     SELECT DISTINCT test_subject
     FROM bs_tests
   </select>
+
+  <select id="selectCreatedByPkTest" parameterType="int" resultType="int">
+    SELECT t.created_by
+    FROM bs_tests t
+    WHERE t.pk_test = #{pkTest}
+  </select>
 </mapper>

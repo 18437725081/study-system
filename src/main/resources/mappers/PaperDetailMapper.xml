@@ -105,4 +105,10 @@
       priority = #{priority,jdbcType=VARCHAR}
     where pk_paper_detail = #{pkPaperDetail,jdbcType=INTEGER}
   </update>
+
+  <select id="selectPaperDetailByPkPaper" parameterType="int" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM bs_paper_detail
+    WHERE fk_paper = #{pkPaper}
+  </select>
 </mapper>

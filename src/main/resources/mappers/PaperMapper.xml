@@ -133,4 +133,38 @@
       last_updated_time = now()
     where pk_paper = #{pkPaper,jdbcType=INTEGER}
   </update>
+
+  <select id="queryPaper" parameterType="com.bs.pojo.Paper" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM bs_paper
+    <where>
+      <if test='paperName != null and paperName!="" '>
+        AND paper_name LIKE '%${paperName}%'
+      </if>
+      <if test="flagPublic != null">
+        AND flag_public = #{flagPublic}
+      </if>
+      <if test="flagEdit != null">
+        AND flag_edit = #{flagEdit}
+      </if>
+      <if test="flag != null">
+        AND flag = #{flag}
+      </if>
+      <if test="createdBy != null">
+        AND created_by = #{createdBy}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectCreatedByPkPaper" parameterType="int" resultType="int">
+    SELECT p.created_by
+    FROM bs_paper p
+    WHERE p.pk_paper = #{pkPaper}
+  </select>
+
+  <select id="selectPublicFlag" parameterType="int" resultType="string">
+    SELECT p.flag_public
+    FROM bs_paper p
+    WHERE p.pk_paper = #{pkPaper}
+  </select>
 </mapper>

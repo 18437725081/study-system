@@ -1,6 +1,9 @@
 package com.bs.dao;
 
 import com.bs.pojo.Paper;
+import com.bs.pojo.Tests;
+
+import java.util.List;
 
 /**
  * @author 张靖烽
@@ -67,4 +70,34 @@ public interface PaperMapper {
      * @createtime 2018-03-14 14:49
      */
     int updateByPrimaryKey(Paper paper);
+
+    /**
+     * 查询试卷
+     *
+     * @param paper 试卷类
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-03-14 17:30
+     */
+    List<Paper> queryPaper(Paper paper);
+
+    /**
+     * 查询创建人
+     *
+     * @param pkPaper 试卷主键
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-03-14 19:00
+     */
+    int selectCreatedByPkPaper(Integer pkPaper);
+
+    /**
+     * 查询公开状态
+     *
+     * @param pkPaper 试卷主键
+     * @return String
+     * @author 张靖烽
+     * @createtime 2018-03-14 20:29
+     */
+    String selectPublicFlag(Integer pkPaper);
 }

@@ -88,4 +88,14 @@ public interface TestsMapper {
      * @createtime 2018-03-08 13:44
      */
     List<String> selectSubjectList();
+
+    /**
+     * 查询创建人
+     *
+     * @param pkTest 试题主键
+     * @return int
+     * @author 张靖烽
+     * @createtime 2018-03-14 19:00
+     */
+    int selectCreatedByPkTest(Integer pkTest);
 }

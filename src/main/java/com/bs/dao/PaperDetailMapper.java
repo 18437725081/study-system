@@ -2,6 +2,8 @@ package com.bs.dao;
 
 import com.bs.pojo.PaperDetail;
 
+import java.util.List;
+
 /**
  * @author 张靖烽
  * @description 试卷详情DAO
@@ -67,4 +69,6 @@ public interface PaperDetailMapper {
      * @createtime 2018-03-14 14:44
      */
     int updateByPrimaryKey(PaperDetail paperDetail);
+
+    List<PaperDetail> selectPaperDetailByPkPaper(Integer pkPaper);
 }

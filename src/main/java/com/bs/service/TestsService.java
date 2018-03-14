@@ -90,15 +90,20 @@ public class TestsService {
      */
     public ServerResponse modifyTestFlag(Integer pkTest, String flag, Teacher teacher) {
         if (pkTest != null && flag != null) {
-            Tests tests = new Tests();
-            tests.setPkTest(pkTest);
-            tests.setFlag(flag);
-            tests.setLastUpdatedBy(teacher.getPkTeacher());
-            int result = testsMapper.updateByPrimaryKeySelective(tests);
-            if (result > 0) {
-                return ServerResponse.createBySuccessMessage("修改成功");
+            //判断该试题是否属于该教师创建
+            int pkTeacher = testsMapper.selectCreatedByPkTest(pkTest);
+            if (pkTeacher == teacher.getPkTeacher()){
+                Tests tests = new Tests();
+                tests.setPkTest(pkTest);
+                tests.setFlag(flag);
+                tests.setLastUpdatedBy(teacher.getPkTeacher());
+                int result = testsMapper.updateByPrimaryKeySelective(tests);
+                if (result > 0) {
+                    return ServerResponse.createBySuccessMessage("修改成功");
+                }
+                return ServerResponse.createByErrorMessage("试题不存在或已被删除");
             }
-            return ServerResponse.createByErrorMessage("试题不存在或已被删除");
+            return ServerResponse.createByErrorMessage("无权限修改此试题");
         }
         return ServerResponse.createByErrorMessage("参数不正确");
     }
