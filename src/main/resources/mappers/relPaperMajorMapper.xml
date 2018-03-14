@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.dao.relPaperMajorMapper" >
+  <resultMap id="BaseResultMap" type="com.bs.pojo.relPaperMajor" >
+    <constructor >
+      <idArg column="pk_rel_paper_major" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="fk_paper" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="fk_major" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="publish_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pk_rel_paper_major, fk_paper, fk_major, publish_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bs_rel_paper_major
+    where pk_rel_paper_major = #{pkRelPaperMajor,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bs_rel_paper_major
+    where pk_rel_paper_major = #{pkRelPaperMajor,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bs.pojo.relPaperMajor" >
+    insert into bs_rel_paper_major (pk_rel_paper_major, fk_paper, fk_major, 
+      publish_time)
+    values (#{pkRelPaperMajor,jdbcType=INTEGER}, #{fkPaper,jdbcType=INTEGER}, #{fkMajor,jdbcType=INTEGER}, 
+      #{publishTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bs.pojo.relPaperMajor" >
+    insert into bs_rel_paper_major
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkRelPaperMajor != null" >
+        pk_rel_paper_major,
+      </if>
+      <if test="fkPaper != null" >
+        fk_paper,
+      </if>
+      <if test="fkMajor != null" >
+        fk_major,
+      </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkRelPaperMajor != null" >
+        #{pkRelPaperMajor,jdbcType=INTEGER},
+      </if>
+      <if test="fkPaper != null" >
+        #{fkPaper,jdbcType=INTEGER},
+      </if>
+      <if test="fkMajor != null" >
+        #{fkMajor,jdbcType=INTEGER},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bs.pojo.relPaperMajor" >
+    update bs_rel_paper_major
+    <set >
+      <if test="fkPaper != null" >
+        fk_paper = #{fkPaper,jdbcType=INTEGER},
+      </if>
+      <if test="fkMajor != null" >
+        fk_major = #{fkMajor,jdbcType=INTEGER},
+      </if>
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where pk_rel_paper_major = #{pkRelPaperMajor,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bs.pojo.relPaperMajor" >
+    update bs_rel_paper_major
+    set fk_paper = #{fkPaper,jdbcType=INTEGER},
+      fk_major = #{fkMajor,jdbcType=INTEGER},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP}
+    where pk_rel_paper_major = #{pkRelPaperMajor,jdbcType=INTEGER}
+  </update>
+</mapper>
