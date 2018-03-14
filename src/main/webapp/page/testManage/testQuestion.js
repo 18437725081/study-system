@@ -241,6 +241,7 @@ function zdy() {
     $("#userDefinedSubject").toggle();
     var testSubject = $("#testSubject").select2();
     testSubject.val("").trigger("change");
+    $("input[name=testSubject]").val("");
 }
 
 //分页查询
