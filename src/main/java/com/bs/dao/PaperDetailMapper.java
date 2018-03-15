@@ -1,6 +1,7 @@
 package com.bs.dao;
 
 import com.bs.pojo.PaperDetail;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -65,10 +66,14 @@ public interface PaperDetailMapper {
      *
      * @param paperDetail 试卷详情类
      * @return int
-     * @author 张靖烽 
+     * @author 张靖烽
      * @createtime 2018-03-14 14:44
      */
     int updateByPrimaryKey(PaperDetail paperDetail);
 
     List<PaperDetail> selectPaperDetailByPkPaper(Integer pkPaper);
+
+    int deleteTestsFromPaper(@Param("fkTest") Integer fkTest, @Param("fkPaper") Integer fkPaper);
+
+    int emptyTestsFromPaper(Integer fkPaper);
 }

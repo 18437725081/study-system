@@ -4,6 +4,7 @@ import com.bs.common.Constant;
 import com.bs.common.ResponseCode;
 import com.bs.common.ServerResponse;
 import com.bs.pojo.Paper;
+import com.bs.pojo.PaperDetail;
 import com.bs.pojo.Teacher;
 import com.bs.service.PaperService;
 import org.slf4j.Logger;
@@ -158,9 +159,109 @@ public class PaperController {
         return ServerResponse.createByErrorMessage("不是教师，无法操作");
     }
 
-    //自动组卷
+    /**
+     * @author 张靖烽
+     * @description 手动组卷, 添加试题
+     * @createtime 2018-03-15 11:24
+     */
+    @RequestMapping("compositionPaper.do")
+    @ResponseBody
+    public ServerResponse compositionPaper(HttpSession session, PaperDetail paperDetail) {
+        //判断登录
+        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_TEACHER.equals(teacher.getRole())) {
+            return paperService.compositionPaper(paperDetail, teacher);
+        }
+        return ServerResponse.createByErrorMessage("不是教师，无法操作");
+    }
 
-    //手动组卷
+    /**
+     * @author 张靖烽
+     * @description 删除试卷试题
+     * @createtime 2018-03-15 19:09
+     */
+    @RequestMapping("deleteTestsFromPaper.do")
+    @ResponseBody
+    public ServerResponse deleteTestsFromPaper(HttpSession session, Integer fkTest, Integer fkPaper) {
+        //判断登录
+        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_TEACHER.equals(teacher.getRole())) {
+            return paperService.deleteTestsFromPaper(fkTest, fkPaper, teacher);
+        }
+        return ServerResponse.createByErrorMessage("不是教师，无法操作");
+    }
 
-    //发布试卷
+    /**
+     * @author 张靖烽
+     * @description 清空试卷试题
+     * @createtime 2018-03-15 19:09
+     */
+    @RequestMapping("emptyTestsFromPaper.do")
+    @ResponseBody
+    public ServerResponse emptyTestsFromPaper(HttpSession session, Integer fkPaper) {
+        //判断登录
+        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_TEACHER.equals(teacher.getRole())) {
+            return paperService.emptyTestsFromPaper(fkPaper, teacher);
+        }
+        return ServerResponse.createByErrorMessage("不是教师，无法操作");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 发布试卷
+     * @createtime 2018-03-15 20:04
+     */
+    @RequestMapping("assignmentPaper.do")
+    @ResponseBody
+    public ServerResponse assignmentPaper(HttpSession session, Integer fkPaper, Integer fkMajor) {
+        //判断登录
+        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_TEACHER.equals(teacher.getRole())) {
+            return paperService.assignmentPaper(fkPaper, fkMajor, teacher);
+        }
+        return ServerResponse.createByErrorMessage("不是教师，无法操作");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 自动组卷
+     * @createtime 2018-03-15 20:25
+     */
+    @RequestMapping("autoBuildPaper.do")
+    @ResponseBody
+    public ServerResponse autoBuildPaper(HttpSession session,
+                                         String paperName,
+                                         String flagPublic,
+                                         Integer optionNumber,
+                                         Integer optionScore,
+                                         String subject) {
+        //判断登录
+        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_TEACHER.equals(teacher.getRole())) {
+            return paperService.autoBuildPaper(paperName, flagPublic, optionNumber, optionScore, subject, teacher);
+        }
+        return ServerResponse.createByErrorMessage("不是教师，无法操作");
+    }
+
 }

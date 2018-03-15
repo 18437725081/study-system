@@ -200,4 +200,10 @@
     FROM bs_tests t
     WHERE t.pk_test = #{pkTest}
   </select>
+
+  <select id="selectType" resultType="string" parameterType="int">
+    SELECT test_type
+    FROM bs_tests
+    WHERE pk_test = #{fkTests}
+  </select>
 </mapper>

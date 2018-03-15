@@ -100,4 +100,6 @@ public interface PaperMapper {
      * @createtime 2018-03-14 20:29
      */
     String selectPublicFlag(Integer pkPaper);
+
+    String selectEditFlag(Integer fkPaper);
 }

@@ -1,14 +1,8 @@
 package com.bs.service;
 
 import com.bs.common.ServerResponse;
-import com.bs.dao.PaperDetailMapper;
-import com.bs.dao.PaperMapper;
-import com.bs.dao.TeacherMapper;
-import com.bs.dao.TestsMapper;
-import com.bs.pojo.Paper;
-import com.bs.pojo.PaperDetail;
-import com.bs.pojo.Teacher;
-import com.bs.pojo.Tests;
+import com.bs.dao.*;
+import com.bs.pojo.*;
 import com.bs.util.BigDecimalUtil;
 import com.bs.vo.ChoiceQuestionVO;
 import com.bs.vo.PaperDetailVO;
@@ -43,6 +37,12 @@ public class PaperService {
 
     @Autowired
     private TestsMapper testsMapper;
+
+    @Autowired
+    private RelTeacherMajorMapper teacherMajorMapper;
+
+    @Autowired
+    private RelPaperMajorMapper relPaperMajorMapper;
 
     /**
      * @author 张靖烽
@@ -186,8 +186,118 @@ public class PaperService {
         ChoiceQuestionVO choiceQuestionVO = new ChoiceQuestionVO();
         Tests tests = testsMapper.selectByPrimaryKey(p.getFkTests());
         //拼装choiceQuestionVO对象
-
-
+        choiceQuestionVO.setPkTest(tests.getPkTest());
+        choiceQuestionVO.setTestTitle(tests.getTestTitle());
+        String[] contents = tests.getTestContent().split(";");
+        choiceQuestionVO.setOptionA(contents[0]);
+        choiceQuestionVO.setOptionB(contents[1]);
+        choiceQuestionVO.setOptionC(contents[2]);
+        choiceQuestionVO.setOptionD(contents[3]);
         choiceQuestionVOList.add(choiceQuestionVO);
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 手动组卷, 添加试题
+     * @createtime 2018-03-15 11:27
+     */
+    public ServerResponse compositionPaper(PaperDetail paperDetail, Teacher teacher) {
+        int pkTeacher = paperMapper.selectCreatedByPkPaper(paperDetail.getFkPaper());
+        //判断试卷是否为该教师创建
+        if (pkTeacher == teacher.getPkTeacher()) {
+            String editFlag = paperMapper.selectEditFlag(paperDetail.getFkPaper());
+            //判断试卷是否发布，发布过的试卷不可编辑
+            if (FLAG_Y.equals(editFlag)) {
+                String type = testsMapper.selectType(paperDetail.getFkTests());
+                paperDetail.setTestsType(type);
+                int result = paperDetailMapper.insert(paperDetail);
+                if (result > 0) {
+                    return ServerResponse.createBySuccessMessage("添加试题成功");
+                }
+                return ServerResponse.createByErrorMessage("添加试题失败");
+            }
+            return ServerResponse.createByErrorMessage("该试卷不可编辑");
+        }
+        return ServerResponse.createByErrorMessage("无权限");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 删除试卷试题
+     * @createtime 2018-03-15 19:50
+     */
+    public ServerResponse deleteTestsFromPaper(Integer fkTest, Integer fkPaper, Teacher teacher) {
+        int pkTeacher = paperMapper.selectCreatedByPkPaper(fkPaper);
+        //判断试卷是否为该教师创建
+        if (pkTeacher == teacher.getPkTeacher()) {
+            String editFlag = paperMapper.selectEditFlag(fkPaper);
+            //判断试卷是否发布，发布过的试卷不可编辑
+            if (FLAG_Y.equals(editFlag)) {
+                int result = paperDetailMapper.deleteTestsFromPaper(fkTest, fkPaper);
+                if (result > 0) {
+                    return ServerResponse.createByErrorMessage("删除成功");
+                }
+                return ServerResponse.createByErrorMessage("删除失败");
+            }
+            return ServerResponse.createByErrorMessage("该试卷不可编辑");
+        }
+        return ServerResponse.createByErrorMessage("无权限");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 清空试卷试题
+     * @createtime 2018-03-15 19:50
+     */
+    public ServerResponse emptyTestsFromPaper(Integer fkPaper, Teacher teacher) {
+        int pkTeacher = paperMapper.selectCreatedByPkPaper(fkPaper);
+        //判断试卷是否为该教师创建
+        if (pkTeacher == teacher.getPkTeacher()) {
+            String editFlag = paperMapper.selectEditFlag(fkPaper);
+            //判断试卷是否发布，发布过的试卷不可编辑
+            if (FLAG_Y.equals(editFlag)) {
+                int result = paperDetailMapper.emptyTestsFromPaper(fkPaper);
+                if (result > 0) {
+                    return ServerResponse.createByErrorMessage("删除成功");
+                }
+                return ServerResponse.createByErrorMessage("删除失败");
+            }
+            return ServerResponse.createByErrorMessage("该试卷不可编辑");
+        }
+        return ServerResponse.createByErrorMessage("无权限");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 发布试卷
+     * @createtime 2018-03-15 20:23
+     */
+    public ServerResponse assignmentPaper(Integer fkPaper, Integer fkMajor, Teacher teacher) {
+        int pkTeacher = paperMapper.selectCreatedByPkPaper(fkPaper);
+        //判断试卷是否为该教师创建
+        if (pkTeacher == teacher.getPkTeacher()) {
+            int count = teacherMajorMapper.selectRelCount(teacher.getPkTeacher(), fkMajor);
+            if (count < 1) {
+                return ServerResponse.createByErrorMessage("你不是该专业的教师");
+            }
+            RelPaperMajor relPaperMajor = new RelPaperMajor();
+            relPaperMajor.setFkMajor(fkMajor);
+            relPaperMajor.setFkPaper(fkPaper);
+            int result = relPaperMajorMapper.insert(relPaperMajor);
+            if (result > 0) {
+                return ServerResponse.createByErrorMessage("发布成功");
+            }
+            return ServerResponse.createByErrorMessage("发布失败");
+        }
+        return ServerResponse.createByErrorMessage("无权限");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 自动组卷
+     * @createtime 2018-03-15 20:29
+     */
+    public ServerResponse autoBuildPaper(String paperName, String flagPublic, Integer optionNumber, Integer optionScore, String subject, Teacher teacher) {
+        return null;
     }
 }

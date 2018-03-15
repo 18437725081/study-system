@@ -98,4 +98,6 @@ public interface TestsMapper {
      * @createtime 2018-03-14 19:00
      */
     int selectCreatedByPkTest(Integer pkTest);
+
+    String selectType(Integer fkTests);
 }

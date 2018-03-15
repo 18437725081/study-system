@@ -167,4 +167,10 @@
     FROM bs_paper p
     WHERE p.pk_paper = #{pkPaper}
   </select>
+
+  <select id="selectEditFlag" parameterType="int" resultType="string">
+    SELECT p.flag_edit
+    FROM bs_paper p
+    WHERE p.pk_paper = #{fkPaper}
+  </select>
 </mapper>
