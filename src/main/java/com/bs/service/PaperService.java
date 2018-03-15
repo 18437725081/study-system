@@ -4,9 +4,12 @@ import com.bs.common.ServerResponse;
 import com.bs.dao.PaperDetailMapper;
 import com.bs.dao.PaperMapper;
 import com.bs.dao.TeacherMapper;
+import com.bs.dao.TestsMapper;
 import com.bs.pojo.Paper;
 import com.bs.pojo.PaperDetail;
 import com.bs.pojo.Teacher;
+import com.bs.pojo.Tests;
+import com.bs.util.BigDecimalUtil;
 import com.bs.vo.ChoiceQuestionVO;
 import com.bs.vo.PaperDetailVO;
 import com.github.pagehelper.PageHelper;
@@ -37,6 +40,9 @@ public class PaperService {
 
     @Autowired
     private PaperDetailMapper paperDetailMapper;
+
+    @Autowired
+    private TestsMapper testsMapper;
 
     /**
      * @author 张靖烽
@@ -140,26 +146,48 @@ public class PaperService {
         //选择题list对象
         List<ChoiceQuestionVO> choiceQuestionVOList = Lists.newArrayList();
 
-        int score = 0;
+        String score = "0";
         //根据主键获取试卷信息，设置试卷名称和创建人
         Paper paper = paperMapper.selectByPrimaryKey(pkPaper);
         if (paper != null) {
+            //试卷名称
             paperDetailVO.setPaperName(paper.getPaperName());
             String createdBy = teacherMapper.selectTeacherName(paper.getCreatedBy());
+            //创建人
             paperDetailVO.setCreatedBy(createdBy);
         }
-        //根据试卷主键获取对应试题主键list
+        //根据试卷主键获取list
         List<PaperDetail> paperDetailList = paperDetailMapper.selectPaperDetailByPkPaper(pkPaper);
         if (paperDetailList.size() > 0) {
             for (PaperDetail p : paperDetailList) {
-
+                //累积分数
+                score = BigDecimalUtil.add(p.getScore(), score);
+                //根据试题类型分别加入对应list
+                String type = p.getTestsType();
+                if ("1".equals(type)) {
+                    setOption(p, choiceQuestionVOList);
+                }
             }
         }
-
-
-
+        //分数
         paperDetailVO.setScore(String.valueOf(score));
+        //选择题list
         paperDetailVO.setChoiceQuestion(choiceQuestionVOList);
         return ServerResponse.createBySuccess(paperDetailVO);
+    }
+
+
+    /**
+     * @author 张靖烽
+     * @description 选择题拼装
+     * @createtime 2018-03-15 9:40
+     */
+    private void setOption(PaperDetail p, List<ChoiceQuestionVO> choiceQuestionVOList) {
+        ChoiceQuestionVO choiceQuestionVO = new ChoiceQuestionVO();
+        Tests tests = testsMapper.selectByPrimaryKey(p.getFkTests());
+        //拼装choiceQuestionVO对象
+
+
+        choiceQuestionVOList.add(choiceQuestionVO);
     }
 }
