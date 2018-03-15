@@ -297,7 +297,19 @@ public class PaperService {
      * @description 自动组卷
      * @createtime 2018-03-15 20:29
      */
-    public ServerResponse autoBuildPaper(String paperName, String flagPublic, Integer optionNumber, Integer optionScore, String subject, Teacher teacher) {
+    public ServerResponse autoBuildPaper(String paperName, String flagPublic,
+                                         Integer optionNumber, Integer optionScore,
+                                         String subject, Teacher teacher) {
+        //判断参数
+        if (StringUtils.isBlank(paperName) || StringUtils.isBlank(subject)) {
+            return ServerResponse.createByErrorMessage("试卷名称或学科不能为空");
+        }
+        //试卷名称是否重复
+
+        //新建试卷
+
+        //循环添加试题
+
         return null;
     }
 }
