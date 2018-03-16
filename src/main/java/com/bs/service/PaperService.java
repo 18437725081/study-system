@@ -298,18 +298,47 @@ public class PaperService {
      * @createtime 2018-03-15 20:29
      */
     public ServerResponse autoBuildPaper(String paperName, String flagPublic,
-                                         Integer optionNumber, Integer optionScore,
+                                         Integer optionNumber, String optionScore,
                                          String subject, Teacher teacher) {
         //判断参数
         if (StringUtils.isBlank(paperName) || StringUtils.isBlank(subject)) {
             return ServerResponse.createByErrorMessage("试卷名称或学科不能为空");
         }
         //试卷名称是否重复
-
+        int count = paperMapper.selectPaperName(paperName);
+        if (count > 0) {
+            return ServerResponse.createByErrorMessage("试卷名称重复，请修改");
+        }
+        //判断题库中试题数量是否大于需求数量
+        int number = testsMapper.selectTestsNumber("1");
+        if (number < optionNumber) {
+            return ServerResponse.createByErrorMessage("题库中试题数量少于要求数量，请重试");
+        }
         //新建试卷
-
-        //循环添加试题
-
-        return null;
+        Paper paper = new Paper();
+        paper.setPaperName(paperName);
+        paper.setFlagPublic(flagPublic);
+        paper.setFlagEdit("Y");
+        paper.setFlag("Y");
+        paper.setCreatedBy(teacher.getPkTeacher());
+        paper.setLastUpdatedBy(teacher.getPkTeacher());
+        int pkPaper = paperMapper.insertAndGetPk(paper);
+        //试卷是不是刚刚新建的那张
+        if (paperName.equals(paperMapper.selectByPrimaryKey(pkPaper).getPaperName())){
+            //获取试题list
+            List<Tests> testsList = testsMapper.randomOptionTests(subject, optionNumber, "1");
+            if (testsList != null) {
+                for (Tests t : testsList) {
+                    PaperDetail paperDetail = new PaperDetail();
+                    paperDetail.setFkPaper(pkPaper);
+                    paperDetail.setFkTests(t.getPkTest());
+                    paperDetail.setTestsType(t.getTestType());
+                    paperDetail.setScore(optionScore);
+                    paperDetail.setPriority("1");
+                    paperDetailMapper.insert(paperDetail);
+                }
+            }
+        }
+        return ServerResponse.createByErrorMessage("试卷生成失败");
     }
 }

@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.bs.dao.PaperMapper" >
-  <resultMap id="BaseResultMap" type="com.bs.pojo.Paper" >
-    <constructor >
-      <idArg column="pk_paper" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="paper_name" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="flag_public" jdbcType="CHAR" javaType="java.lang.String" />
-      <arg column="flag_edit" jdbcType="CHAR" javaType="java.lang.String" />
-      <arg column="flag" jdbcType="CHAR" javaType="java.lang.String" />
-      <arg column="created_by" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="last_updated_by" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="last_updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.bs.dao.PaperMapper">
+    <resultMap id="BaseResultMap" type="com.bs.pojo.Paper">
+        <constructor>
+            <idArg column="pk_paper" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="paper_name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="flag_public" jdbcType="CHAR" javaType="java.lang.String"/>
+            <arg column="flag_edit" jdbcType="CHAR" javaType="java.lang.String"/>
+            <arg column="flag" jdbcType="CHAR" javaType="java.lang.String"/>
+            <arg column="created_by" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="last_updated_by" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="last_updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     pk_paper, paper_name, flag_public, flag_edit, flag, created_by, created_time, last_updated_by, 
     last_updated_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from bs_paper
-    where pk_paper = #{pkPaper,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from bs_paper
+        where pk_paper = #{pkPaper,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from bs_paper
     where pk_paper = #{pkPaper,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.bs.pojo.Paper" >
+    <insert id="insert" parameterType="com.bs.pojo.Paper">
     insert into bs_paper (pk_paper, paper_name, flag_public, 
       flag_edit, flag, created_by, 
       created_time, last_updated_by, last_updated_time
@@ -38,92 +38,92 @@
       now(), #{lastUpdatedBy,jdbcType=INTEGER}, now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.bs.pojo.Paper" >
-    insert into bs_paper
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkPaper != null" >
-        pk_paper,
-      </if>
-      <if test="paperName != null" >
-        paper_name,
-      </if>
-      <if test="flagPublic != null" >
-        flag_public,
-      </if>
-      <if test="flagEdit != null" >
-        flag_edit,
-      </if>
-      <if test="flag != null" >
-        flag,
-      </if>
-      <if test="createdBy != null" >
-        created_by,
-      </if>
-      <if test="createdTime != null" >
-        created_time,
-      </if>
-      <if test="lastUpdatedBy != null" >
-        last_updated_by,
-      </if>
-      <if test="lastUpdatedTime != null" >
-        last_updated_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkPaper != null" >
-        #{pkPaper,jdbcType=INTEGER},
-      </if>
-      <if test="paperName != null" >
-        #{paperName,jdbcType=VARCHAR},
-      </if>
-      <if test="flagPublic != null" >
-        #{flagPublic,jdbcType=CHAR},
-      </if>
-      <if test="flagEdit != null" >
-        #{flagEdit,jdbcType=CHAR},
-      </if>
-      <if test="flag != null" >
-        #{flag,jdbcType=CHAR},
-      </if>
-      <if test="createdBy != null" >
-        #{createdBy,jdbcType=INTEGER},
-      </if>
-      <if test="createdTime != null" >
-        now(),
-      </if>
-      <if test="lastUpdatedBy != null" >
-        #{lastUpdatedBy,jdbcType=INTEGER},
-      </if>
-      <if test="lastUpdatedTime != null" >
-        now(),
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bs.pojo.Paper" >
-    update bs_paper
-    <set >
-      <if test="paperName != null" >
-        paper_name = #{paperName,jdbcType=VARCHAR},
-      </if>
-      <if test="flagPublic != null" >
-        flag_public = #{flagPublic,jdbcType=CHAR},
-      </if>
-      <if test="flagEdit != null" >
-        flag_edit = #{flagEdit,jdbcType=CHAR},
-      </if>
-      <if test="flag != null" >
-        flag = #{flag,jdbcType=CHAR},
-      </if>
-      <if test="lastUpdatedBy != null" >
-        last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
-      </if>
-      <if test="lastUpdatedTime != null" >
-        last_updated_time = now(),
-      </if>
-    </set>
-    where pk_paper = #{pkPaper,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.bs.pojo.Paper" >
+    <insert id="insertSelective" parameterType="com.bs.pojo.Paper">
+        insert into bs_paper
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkPaper != null">
+                pk_paper,
+            </if>
+            <if test="paperName != null">
+                paper_name,
+            </if>
+            <if test="flagPublic != null">
+                flag_public,
+            </if>
+            <if test="flagEdit != null">
+                flag_edit,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by,
+            </if>
+            <if test="lastUpdatedTime != null">
+                last_updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkPaper != null">
+                #{pkPaper,jdbcType=INTEGER},
+            </if>
+            <if test="paperName != null">
+                #{paperName,jdbcType=VARCHAR},
+            </if>
+            <if test="flagPublic != null">
+                #{flagPublic,jdbcType=CHAR},
+            </if>
+            <if test="flagEdit != null">
+                #{flagEdit,jdbcType=CHAR},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=CHAR},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=INTEGER},
+            </if>
+            <if test="createdTime != null">
+                now(),
+            </if>
+            <if test="lastUpdatedBy != null">
+                #{lastUpdatedBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastUpdatedTime != null">
+                now(),
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bs.pojo.Paper">
+        update bs_paper
+        <set>
+            <if test="paperName != null">
+                paper_name = #{paperName,jdbcType=VARCHAR},
+            </if>
+            <if test="flagPublic != null">
+                flag_public = #{flagPublic,jdbcType=CHAR},
+            </if>
+            <if test="flagEdit != null">
+                flag_edit = #{flagEdit,jdbcType=CHAR},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=CHAR},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastUpdatedTime != null">
+                last_updated_time = now(),
+            </if>
+        </set>
+        where pk_paper = #{pkPaper,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bs.pojo.Paper">
     update bs_paper
     set paper_name = #{paperName,jdbcType=VARCHAR},
       flag_public = #{flagPublic,jdbcType=CHAR},
@@ -134,43 +134,64 @@
     where pk_paper = #{pkPaper,jdbcType=INTEGER}
   </update>
 
-  <select id="queryPaper" parameterType="com.bs.pojo.Paper" resultMap="BaseResultMap">
-    SELECT <include refid="Base_Column_List"/>
-    FROM bs_paper
-    <where>
-      <if test='paperName != null and paperName!="" '>
-        AND paper_name LIKE '%${paperName}%'
-      </if>
-      <if test="flagPublic != null">
-        AND flag_public = #{flagPublic}
-      </if>
-      <if test="flagEdit != null">
-        AND flag_edit = #{flagEdit}
-      </if>
-      <if test="flag != null">
-        AND flag = #{flag}
-      </if>
-      <if test="createdBy != null">
-        AND created_by = #{createdBy}
-      </if>
-    </where>
-  </select>
+    <select id="queryPaper" parameterType="com.bs.pojo.Paper" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bs_paper
+        <where>
+            <if test='paperName != null and paperName!="" '>
+                AND paper_name LIKE '%${paperName}%'
+            </if>
+            <if test="flagPublic != null">
+                AND flag_public = #{flagPublic}
+            </if>
+            <if test="flagEdit != null">
+                AND flag_edit = #{flagEdit}
+            </if>
+            <if test="flag != null">
+                AND flag = #{flag}
+            </if>
+            <if test="createdBy != null">
+                AND created_by = #{createdBy}
+            </if>
+        </where>
+    </select>
 
-  <select id="selectCreatedByPkPaper" parameterType="int" resultType="int">
+    <select id="selectCreatedByPkPaper" parameterType="int" resultType="int">
     SELECT p.created_by
     FROM bs_paper p
     WHERE p.pk_paper = #{pkPaper}
   </select>
 
-  <select id="selectPublicFlag" parameterType="int" resultType="string">
+    <select id="selectPublicFlag" parameterType="int" resultType="string">
     SELECT p.flag_public
     FROM bs_paper p
     WHERE p.pk_paper = #{pkPaper}
   </select>
 
-  <select id="selectEditFlag" parameterType="int" resultType="string">
+    <select id="selectEditFlag" parameterType="int" resultType="string">
     SELECT p.flag_edit
     FROM bs_paper p
     WHERE p.pk_paper = #{fkPaper}
   </select>
+
+    <select id="selectPaperName" parameterType="string" resultType="int">
+    SELECT COUNT(1)
+    FROM bs_paper
+    WHERE paper_name = #{paperName}
+  </select>
+
+    <insert id="insertAndGetPk" parameterType="com.bs.pojo.Paper">
+        <selectKey keyProperty="pkPaper" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into bs_paper (pk_paper, paper_name, flag_public,
+        flag_edit, flag, created_by,
+        created_time, last_updated_by, last_updated_time
+        )
+        values (#{pkPaper,jdbcType=INTEGER}, #{paperName,jdbcType=VARCHAR}, #{flagPublic,jdbcType=CHAR},
+        #{flagEdit,jdbcType=CHAR}, #{flag,jdbcType=CHAR}, #{createdBy,jdbcType=INTEGER},
+        now(), #{lastUpdatedBy,jdbcType=INTEGER}, now()
+        )
+    </insert>
 </mapper>

@@ -1,6 +1,7 @@
 package com.bs.dao;
 
 import com.bs.pojo.Tests;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -100,4 +101,8 @@ public interface TestsMapper {
     int selectCreatedByPkTest(Integer pkTest);
 
     String selectType(Integer fkTests);
+
+    List<Tests> randomOptionTests(@Param("subject") String subject, @Param("optionNumber") Integer optionNumber, @Param("type") String type);
+
+    int selectTestsNumber(String type);
 }

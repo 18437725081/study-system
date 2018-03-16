@@ -102,4 +102,8 @@ public interface PaperMapper {
     String selectPublicFlag(Integer pkPaper);
 
     String selectEditFlag(Integer fkPaper);
+
+    int selectPaperName(String paperName);
+
+    int insertAndGetPk(Paper paper);
 }

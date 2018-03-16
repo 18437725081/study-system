@@ -256,7 +256,7 @@ public class PaperController {
                                          String subject,
                                          @RequestParam(value = "flagPublic", defaultValue = "N")String flagPublic,
                                          @RequestParam(value = "optionNumber", defaultValue = "20")Integer optionNumber,
-                                         @RequestParam(value = "optionScore", defaultValue = "5")Integer optionScore
+                                         @RequestParam(value = "optionScore", defaultValue = "5")String optionScore
                                          ) {
         //判断登录
         Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
