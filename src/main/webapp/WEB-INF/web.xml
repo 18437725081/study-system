@@ -58,6 +58,7 @@
     <welcome-file-list>
         <welcome-file>login.html</welcome-file>
     </welcome-file-list>
+    <!-- 404错误界面 -->
     <error-page>
         <error-code>404</error-code>
         <location>/page/other/error404.html</location>
