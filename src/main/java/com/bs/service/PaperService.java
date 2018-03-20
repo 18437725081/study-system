@@ -208,6 +208,10 @@ public class PaperService {
             String editFlag = paperMapper.selectEditFlag(paperDetail.getFkPaper());
             //判断试卷是否发布，发布过的试卷不可编辑
             if (FLAG_Y.equals(editFlag)) {
+                int count = paperDetailMapper.selectRepeat(paperDetail.getFkPaper(), paperDetail.getFkTests());
+                if (count > 0) {
+                    return ServerResponse.createBySuccessMessage("试卷已添加该试题，请勿重复添加");
+                }
                 String type = testsMapper.selectType(paperDetail.getFkTests());
                 paperDetail.setTestsType(type);
                 int result = paperDetailMapper.insert(paperDetail);
@@ -324,7 +328,7 @@ public class PaperService {
         paper.setLastUpdatedBy(teacher.getPkTeacher());
         int pkPaper = paperMapper.insertAndGetPk(paper);
         //试卷是不是刚刚新建的那张
-        if (paperName.equals(paperMapper.selectByPrimaryKey(pkPaper).getPaperName())){
+        if (paperName.equals(paperMapper.selectByPrimaryKey(pkPaper).getPaperName())) {
             //获取试题list
             List<Tests> testsList = testsMapper.randomOptionTests(subject, optionNumber, "1");
             if (testsList != null) {

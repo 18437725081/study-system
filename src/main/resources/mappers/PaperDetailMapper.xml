@@ -1,102 +1,100 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.bs.dao.PaperDetailMapper" >
-  <resultMap id="BaseResultMap" type="com.bs.pojo.PaperDetail" >
-    <constructor >
-      <idArg column="pk_paper_detail" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="fk_paper" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="fk_tests" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="tests_type" jdbcType="CHAR" javaType="java.lang.String" />
-      <arg column="score" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="priority" jdbcType="VARCHAR" javaType="java.lang.String" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.bs.dao.PaperDetailMapper">
+    <resultMap id="BaseResultMap" type="com.bs.pojo.PaperDetail">
+        <constructor>
+            <idArg column="pk_paper_detail" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="fk_paper" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="fk_tests" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="tests_type" jdbcType="CHAR" javaType="java.lang.String"/>
+            <arg column="score" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="priority" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     pk_paper_detail, fk_paper, fk_tests, tests_type, score, priority
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from bs_paper_detail
-    where pk_paper_detail = #{pkPaperDetail,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from bs_paper_detail
+        where pk_paper_detail = #{pkPaperDetail,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from bs_paper_detail
     where pk_paper_detail = #{pkPaperDetail,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.bs.pojo.PaperDetail" >
-    insert into bs_paper_detail (pk_paper_detail, fk_paper, fk_tests, 
-      tests_type, score, priority
-      )
+    <insert id="insert" parameterType="com.bs.pojo.PaperDetail">
+    insert into bs_paper_detail (pk_paper_detail, fk_paper, fk_tests,tests_type, score, priority)
     values (#{pkPaperDetail,jdbcType=INTEGER}, #{fkPaper,jdbcType=INTEGER}, #{fkTests,jdbcType=INTEGER}, 
       #{testsType,jdbcType=CHAR}, #{score,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.bs.pojo.PaperDetail" >
-    insert into bs_paper_detail
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkPaperDetail != null" >
-        pk_paper_detail,
-      </if>
-      <if test="fkPaper != null" >
-        fk_paper,
-      </if>
-      <if test="fkTests != null" >
-        fk_tests,
-      </if>
-      <if test="testsType != null" >
-        tests_type,
-      </if>
-      <if test="score != null" >
-        score,
-      </if>
-      <if test="priority != null" >
-        priority,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkPaperDetail != null" >
-        #{pkPaperDetail,jdbcType=INTEGER},
-      </if>
-      <if test="fkPaper != null" >
-        #{fkPaper,jdbcType=INTEGER},
-      </if>
-      <if test="fkTests != null" >
-        #{fkTests,jdbcType=INTEGER},
-      </if>
-      <if test="testsType != null" >
-        #{testsType,jdbcType=CHAR},
-      </if>
-      <if test="score != null" >
-        #{score,jdbcType=VARCHAR},
-      </if>
-      <if test="priority != null" >
-        #{priority,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bs.pojo.PaperDetail" >
-    update bs_paper_detail
-    <set >
-      <if test="fkPaper != null" >
-        fk_paper = #{fkPaper,jdbcType=INTEGER},
-      </if>
-      <if test="fkTests != null" >
-        fk_tests = #{fkTests,jdbcType=INTEGER},
-      </if>
-      <if test="testsType != null" >
-        tests_type = #{testsType,jdbcType=CHAR},
-      </if>
-      <if test="score != null" >
-        score = #{score,jdbcType=VARCHAR},
-      </if>
-      <if test="priority != null" >
-        priority = #{priority,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where pk_paper_detail = #{pkPaperDetail,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.bs.pojo.PaperDetail" >
+    <insert id="insertSelective" parameterType="com.bs.pojo.PaperDetail">
+        insert into bs_paper_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkPaperDetail != null">
+                pk_paper_detail,
+            </if>
+            <if test="fkPaper != null">
+                fk_paper,
+            </if>
+            <if test="fkTests != null">
+                fk_tests,
+            </if>
+            <if test="testsType != null">
+                tests_type,
+            </if>
+            <if test="score != null">
+                score,
+            </if>
+            <if test="priority != null">
+                priority,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkPaperDetail != null">
+                #{pkPaperDetail,jdbcType=INTEGER},
+            </if>
+            <if test="fkPaper != null">
+                #{fkPaper,jdbcType=INTEGER},
+            </if>
+            <if test="fkTests != null">
+                #{fkTests,jdbcType=INTEGER},
+            </if>
+            <if test="testsType != null">
+                #{testsType,jdbcType=CHAR},
+            </if>
+            <if test="score != null">
+                #{score,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null">
+                #{priority,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bs.pojo.PaperDetail">
+        update bs_paper_detail
+        <set>
+            <if test="fkPaper != null">
+                fk_paper = #{fkPaper,jdbcType=INTEGER},
+            </if>
+            <if test="fkTests != null">
+                fk_tests = #{fkTests,jdbcType=INTEGER},
+            </if>
+            <if test="testsType != null">
+                tests_type = #{testsType,jdbcType=CHAR},
+            </if>
+            <if test="score != null">
+                score = #{score,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null">
+                priority = #{priority,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where pk_paper_detail = #{pkPaperDetail,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bs.pojo.PaperDetail">
     update bs_paper_detail
     set fk_paper = #{fkPaper,jdbcType=INTEGER},
       fk_tests = #{fkTests,jdbcType=INTEGER},
@@ -106,20 +104,28 @@
     where pk_paper_detail = #{pkPaperDetail,jdbcType=INTEGER}
   </update>
 
-  <select id="selectPaperDetailByPkPaper" parameterType="int" resultMap="BaseResultMap">
-    SELECT <include refid="Base_Column_List"/>
-    FROM bs_paper_detail
-    WHERE fk_paper = #{pkPaper}
-  </select>
+    <select id="selectPaperDetailByPkPaper" parameterType="int" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bs_paper_detail
+        WHERE fk_paper = #{pkPaper}
+    </select>
 
-  <delete id="deleteTestsFromPaper" parameterType="map" >
+    <delete id="deleteTestsFromPaper" parameterType="map">
     delete from bs_paper_detail
     where fk_tests = #{fkTest}
     and fk_paper = #{fkPaper}
   </delete>
 
-  <delete id="emptyTestsFromPaper" parameterType="Integer" >
+    <delete id="emptyTestsFromPaper" parameterType="Integer">
     delete from bs_paper_detail
     where fk_paper = #{fkPaper}
   </delete>
+
+    <select id="selectRepeat" parameterType="map" resultType="int">
+        SELECT COUNT(1)
+        FROM bs_paper_detail bpd
+        WHERE bpd.fk_paper = #{fkPaper}
+        AND bpd.fk_tests = #{fkTests}
+    </select>
 </mapper>

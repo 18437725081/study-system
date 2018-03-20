@@ -76,4 +76,6 @@ public interface PaperDetailMapper {
     int deleteTestsFromPaper(@Param("fkTest") Integer fkTest, @Param("fkPaper") Integer fkPaper);
 
     int emptyTestsFromPaper(Integer fkPaper);
+
+    int selectRepeat(@Param("fkPaper") Integer fkPaper, @Param("fkTests") Integer fkTests);
 }
