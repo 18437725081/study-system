@@ -1,10 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>试卷管理页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../../css/matrix-style2.css"/>
+    <link rel="stylesheet" href="../../css/toastr.min.css">
+    <link rel="stylesheet" href="../../css/sweetalert.css">
+    <link rel="stylesheet" href="../../css/select2.min.css"/>
+    <link rel="stylesheet" href="../../css/opera.css">
+    <link rel="stylesheet" href="../../css/common.css">
 </head>
-<body>
 
+<body>
+<div id="content">
+    <div id="content-header">
+        <h1>试卷管理</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div style="margin-top: 16px">
+                    <button type="button" class="btn btn-info" onclick="queryOpen()"><i class="icon-search"></i> 查询
+                    </button>
+                    <button type="button" class="btn btn-info" onclick="preview()"><i class="icon-reorder"></i> 预览
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="queryBox" style="display:none;">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content nopadding">
+                        <form id="query">
+                            <div style="margin: 20px">
+                                <div>
+                                    <label for="paperName">试卷名称：</label>
+                                    <input type="text" class="inputText" id="paperName" name="paperName"/>
+                                    <button type="button" class="btn btn-info" onclick="query()">查询</button>
+                                    <button type="button" class="btn btn-info" onclick="loadPaper()">显示全部
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
+                        <h5>试卷库</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th width="10%">编号</th>
+                                <th width="60%">试卷名称</th>
+                                <th width="10%">编辑</th>
+                                <th width="10%">公开</th>
+                                <th width="10%">有效</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tab">
+                            </tbody>
+                        </table>
+                        <div class="paginationBox" id="paging">
+                            <div class="pagination alternate">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="page" name="page">
+<input type="hidden" id="url" name="url" value="../../paper/queryMyPaper.do">
 </body>
+<script src="../../js/jquery-2.1.1.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery.uniform.js"></script>
+<script src="../../js/matrix.js"></script>
+<script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
+<script src="../../js/iframeTools.js" type="text/javascript"></script>
+<script src="../../js/jquery.form.js"></script>
+<script src="../../js/template.js"></script>
+<script src="../../js/toastr.min.js"></script>
+<script src="../../js/sweetalert.min.js"></script>
+<script src="../../js/select2.min.js"></script>
+<script src="../../js/common.js"></script>
+<script src="paper.js" type="text/javascript"></script>
+<!--用于存放模版-->
+<script id="template" type="text/html">
+    {{if data.total == 0}}
+    <tr>
+        <td colspan=5>未找到数据</td>
+    </tr>
+    {{else}}
+    {{each data.list as i}}
+    <tr>
+        <td>{{i.pkPaper}}</td>
+        <td>{{i.paperName}}</td>
+        {{if i.flagEdit == 'Y'}}
+        <td>√</td>
+        {{else}}
+        <td>×</td>
+        {{/if}}
+        {{if i.flagPublic == 'Y'}}
+        <td>公开</td>
+        {{else}}
+        <td>私有</td>
+        {{/if}}
+        {{if i.flag == 'Y'}}
+        <td>有效</td>
+        {{else}}
+        <td>无效</td>
+        {{/if}}
+    </tr>
+    {{/each}}
+    {{/if}}
+</script>
+<script>
+    $(function () {
+        loadPaper();
+    });
+</script>
 </html>
