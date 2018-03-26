@@ -120,14 +120,14 @@
         <td>×</td>
         {{/if}}
         {{if i.flagPublic == 'Y'}}
-        <td>公开</td>
+        <td><button class="btn btn-success" type="button">公开</button></td>
         {{else}}
-        <td>私有</td>
+        <td><button class="btn btn-success" type="button">私有</button></td>
         {{/if}}
         {{if i.flag == 'Y'}}
-        <td>有效</td>
+        <td><button class="btn btn-success" type="button">有效</button></td>
         {{else}}
-        <td>无效</td>
+        <td><button class="btn btn-success" type="button">无效</button></td>
         {{/if}}
     </tr>
     {{/each}}

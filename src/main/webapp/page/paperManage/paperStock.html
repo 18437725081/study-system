@@ -66,11 +66,9 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th width="10%">编号</th>
-                                <th width="60%">试卷名称</th>
-                                <th width="10%">编辑</th>
-                                <th width="10%">公开</th>
-                                <th width="10%">有效</th>
+                                <th width="15%">编号</th>
+                                <th width="70%">试卷名称</th>
+                                <th width="15%">使用</th>
                             </tr>
                             </thead>
                             <tbody id="tab">
@@ -114,20 +112,10 @@
     <tr>
         <td>{{i.pkPaper}}</td>
         <td>{{i.paperName}}</td>
-        {{if i.flagEdit == 'Y'}}
-        <td>√</td>
-        {{else}}
-        <td>×</td>
-        {{/if}}
-        {{if i.flagPublic == 'Y'}}
-        <td>公开</td>
-        {{else}}
-        <td>私有</td>
-        {{/if}}
         {{if i.flag == 'Y'}}
-        <td>有效</td>
+        <td>可以使用</td>
         {{else}}
-        <td>无效</td>
+        <td>无法使用</td>
         {{/if}}
     </tr>
     {{/each}}
