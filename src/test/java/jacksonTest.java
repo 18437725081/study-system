@@ -1,5 +1,9 @@
+import com.bs.pojo.Student;
+import com.google.common.collect.Lists;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.*;
+
+import java.util.List;
 
 /**
  * @author 张靖烽
@@ -8,10 +12,18 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.*;
  * @create 2018-03-20 19:38
  **/
 public class jacksonTest {
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    public static void main(String[] args) {
+        List<Student> students = Lists.newArrayList();
 
-    static {
-        objectMapper.setSerializationInclusion(Inclusion.ALWAYS);
+        Student s1 = new Student();
+        Student s2 = new Student();
+        Student s3 = new Student();
+        students.add(s1);
+        students.add(s2);
+        students.add(s3);
+        System.out.println(students.get(0));
+        students.set(0,null);
+        System.out.println(students.get(0));
 
     }
 }

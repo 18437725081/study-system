@@ -11,7 +11,7 @@ function loadNotice() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("提示", data.msg);
+                swal("", data.msg,"error");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -51,7 +51,7 @@ function modify() {
             resize: false
         });
     } else {
-        swal("提示", "请选择一条通知！");
+        swal("", "请选择一条通知！","warning");
     }
 }
 
@@ -67,7 +67,7 @@ function getNotice(pkNotice) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                window.parent.swal("错误",data.msg);
+                window.parent.swal("", data.msg,"error");
             } else {
                 $("#noticeContent").html(data.data.noticeContent);
                 $("#flag").val(data.data.flag);
@@ -85,7 +85,7 @@ function getNotice(pkNotice) {
 function sub() {
     var noticeContent = $("#noticeContent").val();
     if (noticeContent.trim() === null || noticeContent.trim() === "") {
-        window.parent.swal("提示", "通知内容不能为空！");
+        window.parent.swal("", "通知内容不能为空！","warning");
         return false;
     }
     $("#add_notice").ajaxSubmit({
@@ -120,7 +120,7 @@ function query() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("错误", data.msg)
+                swal("", data.msg,"error");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -149,7 +149,7 @@ function paging(pageNum) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("错误", data.msg)
+                swal("", data.msg,"error");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);

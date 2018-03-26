@@ -106,7 +106,7 @@ public class PaperController {
      */
     @RequestMapping("modifyPublicFlag.do")
     @ResponseBody
-    public ServerResponse modifyPublicFlag(HttpSession session, Integer pkPaper, String publicFlag) {
+    public ServerResponse modifyPublicFlag(HttpSession session, Integer pkPaper, String flag) {
         //判断登录
         Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
         if (teacher == null) {
@@ -114,7 +114,7 @@ public class PaperController {
         }
         //判断权限，业务处理
         if (Constant.Role.ROLE_TEACHER.equals(teacher.getRole())) {
-            return paperService.modifyPublicFlag(pkPaper, publicFlag, teacher);
+            return paperService.modifyPublicFlag(pkPaper, flag, teacher);
         }
         return ServerResponse.createByErrorMessage("不是教师，无法操作");
     }
@@ -240,11 +240,11 @@ public class PaperController {
     }
 
     /**
-     * @param paperName 试卷名称
-     * @param subject 题目所属学科
-     * @param flagPublic 是否公开
+     * @param paperName    试卷名称
+     * @param subject      题目所属学科
+     * @param flagPublic   是否公开
      * @param optionNumber 选择题数量
-     * @param optionScore 每道选择题分数
+     * @param optionScore  每道选择题分数
      * @author 张靖烽
      * @description 自动组卷
      * @createtime 2018-03-15 20:25
@@ -254,10 +254,10 @@ public class PaperController {
     public ServerResponse autoBuildPaper(HttpSession session,
                                          String paperName,
                                          String subject,
-                                         @RequestParam(value = "flagPublic", defaultValue = "N")String flagPublic,
-                                         @RequestParam(value = "optionNumber", defaultValue = "20")Integer optionNumber,
-                                         @RequestParam(value = "optionScore", defaultValue = "5")String optionScore
-                                         ) {
+                                         @RequestParam(value = "flagPublic", defaultValue = "N") String flagPublic,
+                                         @RequestParam(value = "optionNumber", defaultValue = "20") Integer optionNumber,
+                                         @RequestParam(value = "optionScore", defaultValue = "5") String optionScore
+    ) {
         //判断登录
         Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
         if (teacher == null) {

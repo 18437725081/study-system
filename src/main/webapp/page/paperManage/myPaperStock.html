@@ -27,8 +27,36 @@
                 <div style="margin-top: 16px">
                     <button type="button" class="btn btn-info" onclick="queryOpen()"><i class="icon-search"></i> 查询
                     </button>
+                    <button type="button" class="btn btn-info" onclick="addOpen()"><i class="icon-search"></i> 新增试卷
+                    </button>
                     <button type="button" class="btn btn-info" onclick="preview()"><i class="icon-reorder"></i> 预览
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="addBox" style="display:none;">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content nopadding">
+                        <form id="addPaper">
+                            <div style="margin: 20px">
+                                <div>
+                                    <label for="addPaperName">试卷名称：</label>
+                                    <input type="text" class="inputText" id="addPaperName" name="paperName"/>
+                                    <label for="publicFlag">是否公开试卷：</label>
+                                    <select id="publicFlag" name="publicFlag" style="width: 220px">
+                                        <option value="Y" selected>公开</option>
+                                        <option value="N">私有</option>
+                                    </select>
+                                    <button type="button" class="btn btn-info" onclick="addPaper()">新增
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -120,14 +148,14 @@
         <td>×</td>
         {{/if}}
         {{if i.flagPublic == 'Y'}}
-        <td><button class="btn btn-success" type="button">公开</button></td>
+        <td><button class="btn btn-success" type="button" onclick="modifyFlag('{{i.pkPaper}}','N','../../paper/modifyPublicFlag.do')">公开</button></td>
         {{else}}
-        <td><button class="btn btn-success" type="button">私有</button></td>
+        <td><button class="btn btn-inverse" type="button" onclick="modifyFlag('{{i.pkPaper}}','Y','../../paper/modifyPublicFlag.do')">私有</button></td>
         {{/if}}
         {{if i.flag == 'Y'}}
-        <td><button class="btn btn-success" type="button">有效</button></td>
+        <td><button class="btn btn-success" type="button" onclick="modifyFlag('{{i.pkPaper}}','N','../../paper/modifyFlag.do')">有效</button></td>
         {{else}}
-        <td><button class="btn btn-success" type="button">无效</button></td>
+        <td><button class="btn btn-danger" type="button" onclick="modifyFlag('{{i.pkPaper}}','Y','../../paper/modifyFlag.do')">无效</button></td>
         {{/if}}
     </tr>
     {{/each}}
@@ -135,6 +163,7 @@
 </script>
 <script>
     $(function () {
+        $('select').select2();
         loadPaper();
     });
 </script>

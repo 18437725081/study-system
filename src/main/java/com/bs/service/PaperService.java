@@ -212,6 +212,7 @@ public class PaperService {
                 if (count > 0) {
                     return ServerResponse.createBySuccessMessage("试卷已添加该试题，请勿重复添加");
                 }
+                //获取试题类型
                 String type = testsMapper.selectType(paperDetail.getFkTests());
                 paperDetail.setTestsType(type);
                 int result = paperDetailMapper.insert(paperDetail);
