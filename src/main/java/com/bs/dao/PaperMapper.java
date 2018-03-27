@@ -2,6 +2,7 @@ package com.bs.dao;
 
 import com.bs.pojo.Paper;
 import com.bs.pojo.Tests;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -89,7 +90,7 @@ public interface PaperMapper {
      * @author 张靖烽
      * @createtime 2018-03-14 19:00
      */
-    int selectCreatedByPkPaper(Integer pkPaper);
+    Integer selectCreatedByPkPaper(@Param("pkPaper") Integer pkPaper);
 
     /**
      * 查询公开状态

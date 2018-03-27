@@ -168,3 +168,8 @@ textarea{
     padding: 3px 10px;
     font-size: 13px;
 }
+
+.prompt{
+    padding-left: 10px;
+    color: #ff0000;
+}

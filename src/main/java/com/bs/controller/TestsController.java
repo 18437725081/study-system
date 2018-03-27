@@ -158,4 +158,25 @@ public class TestsController {
         }
         return ServerResponse.createByErrorMessage("不是教师，无法操作");
     }
+
+
+    /**
+     * @author 张靖烽
+     * @description 查询试卷试题
+     * @createtime 2018-03-08 13:41
+     */
+    @RequestMapping("selectPaperTests.do")
+    @ResponseBody
+    public ServerResponse selectPaperTests(HttpSession session,Integer fkPaper) {
+        //判断登录
+        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        //判断权限，业务处理
+        if (Constant.Role.ROLE_TEACHER.equals(teacher.getRole())) {
+            return testsService.selectPaperTests(fkPaper);
+        }
+        return ServerResponse.createByErrorMessage("不是教师，无法操作");
+    }
 }

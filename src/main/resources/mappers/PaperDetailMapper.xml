@@ -112,14 +112,14 @@
     </select>
 
     <delete id="deleteTestsFromPaper" parameterType="map">
-    delete from bs_paper_detail
-    where fk_tests = #{fkTest}
-    and fk_paper = #{fkPaper}
+        delete from bs_paper_detail
+        where fk_tests = #{fkTest}
+        and fk_paper = #{fkPaper}
   </delete>
 
     <delete id="emptyTestsFromPaper" parameterType="Integer">
-    delete from bs_paper_detail
-    where fk_paper = #{fkPaper}
+        delete from bs_paper_detail
+        where fk_paper = #{fkPaper}
   </delete>
 
     <select id="selectRepeat" parameterType="map" resultType="int">
@@ -127,5 +127,11 @@
         FROM bs_paper_detail bpd
         WHERE bpd.fk_paper = #{fkPaper}
         AND bpd.fk_tests = #{fkTests}
+    </select>
+
+    <select id="selectPaperTests" resultType="integer" parameterType="integer">
+        SELECT fk_tests
+        FROM bs_paper_detail
+        WHERE fk_paper = #{fkPaper}
     </select>
 </mapper>

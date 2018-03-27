@@ -2,6 +2,7 @@ package com.bs.service;
 
 import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
+import com.bs.dao.PaperDetailMapper;
 import com.bs.dao.TeacherMapper;
 import com.bs.dao.TestsMapper;
 import com.bs.pojo.Teacher;
@@ -29,6 +30,8 @@ public class TestsService {
     private TestsMapper testsMapper;
     @Autowired
     private TeacherMapper teacherMapper;
+    @Autowired
+    private PaperDetailMapper paperDetailMapper;
 
     /**
      * @author 张靖烽
@@ -39,7 +42,7 @@ public class TestsService {
         PageHelper.startPage(pageNum, pageSize);
         List<Tests> list = testsMapper.queryTests(tests);
         List<TestVO> lists = Lists.newArrayList();
-        for (Tests t :list){
+        for (Tests t : list) {
             lists.add(setTestVO(t));
         }
         PageInfo pageInfo = new PageInfo(list);
@@ -92,7 +95,7 @@ public class TestsService {
         if (pkTest != null && flag != null) {
             //判断该试题是否属于该教师创建
             int pkTeacher = testsMapper.selectCreatedByPkTest(pkTest);
-            if (pkTeacher == teacher.getPkTeacher()){
+            if (pkTeacher == teacher.getPkTeacher()) {
                 Tests tests = new Tests();
                 tests.setPkTest(pkTest);
                 tests.setFlag(flag);
@@ -120,6 +123,26 @@ public class TestsService {
 
     /**
      * @author 张靖烽
+     * @description 查询试卷试题
+     * @createtime 2018-03-27 20:26
+     */
+    public ServerResponse selectPaperTests(Integer fkPaper) {
+        if (fkPaper == null) {
+            return ServerResponse.createByErrorMessage("参数不正确");
+        }
+        List<Integer> TestsList = paperDetailMapper.selectPaperTests(fkPaper);
+
+        List<TestVO> lists = Lists.newArrayList();
+
+        for (Integer id : TestsList) {
+            Tests tests = testsMapper.selectByPrimaryKey(id);
+            lists.add(setTestVO(tests));
+        }
+        return ServerResponse.createBySuccess(lists);
+    }
+
+    /**
+     * @author 张靖烽
      * @description 设置TestVO返回对象
      * @createtime 2018-03-08 15:50
      */
@@ -140,9 +163,9 @@ public class TestsService {
         testVO.setTestContent(tests.getTestContent());
         testVO.setTestAnswer(tests.getTestAnswer());
         testVO.setTestAnalyze(tests.getTestAnalyze());
-        if (Constant.FLAG_Y.equals(tests.getFlag())){
+        if (Constant.FLAG_Y.equals(tests.getFlag())) {
             testVO.setFlag("可以使用");
-        }else {
+        } else {
             testVO.setFlag("无法使用");
         }
         testVO.setLastUpdatedTime(Time.dateToStr(tests.getLastUpdatedTime()));
@@ -150,4 +173,5 @@ public class TestsService {
         testVO.setCreatedBy(createdBy);
         return testVO;
     }
+
 }

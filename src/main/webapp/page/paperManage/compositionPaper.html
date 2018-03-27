@@ -27,76 +27,41 @@
             <div class="span12">
                 <div class="widget-box">
                     <div class="widget-content nopadding">
-                        <form id="addPaper">
+                        <form id="addPaperTests">
                             <div style="margin: 20px">
                                 <div>
-                                    <label for="addPaperName">试卷：</label>
-                                    <input type="text" class="inputText" id="addPaperName" name="paperName" onclick="getPaper()" readonly="readonly"/>
+                                    <label for="fkPaper">试卷：</label>
+                                    <input type="text" class="inputText" id="fkPaper" name="fkPaper" readonly="readonly"/>
                                     <button type="button" class="btn btn-info" onclick="selectPaper()">选择</button>
 
-                                    <label for="paperName" style="margin-left: 30px">试题：</label>
-                                    <input type="text" class="inputText" id="paperName" name="paperName" onclick="getTests()" readonly="readonly"/>
-                                    <button type="button" class="btn btn-info" onclick="selectTests()">选择
-                                    </button>
+                                    <label for="fkTests" style="margin-left: 30px">试题：</label>
+                                    <input type="text" class="inputText" id="fkTests" name="fkTests" readonly="readonly"/>
+                                    <button type="button" class="btn btn-info" onclick="selectTests()">选择</button>
 
                                     <label for="score" style="margin-left: 30px">分数：</label>
                                     <input type="text" class="inputText" style="width: 80px" id="score" name="score"/>
 
                                     <label for="priority" style="margin-left: 30px">优先级：</label>
-                                    <input type="text" class="inputText" style="width: 80px" id="priority" name="priority"/>
+                                    <input type="text" class="inputText" style="width: 80px" id="priority"
+                                           name="priority"/>
 
-                                    <button type="button" class="btn btn-info" style="margin-left: 30px" onclick="sub()">确定
+                                    <button type="button" class="btn btn-info" style="margin-left: 30px"
+                                            onclick="sub()">确定
                                     </button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
+                <p class="prompt">* 点击选择按钮选择试卷；</p>
+                <p class="prompt">* 点击选择按钮选择试题；</p>
+                <p class="prompt">* 分数代表此题在该试卷中的分值；</p>
+                <p class="prompt">* 优先级代表题目在试卷中同类型题目的先后顺序，数值越大越靠前，最大为999，最小为1；</p>
+                <p class="prompt">* 试卷一旦发布便不可修改，请谨慎操作。</p>
             </div>
         </div>
     </div>
-
-
-    <div class="container-fluid" style="display: none">
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="widget-box">
-                    <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
-                        <h5>试卷库</h5>
-                    </div>
-                    <div class="widget-content nopadding">
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th width="10%">编号</th>
-                                <th width="60%">试卷名称</th>
-                                <th width="10%">编辑</th>
-                                <th width="10%">公开</th>
-                                <th width="10%">有效</th>
-                            </tr>
-                            </thead>
-                            <tbody id="tab">
-                            </tbody>
-                        </table>
-                        <div class="paginationBox" id="paging">
-                            <div class="pagination alternate">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
 </div>
-<input type="hidden" id="page" name="page">
 </body>
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>

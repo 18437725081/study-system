@@ -202,18 +202,24 @@ public class PaperService {
      * @createtime 2018-03-15 11:27
      */
     public ServerResponse compositionPaper(PaperDetail paperDetail, Teacher teacher) {
-        int pkTeacher = paperMapper.selectCreatedByPkPaper(paperDetail.getFkPaper());
+        Integer pkTeacher = paperMapper.selectCreatedByPkPaper(paperDetail.getFkPaper());
+        if (pkTeacher == null){
+            return ServerResponse.createByErrorMessage("试卷不存在！");
+        }
         //判断试卷是否为该教师创建
-        if (pkTeacher == teacher.getPkTeacher()) {
+        if (teacher.getPkTeacher().equals(pkTeacher)) {
             String editFlag = paperMapper.selectEditFlag(paperDetail.getFkPaper());
             //判断试卷是否发布，发布过的试卷不可编辑
             if (FLAG_Y.equals(editFlag)) {
                 int count = paperDetailMapper.selectRepeat(paperDetail.getFkPaper(), paperDetail.getFkTests());
                 if (count > 0) {
-                    return ServerResponse.createBySuccessMessage("试卷已添加该试题，请勿重复添加");
+                    return ServerResponse.createByErrorMessage("试卷已添加该试题，请勿重复添加");
                 }
                 //获取试题类型
                 String type = testsMapper.selectType(paperDetail.getFkTests());
+                if (type == null){
+                    return ServerResponse.createByErrorMessage("试题不存在！");
+                }
                 paperDetail.setTestsType(type);
                 int result = paperDetailMapper.insert(paperDetail);
                 if (result > 0) {

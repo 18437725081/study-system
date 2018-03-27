@@ -66,7 +66,7 @@ function addPaper() {
 }
 
 //修改公开状态或有效状态
-function modifyFlag(pkPaper,flag,url) {
+function modifyFlag(pkPaper, flag, url) {
     $.ajax({
         url: url,
         type: 'post',
@@ -84,6 +84,80 @@ function modifyFlag(pkPaper,flag,url) {
                 toast("success", data.msg);
                 var _page = document.getElementById("page").value;
                 paging(_page);
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+//选择试卷
+function selectPaper() {
+    $.dialog.open('selectPaper.html', {
+        id: "myPaperStock",
+        title: "选择试卷",
+        lock: true,
+        height: '460px',
+        width: '800px',
+        cancelDisplay: false,
+        resize: false
+    });
+}
+
+function sel() {
+    if (selectedTr !== null) {
+        var fkPaper = selectedTr.childNodes[1].innerHTML;
+        window.parent.document.getElementById("fkPaper").value = fkPaper;
+        art.dialog.close();
+    } else {
+        swal("", "请选择一条信息！","warning");
+    }
+}
+
+//选择试题
+function selectTests() {
+    $.dialog.open('../testManage/selectTests.html', {
+        id: "selectTests",
+        title: "选择试题",
+        lock: true,
+        height: '560px',
+        width: '1200px',
+        cancelDisplay: false,
+        resize: false
+    });
+}
+
+//提交
+function sub() {
+    var fkPaper = $("#fkPaper").val(),
+        fkTests = $("#fkTests").val(),
+        score = $("#score").val(),
+        priority = $("#priority").val();
+    if (isNull(fkPaper) || isNull(fkTests)){
+        swal("","试卷或试题不能为空!","warning");
+        return;
+    }
+    var reg=/^[0-9]{3}$/;   /*定义验证表达式*/
+    if(!reg.test(score)){
+        swal("","成绩必须是不超过三位的数字!","warning");
+        return;
+    }
+    if(!reg.test(priority)){
+        swal("","优先级必须是不超过三位的数字!","warning");
+        return;
+    }
+    $("#addPaperTests").ajaxSubmit({
+        url: '../../paper/compositionPaper.do',
+        type: 'post',
+        dataType: "json",
+        success: function (data) {
+            if (data.status === 10) {
+                location.href = "../../login.html";
+            } else if (data.status === 1) {
+                toast("error", data.msg)
+            } else {
+                toast("success", data.msg)
             }
         },
         error: function () {

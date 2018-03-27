@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>试题管理页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../../css/matrix-style2.css"/>
+    <link rel="stylesheet" href="../../css/toastr.min.css">
+    <link rel="stylesheet" href="../../css/sweetalert.css">
+    <link rel="stylesheet" href="../../css/select2.min.css"/>
+    <link rel="stylesheet" href="../../css/opera.css">
+    <link rel="stylesheet" href="../../css/common.css">
+</head>
+
+<body>
+<div id="content">
+    <div id="content-header">
+        <h1>试题管理</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div style="margin-top: 16px">
+                    <button type="button" class="btn btn-info" onclick="queryOpen()"><i class="icon-search"></i> 查询
+                    </button>
+                    <button type="button" class="btn btn-info" onclick="sel()"><i class="icon-reorder"></i> 选择
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="queryBox" style="display:none;">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content nopadding">
+                        <form id="query">
+                            <div style="margin: 20px">
+                                <div>
+                                    <label for="testType">类 型：</label>
+                                    <select id="testType" name="testType" style="width: 220px">
+                                        <option selected value="">--请选择--</option>
+                                        <option selected value="1">选择题</option>
+                                        <option selected value="2">判断题</option>
+                                        <option selected value="3">填空题</option>
+                                        <option selected value="4">简答题</option>
+                                        <option selected value="5">计算题</option>
+                                    </select>
+                                    <label for="testSubject">学 科：</label>
+                                    <select id="testSubject" name="testSubject" style="width: 220px">
+                                        <option selected value="">--请选择--</option>
+                                    </select>
+                                    <label for="testTitle">关键字：</label>
+                                    <input type="text" class="inputText" id="testTitle" name="testTitle"/>
+                                    <input type="hidden" class="inputText" id="testContent" name="testContent"/>
+                                    <button type="button" class="btn btn-info" onclick="query()">查询</button>
+                                    <button type="button" class="btn btn-info" onclick="loadTest()">显示全部
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
+                        <h5>试题库</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th width="10%">编号</th>
+                                <th width="10%">类型</th>
+                                <th width="70%">题目</th>
+                                <th width="10%">所属学科</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tab">
+                            </tbody>
+                        </table>
+                        <div class="paginationBox" id="paging">
+                            <div class="pagination alternate">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="page" name="page">
+<input type="hidden" id="url" name="url" value="../../tests/queryTests.do">
+</body>
+<script src="../../js/jquery-2.1.1.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery.uniform.js"></script>
+<script src="../../js/matrix.js"></script>
+<script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
+<script src="../../js/iframeTools.js" type="text/javascript"></script>
+<script src="../../js/jquery.form.js"></script>
+<script src="../../js/template.js"></script>
+<script src="../../js/toastr.min.js"></script>
+<script src="../../js/sweetalert.min.js"></script>
+<script src="../../js/select2.min.js"></script>
+<script src="../../js/common.js"></script>
+<script src="testQuestion.js" type="text/javascript"></script>
+<!--用于存放模版-->
+<script id="template" type="text/html">
+    {{if data.total == 0}}
+    <tr>
+        <td colspan=5>未找到数据</td>
+    </tr>
+    {{else}}
+    {{each data.list as i}}
+    <tr>
+        <td>{{i.pkTest}}</td>
+        <td>{{i.testType}}</td>
+        <td>{{i.testTitle}}</td>
+        <td>{{i.testSubject}}</td>
+    </tr>
+    {{/each}}
+    {{/if}}
+</script>
+<script>
+    $(function () {
+        $('select').select2();
+        loadTest();
+        getSubject();
+    });
+
+    function sel() {
+        if (selectedTr !== null) {
+            var fkTests = selectedTr.childNodes[1].innerHTML;
+            window.parent.document.getElementById("fkTests").value = fkTests;
+            art.dialog.close();
+        } else {
+            swal("", "请选择一条信息！","warning");
+        }
+    }
+</script>
+<script id="subjectModel" type="text/html">
+    <option selected value="">--请选择--</option>
+    {{each data as i}}
+    <option value="{{i}}">{{i}}</option>
+    {{/each}}
+</script>
+</html>

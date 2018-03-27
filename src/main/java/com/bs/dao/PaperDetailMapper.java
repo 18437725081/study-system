@@ -78,4 +78,6 @@ public interface PaperDetailMapper {
     int emptyTestsFromPaper(Integer fkPaper);
 
     int selectRepeat(@Param("fkPaper") Integer fkPaper, @Param("fkTests") Integer fkTests);
+
+    List<Integer> selectPaperTests(Integer fkPaper);
 }

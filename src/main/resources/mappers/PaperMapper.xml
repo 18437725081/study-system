@@ -157,19 +157,19 @@
         </where>
     </select>
 
-    <select id="selectCreatedByPkPaper" parameterType="int" resultType="int">
+    <select id="selectCreatedByPkPaper" parameterType="integer" resultType="Integer">
     SELECT p.created_by
     FROM bs_paper p
     WHERE p.pk_paper = #{pkPaper}
   </select>
 
-    <select id="selectPublicFlag" parameterType="int" resultType="string">
+    <select id="selectPublicFlag" parameterType="integer" resultType="string">
     SELECT p.flag_public
     FROM bs_paper p
     WHERE p.pk_paper = #{pkPaper}
   </select>
 
-    <select id="selectEditFlag" parameterType="int" resultType="string">
+    <select id="selectEditFlag" parameterType="integer" resultType="string">
     SELECT p.flag_edit
     FROM bs_paper p
     WHERE p.pk_paper = #{fkPaper}
