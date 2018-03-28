@@ -323,9 +323,9 @@ public class PaperService {
             return ServerResponse.createByErrorMessage("试卷名称重复，请修改");
         }
         //判断题库中试题数量是否大于需求数量
-        int number = testsMapper.selectTestsNumber("1",subject);
+        int number = testsMapper.selectTestsNumber("1", subject);
         if (number < optionNumber) {
-            return ServerResponse.createByErrorMessage("题库中该试题的数量为:"+number);
+            return ServerResponse.createByErrorMessage("题库中该试题的数量为:" + number);
         }
         //新建试卷
         Paper paper = new Paper();
@@ -350,7 +350,7 @@ public class PaperService {
                     paperDetail.setPriority("1");
                     paperDetailMapper.insert(paperDetail);
                 }
-                return ServerResponse.createBySuccessMessage("组卷完成，试卷名称:"+paperName);
+                return ServerResponse.createBySuccessMessage("组卷完成，试卷名称:" + paperName);
             }
             return ServerResponse.createByErrorMessage("获取试题失败");
         }
