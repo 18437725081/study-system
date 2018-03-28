@@ -69,7 +69,7 @@
         </javaClientGenerator>
 
 
-        <table tableName="bs_rel_paper_major" domainObjectName="RelPaperMajor" enableCountByExample="false"
+        <table tableName="bs_score" domainObjectName="Score" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
 

@@ -5,14 +5,14 @@
     <constructor >
       <idArg column="pk_score" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="fk_student" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="fk_tests" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="fk_paper" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="score" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="flag" jdbcType="CHAR" javaType="java.lang.String" />
       <arg column="finish_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    pk_score, fk_student, fk_tests, score, flag, finish_time
+    pk_score, fk_student, fk_paper, score, flag, finish_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -25,11 +25,11 @@
     where pk_score = #{pkScore,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.bs.pojo.Score" >
-    insert into bs_score (pk_score, fk_student, fk_tests, 
+    insert into bs_score (pk_score, fk_student, fk_paper, 
       score, flag, finish_time
       )
-    values (#{pkScore,jdbcType=INTEGER}, #{fkStudent,jdbcType=INTEGER}, #{fkTests,jdbcType=INTEGER}, 
-      #{score,jdbcType=VARCHAR}, #{flag,jdbcType=CHAR}, #{finishTime,jdbcType=TIMESTAMP}
+    values (#{pkScore,jdbcType=INTEGER}, #{fkStudent,jdbcType=INTEGER}, #{fkPaper,jdbcType=INTEGER}, 
+      #{score,jdbcType=VARCHAR}, #{flag,jdbcType=CHAR}, now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.bs.pojo.Score" >
@@ -41,8 +41,8 @@
       <if test="fkStudent != null" >
         fk_student,
       </if>
-      <if test="fkTests != null" >
-        fk_tests,
+      <if test="fkPaper != null" >
+        fk_paper,
       </if>
       <if test="score != null" >
         score,
@@ -61,8 +61,8 @@
       <if test="fkStudent != null" >
         #{fkStudent,jdbcType=INTEGER},
       </if>
-      <if test="fkTests != null" >
-        #{fkTests,jdbcType=INTEGER},
+      <if test="fkPaper != null" >
+        #{fkPaper,jdbcType=INTEGER},
       </if>
       <if test="score != null" >
         #{score,jdbcType=VARCHAR},
@@ -71,7 +71,7 @@
         #{flag,jdbcType=CHAR},
       </if>
       <if test="finishTime != null" >
-        #{finishTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
@@ -81,8 +81,8 @@
       <if test="fkStudent != null" >
         fk_student = #{fkStudent,jdbcType=INTEGER},
       </if>
-      <if test="fkTests != null" >
-        fk_tests = #{fkTests,jdbcType=INTEGER},
+      <if test="fkPaper != null" >
+        fk_paper = #{fkPaper,jdbcType=INTEGER},
       </if>
       <if test="score != null" >
         score = #{score,jdbcType=VARCHAR},
@@ -99,7 +99,7 @@
   <update id="updateByPrimaryKey" parameterType="com.bs.pojo.Score" >
     update bs_score
     set fk_student = #{fkStudent,jdbcType=INTEGER},
-      fk_tests = #{fkTests,jdbcType=INTEGER},
+      fk_paper = #{fkPaper,jdbcType=INTEGER},
       score = #{score,jdbcType=VARCHAR},
       flag = #{flag,jdbcType=CHAR},
       finish_time = #{finishTime,jdbcType=TIMESTAMP}

@@ -1,7 +1,6 @@
 package com.bs.pojo;
 
 import java.util.Date;
-
 /**
  * @author 张靖烽
  * @description 创建pojo
@@ -13,7 +12,7 @@ public class Score {
     /** 学生表外键 */
     private Integer fkStudent;
     /** 试卷表外键 */
-    private Integer fkTests;
+    private Integer fkPaper;
     /** 成绩 */
     private String score;
     /** 完成状态 */
@@ -21,10 +20,10 @@ public class Score {
     /** 完成时间 */
     private Date finishTime;
 
-    public Score(Integer pkScore, Integer fkStudent, Integer fkTests, String score, String flag, Date finishTime) {
+    public Score(Integer pkScore, Integer fkStudent, Integer fkPaper, String score, String flag, Date finishTime) {
         this.pkScore = pkScore;
         this.fkStudent = fkStudent;
-        this.fkTests = fkTests;
+        this.fkPaper = fkPaper;
         this.score = score;
         this.flag = flag;
         this.finishTime = finishTime;
@@ -50,12 +49,12 @@ public class Score {
         this.fkStudent = fkStudent;
     }
 
-    public Integer getFkTests() {
-        return fkTests;
+    public Integer getFkPaper() {
+        return fkPaper;
     }
 
-    public void setFkTests(Integer fkTests) {
-        this.fkTests = fkTests;
+    public void setFkPaper(Integer fkPaper) {
+        this.fkPaper = fkPaper;
     }
 
     public String getScore() {

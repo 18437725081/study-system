@@ -53,9 +53,9 @@ public interface ScoreMapper {
      *
      * @param score 成绩类
      * @return int
-     * @author 张靖烽 
-      * @createtime 2018-03-14 14:47
-      */
+     * @author 张靖烽
+     * @createtime 2018-03-14 14:47
+     */
     int updateByPrimaryKeySelective(Score score);
 
     /**
@@ -64,7 +64,7 @@ public interface ScoreMapper {
      * @param score 成绩类
      * @return int
      * @author 张靖烽
-      * @createtime 2018-03-14 14:47
-      */
+     * @createtime 2018-03-14 14:47
+     */
     int updateByPrimaryKey(Score score);
 }
