@@ -52,7 +52,7 @@ function modify() {
             resize: false
         });
     } else {
-        swal("", "请选择一条信息！","warning");
+        swal("", "请选择一条信息！", "warning");
     }
 }
 
@@ -96,7 +96,7 @@ function remove() {
                 }
             });
     } else {
-        swal("", "请选择一条信息！","warning");
+        swal("", "请选择一条信息！", "warning");
     }
 }
 
@@ -112,7 +112,7 @@ function getMajor(pkMajor) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                window.parent.swal("", data.msg,"error");
+                window.parent.swal("", data.msg, "error");
             } else {
                 $("#grade").val(data.data.grade);
                 $("#major").val(data.data.major);
@@ -129,7 +129,7 @@ function sub() {
     var major = $("#major").val();
     var grade = $("#grade").val();
     if (isNull(major) || isNull(grade)) {
-        window.parent.swal("", "参数不能为空","warning");
+        window.parent.swal("", "参数不能为空", "warning");
         return false;
     }
     $("#add_Major").ajaxSubmit({
@@ -164,7 +164,7 @@ function query() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("", data.msg,"error");
+                swal("", data.msg, "error");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -195,10 +195,29 @@ function paging(pageNum) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("", data.msg,"error");
+                swal("", data.msg, "error");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+function loadTeacherMajor() {
+    $.ajax({
+        url: '../../teacher/getTeacherMajor.do',
+        type: 'post',
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("", data.msg, "error");
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
             }
         },
         error: function () {

@@ -13,7 +13,7 @@ function loadTeacher() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("提示", data.msg);
+                swal("", data.msg, "error");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -53,7 +53,7 @@ function modify() {
             resize: false
         });
     } else {
-        swal("提示", "请选择一条信息！")
+        swal("", "请选择一条信息！", "warning")
     }
 }
 
@@ -98,7 +98,7 @@ function remove() {
                 }
             });
     } else {
-        swal("错误", "请选择一条信息！")
+        swal("", "请选择一条信息！", "warning")
     }
 }
 
@@ -114,7 +114,7 @@ function getTeacher(pkTeacher) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                window.parent.swal("错误", data.msg);
+                window.parent.swal("", data.msg, "error");
             } else {
                 $("#username").val(data.data.username);
                 $("#name").val(data.data.name);
@@ -133,7 +133,7 @@ function sub() {
         name = $("#name").val(),
         phone = $("#phone").val();
     if (isNull(username) || isNull(name) || isNull(phone)) {
-        window.parent.swal("提示", "参数不能为空");
+        window.parent.swal("", "参数不能为空", "warning");
         return false;
     }
     $("#add_teacher").ajaxSubmit({
@@ -168,7 +168,7 @@ function query() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("错误", data.msg)
+                swal("", data.msg, "error")
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -199,7 +199,7 @@ function paging(pageNum) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("错误", data.msg)
+                swal("", data.msg, "error")
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -237,7 +237,7 @@ function getTeacherMajor(pkTeacher) {
             if (data.status === 10) {
                 window.parent.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                window.parent.swal("提示", data.msg);
+                window.parent.swal("", data.msg, "error");
             } else {
                 document.getElementById('tab').innerHTML = template('majorTable', data);
                 showPaging(data);
@@ -254,7 +254,7 @@ function related() {
     var major = $("#major").val(),
         pkTeacher = $("#pkTeacher").val();
     if (isNull(major) || isNull(pkTeacher)) {
-        window.parent.swal("提示", "请选择年级和专业");
+        window.parent.swal("", "请选择年级和专业", "warning");
         return;
     }
     $("#rel_major").ajaxSubmit({

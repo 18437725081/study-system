@@ -17,7 +17,7 @@ function loadStudent() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("", data.msg,"warning");
+                swal("", data.msg, "error");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -57,7 +57,7 @@ function modify() {
             resize: false
         });
     } else {
-        swal("", "请选择一条信息！","error")
+        swal("", "请选择一条信息！", "warning")
     }
 }
 
@@ -102,7 +102,7 @@ function remove() {
                 }
             });
     } else {
-        swal("", "请选择一条信息！","error")
+        swal("", "请选择一条信息！", "warning")
     }
 }
 
@@ -118,7 +118,7 @@ function getStudent(pkStudent) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                window.parent.swal("", data.msg,"error");
+                window.parent.swal("", data.msg, "error");
             } else {
                 $("#username").val(data.data.username);
                 $("#name").val(data.data.name);
@@ -140,7 +140,7 @@ function sub() {
         studentId = $("#studentId").val(),
         major = $("#major").val();
     if (isNull(username) || isNull(name) || isNull(studentId) || isNull(major)) {
-        window.parent.swal("", "参数不能为空","warning");
+        window.parent.swal("", "参数不能为空", "warning");
         return false;
     }
     $("#add_student").ajaxSubmit({
@@ -175,7 +175,7 @@ function query() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("", data.msg,"error");
+                swal("", data.msg, "error");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -208,7 +208,7 @@ function paging(pageNum) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("", data.msg,"error");
+                swal("", data.msg, "error");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);

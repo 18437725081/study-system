@@ -122,7 +122,7 @@
     AND fk_major = #{pkMajor}
   </delete>
 
-  <select id="selectFkMajorList" parameterType="string" resultType="Integer">
+  <select id="selectFkMajorList" parameterType="integer" resultType="Integer">
     SELECT fk_major
     FROM bs_rel_teacher_major
     WHERE fk_teacher = #{pkTeacher}

@@ -2,13 +2,17 @@ package com.bs.service;
 
 import com.bs.common.ServerResponse;
 import com.bs.common.TokenCache;
+import com.bs.dao.MajorMapper;
+import com.bs.dao.RelTeacherMajorMapper;
 import com.bs.dao.TeacherMapper;
+import com.bs.pojo.Major;
 import com.bs.pojo.Teacher;
 import com.bs.util.MD5;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -22,6 +26,12 @@ public class TeacherService {
 
     @Autowired
     private TeacherMapper teacherMapper;
+
+    @Autowired
+    private RelTeacherMajorMapper teacherMajorMapper;
+
+    @Autowired
+    private MajorMapper majorMapper;
 
     /**
      * @author 张靖烽
@@ -159,5 +169,16 @@ public class TeacherService {
             return ServerResponse.createBySuccessMessage("设置成功");
         }
         return ServerResponse.createByErrorMessage("设置失败");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 获取教师管理的专业信息
+     * @createtime 2018-03-28 18:22
+     */
+    public ServerResponse getTeacherMajor(Teacher teacher) {
+        List<Integer> pkMajorList = teacherMajorMapper.selectFkMajorList(teacher.getPkTeacher());
+        List<Major> majorList = majorMapper.selectMajorByPk(pkMajorList);
+        return ServerResponse.createBySuccess(majorList);
     }
 }

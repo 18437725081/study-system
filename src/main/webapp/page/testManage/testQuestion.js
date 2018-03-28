@@ -17,7 +17,7 @@ function loadTest() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("", data.msg,"warning");
+                swal("", data.msg, "warning");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -44,7 +44,7 @@ function details() {
             resize: false
         });
     } else {
-        swal("", "请选择一条试题！", "error")
+        swal("", "请选择一条试题！", "warning")
     }
 }
 
@@ -60,7 +60,7 @@ function getDetail(pkTest) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                window.parent.swal("", data.msg,"error");
+                window.parent.swal("", data.msg, "error");
             } else {
                 setDetail(data.data);
             }
@@ -105,8 +105,8 @@ function alterFlag(flag) {
             url: '../../tests/modifyTestFlag.do',
             type: 'post',
             data: {
-                pkTest:pkTest,
-                flag:flag
+                pkTest: pkTest,
+                flag: flag
             },
             success: function (data) {
                 if (data.status === 10) {
@@ -124,7 +124,7 @@ function alterFlag(flag) {
             }
         });
     } else {
-        swal("", "请选择一条试题！", "error")
+        swal("", "请选择一条试题！", "warning")
     }
 }
 
@@ -142,7 +142,7 @@ function query() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("", data.msg,"error");
+                swal("", data.msg, "error");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -258,16 +258,16 @@ function paging(pageNum) {
         type: 'post',
         data: {
             pageNum: pageNum,
-            testContent:testContent,
-            testTitle:testTitle,
-            testSubject:testSubject,
-            testType:testType
+            testContent: testContent,
+            testTitle: testTitle,
+            testSubject: testSubject,
+            testType: testType
         },
         success: function (data) {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("", data.msg,"error");
+                swal("", data.msg, "error");
             } else {
                 document.getElementById('tab').innerHTML = template('template', data);
                 showPaging(data);
@@ -288,7 +288,7 @@ function getSubject() {
             if (data.status === 10) {
                 window.parent.location.href = "../../login.html";
             } else if (data.status === 1) {
-                swal("获取信息失败", data.msg)
+                swal("", data.msg, "error")
             } else {
                 document.getElementById('testSubject').innerHTML = template('subjectModel', data);
             }

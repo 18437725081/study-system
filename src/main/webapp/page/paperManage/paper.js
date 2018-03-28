@@ -127,8 +127,21 @@ function selectTests() {
     });
 }
 
+//选择专业
+function selectMajor() {
+    $.dialog.open('../majorManage/selectMajor.html', {
+        id: "selectMajor",
+        title: "选择专业",
+        lock: true,
+        height: '460px',
+        width: '800px',
+        cancelDisplay: false,
+        resize: false
+    });
+}
+
 //提交
-function sub() {
+function addPaperTests() {
     var fkPaper = $("#fkPaper").val(),
         fkTests = $("#fkTests").val(),
         score = $("#score").val(),
@@ -149,6 +162,34 @@ function sub() {
     }
     $("#addPaperTests").ajaxSubmit({
         url: '../../paper/compositionPaper.do',
+        type: 'post',
+        dataType: "json",
+        success: function (data) {
+            if (data.status === 10) {
+                location.href = "../../login.html";
+            } else if (data.status === 1) {
+                toast("error", data.msg)
+            } else {
+                toast("success", data.msg)
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+//提交
+function relPaperMajor() {
+    var fkPaper = $("#fkPaper").val(),
+        fkMajor = $("#fkMajor").val();
+
+    if (isNull(fkPaper) || isNull(fkMajor)) {
+        swal("", "试卷或试题不能为空!", "warning");
+        return;
+    }
+    $("#relPaperMajor").ajaxSubmit({
+        url: '../../paper/assignmentPaper.do',
         type: 'post',
         dataType: "json",
         success: function (data) {

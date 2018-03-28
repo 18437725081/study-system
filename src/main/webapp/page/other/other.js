@@ -1,8 +1,8 @@
 function setQuestion() {
     var question = $("#question").val(),
         answer = $("#answer").val();
-    if(isNull(question) || isNull(answer)){
-        swal("", "问题和答案不能为空","error");
+    if (isNull(question) || isNull(answer)) {
+        swal("", "问题和答案不能为空", "error");
         return;
     }
     $.ajax({
@@ -14,7 +14,7 @@ function setQuestion() {
         type: 'post',
         success: function (data) {
             if (data.status === 0) {
-                toast("success",data.msg)
+                toast("success", data.msg)
             } else {
                 toast("error", data.msg)
             }
@@ -30,12 +30,12 @@ function modifyPwd() {
     var passwordOld = $("#passwordOld").val(),
         passwordNew = $("#passwordNew").val(),
         passwordNew2 = $("#passwordNew2").val();
-    if(isNull(passwordNew) || isNull(passwordNew2) || isNull(passwordOld)){
-        swal("", "密码不能为空","error");
+    if (isNull(passwordNew) || isNull(passwordNew2) || isNull(passwordOld)) {
+        swal("", "密码不能为空", "error");
         return;
     }
-    if(passwordNew !== passwordNew2){
-        swal("", "两次输入密码不一致","error");
+    if (passwordNew !== passwordNew2) {
+        swal("", "两次输入密码不一致", "error");
         return false;
     }
     $.ajax({

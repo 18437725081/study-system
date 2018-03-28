@@ -4,7 +4,7 @@ function checkLogin() {
     var password = $("#password").val();
     var role = $("#role").val();
     if ($.trim(username) === "" || $.trim(password) === "") {
-        swal("登录失败", "请正确填写用户名和密码！");
+        swal("", "请正确填写用户名和密码！", "warning");
         return false;
     }
     //管理员登录
@@ -20,7 +20,7 @@ function checkLogin() {
                 if (data.status === 0) {
                     window.location.href = "index.html";
                 } else {
-                    swal("登录失败", data.msg);
+                    swal("", data.msg, "error");
                 }
             },
             error: function () {
@@ -41,7 +41,7 @@ function checkLogin() {
                 if (data.status === 0) {
                     window.location.href = "indexT.html";
                 } else {
-                    swal("登录失败", data.msg);
+                    swal("", data.msg, "error");
                 }
             },
             error: function () {
@@ -62,7 +62,7 @@ function checkLogin() {
                 if (data.status === 0) {
                     window.location.href = "indexS.html";
                 } else {
-                    swal("登录失败", data.msg);
+                    swal("", data.msg, "error");
                 }
             },
             error: function () {
@@ -94,11 +94,11 @@ function getQuestion() {
     var name = $("#name").val(),
         role = $("#role2").val();
     if ($.trim(name) === "") {
-        swal("错误", "请正确填写用户名！");
+        swal("", "请正确填写用户名！", "warning");
         return false;
     }
     if (isNull(role)) {
-        swal("错误", "请选择身份！");
+        swal("", "请选择身份！", "warning");
         return false;
     }
     //教师
@@ -115,7 +115,7 @@ function getQuestion() {
                     $("#recoverform").hide();
                     $("#checkAnswer").fadeIn();
                 } else {
-                    swal("提示", data.msg);
+                    swal("", data.msg, "warning");
                 }
             },
             error: function () {
@@ -130,7 +130,7 @@ function checkQuestion() {
         answer = $("#answer").val(),
         role = $("#role2").val();
     if (isNull(answer)) {
-        swal("错误", "请填写答案")
+        swal("", "请填写答案", "warning")
     }
     //教师
     if (role == 1) {
@@ -148,7 +148,7 @@ function checkQuestion() {
                     $("#checkAnswer").hide();
                     $("#resetPwd").fadeIn();
                 } else {
-                    swal("提示", data.msg);
+                    swal("", data.msg, "warning");
                 }
             },
             error: function () {
@@ -164,11 +164,11 @@ function resetPwd() {
         forgetToken = $("#forgetToken").val(),
         role = $("#role2").val();
     if (isNull(passwordNew) || isNull(pwd2)) {
-        swal("提示", "请填写密码");
+        swal("", "请填写密码", "warning");
         return false;
     }
     if (passwordNew !== pwd2) {
-        swal("提示", "两次输入密码不一致");
+        swal("", "两次输入密码不一致", "warning");
         return false;
     }
     //教师
@@ -183,9 +183,9 @@ function resetPwd() {
             type: 'post',
             success: function (data) {
                 if (data.status === 0) {
-                    swal("提示", data.msg);
+                    swal("", data.msg, "warning");
                 } else {
-                    swal("提示", data.msg);
+                    swal("", data.msg, "warning");
                 }
             },
             error: function () {

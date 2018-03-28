@@ -497,7 +497,7 @@ public class ManageService {
      * @description 获取教师关联的专业信息
      * @createtime 2018-02-02 13:34
      */
-    public ServerResponse getTeacherMajor(String pkTeacher, Integer pageNum, Integer pageSize) {
+    public ServerResponse getTeacherMajor(Integer pkTeacher, Integer pageNum, Integer pageSize) {
         List<Integer> pkMajorList = relTeacherMajorMapper.selectFkMajorList(pkTeacher);
         if (pkMajorList.size() > 0) {
             PageHelper.startPage(pageNum, pageSize);

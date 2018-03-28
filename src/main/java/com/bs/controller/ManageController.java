@@ -365,7 +365,7 @@ public class ManageController {
      */
     @RequestMapping("getTeacherMajor.do")
     @ResponseBody
-    public ServerResponse getTeacherMajor(HttpSession session, String pkTeacher,
+    public ServerResponse getTeacherMajor(HttpSession session, Integer pkTeacher,
                                           @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                           @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
         //判断登录

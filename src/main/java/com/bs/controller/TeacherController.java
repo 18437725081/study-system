@@ -120,4 +120,20 @@ public class TeacherController {
         }
         return teacherService.updateTeacherInformation(question, answer, teacher);
     }
+
+
+    /**
+     * @author 张靖烽
+     * @description 获取教师管理的专业信息
+     * @createtime 2018-01-12 12:49
+     */
+    @RequestMapping(value = "getTeacherMajor.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse getTeacherMajor(HttpSession session) {
+        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        return teacherService.getTeacherMajor(teacher);
+    }
 }

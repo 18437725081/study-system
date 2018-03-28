@@ -100,7 +100,7 @@ public interface RelTeacherMajorMapper {
      * @author 张靖烽
      * @createtime 2018-02-06 19:17
      */
-    List<Integer> selectFkMajorList(String pkTeacher);
+    List<Integer> selectFkMajorList(Integer pkTeacher);
 
     /**
      * 查询教师是否和专业关联
