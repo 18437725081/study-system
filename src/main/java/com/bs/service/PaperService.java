@@ -6,6 +6,7 @@ import com.bs.pojo.*;
 import com.bs.util.BigDecimalUtil;
 import com.bs.vo.ChoiceQuestionVO;
 import com.bs.vo.PaperDetailVO;
+import com.bs.vo.PaperTestsVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -193,6 +194,7 @@ public class PaperService {
         choiceQuestionVO.setOptionB(contents[1]);
         choiceQuestionVO.setOptionC(contents[2]);
         choiceQuestionVO.setOptionD(contents[3]);
+        choiceQuestionVO.setScore(p.getScore());
         choiceQuestionVOList.add(choiceQuestionVO);
     }
 
@@ -246,7 +248,7 @@ public class PaperService {
             if (FLAG_Y.equals(editFlag)) {
                 int result = paperDetailMapper.deleteTestsFromPaper(fkTest, fkPaper);
                 if (result > 0) {
-                    return ServerResponse.createByErrorMessage("删除成功");
+                    return ServerResponse.createBySuccessMessage("删除成功");
                 }
                 return ServerResponse.createByErrorMessage("删除失败");
             }
@@ -269,7 +271,7 @@ public class PaperService {
             if (FLAG_Y.equals(editFlag)) {
                 int result = paperDetailMapper.emptyTestsFromPaper(fkPaper);
                 if (result > 0) {
-                    return ServerResponse.createByErrorMessage("删除成功");
+                    return ServerResponse.createBySuccessMessage("删除成功");
                 }
                 return ServerResponse.createByErrorMessage("删除失败");
             }
@@ -296,7 +298,7 @@ public class PaperService {
             relPaperMajor.setFkPaper(fkPaper);
             int result = relPaperMajorMapper.insert(relPaperMajor);
             if (result > 0) {
-                return ServerResponse.createByErrorMessage("发布成功");
+                return ServerResponse.createBySuccessMessage("发布成功");
             }
             return ServerResponse.createByErrorMessage("发布失败");
         }
@@ -351,5 +353,25 @@ public class PaperService {
             }
         }
         return ServerResponse.createByErrorMessage("试卷生成失败");
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 查询试卷试题
+     * @createtime 2018-03-28 9:05
+     */
+    public ServerResponse selectPaperTests(Integer fkPaper) {
+        List<PaperDetail> paperDetailList = paperDetailMapper.selectPaperDetailByPkPaper(fkPaper);
+        List<PaperTestsVO> paperTestsVOList = Lists.newArrayList();
+        for (PaperDetail paperDetail : paperDetailList){
+            PaperTestsVO paperTestsVO = new PaperTestsVO();
+            Tests tests = testsMapper.selectByPrimaryKey(paperDetail.getFkTests());
+            paperTestsVO.setPkTest(tests.getPkTest());
+            paperTestsVO.setTestTitle(tests.getTestTitle());
+            paperTestsVO.setScore(paperDetail.getScore());
+            paperTestsVO.setPriority(paperDetail.getPriority());
+            paperTestsVOList.add(paperTestsVO);
+        }
+        return ServerResponse.createBySuccess(paperTestsVOList);
     }
 }

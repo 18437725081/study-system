@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>试卷管理页面</title>
+    <title>试卷试题管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
@@ -19,66 +19,42 @@
 <body>
 <div id="content">
     <div id="content-header">
-        <h1>试卷管理</h1>
+        <h1>试卷试题管理</h1>
     </div>
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span12">
                 <div style="margin-top: 16px">
-                    <button type="button" class="btn btn-info" onclick="queryOpen()"><i class="icon-search"></i> 查询
+                    <button type="button" class="btn btn-danger" onclick="allRemove()"><i class="icon-remove"></i>
+                        清空所有试题
                     </button>
-                    <button type="button" class="btn btn-info" onclick="preview()"><i class="icon-reorder"></i> 试卷预览
-                    </button>
+                    <span style="color: red"> 请谨慎操作，一旦删除不可恢复！！！</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="container-fluid" id="queryBox" style="display:none;">
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="widget-box">
-                    <div class="widget-content nopadding">
-                        <form id="query">
-                            <div style="margin: 20px">
-                                <div>
-                                    <label for="paperName">试卷名称：</label>
-                                    <input type="text" class="inputText" id="paperName" name="paperName"/>
-                                    <button type="button" class="btn btn-info" onclick="query()">查询</button>
-                                    <button type="button" class="btn btn-info" onclick="loadPaper()">显示全部
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span12">
                 <div class="widget-box">
                     <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
-                        <h5>试卷库</h5>
+                        <h5>试题</h5>
                     </div>
                     <div class="widget-content nopadding">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th width="15%">编号</th>
-                                <th width="70%">试卷名称</th>
-                                <th width="15%">使用</th>
+                                <th width="10%">编号</th>
+                                <th width="60%">题目</th>
+                                <th width="10%">分值</th>
+                                <th width="10%">优先级</th>
+                                <th width="10%">操作</th>
                             </tr>
                             </thead>
                             <tbody id="tab">
                             </tbody>
                         </table>
-                        <div class="paginationBox" id="paging">
-                            <div class="pagination alternate">
-
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -86,7 +62,7 @@
     </div>
 </div>
 <input type="hidden" id="page" name="page">
-<input type="hidden" id="url" name="url" value="../../paper/queryPaper.do">
+<input type="hidden" id="url" name="url" value="../../tests/queryTests.do">
 </body>
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
@@ -103,27 +79,24 @@
 <script src="paper.js" type="text/javascript"></script>
 <!--用于存放模版-->
 <script id="template" type="text/html">
-    {{if data.total == 0}}
+    {{each data as i}}
     <tr>
-        <td colspan=5>未找到数据</td>
-    </tr>
-    {{else}}
-    {{each data.list as i}}
-    <tr>
-        <td>{{i.pkPaper}}</td>
-        <td>{{i.paperName}}</td>
-        {{if i.flag == 'Y'}}
-        <td>可以使用</td>
-        {{else}}
-        <td>无法使用</td>
-        {{/if}}
+        <td>{{i.pkTest}}</td>
+        <td>{{i.testTitle}}</td>
+        <td>{{i.score}}</td>
+        <td>{{i.priority}}</td>
+        <td>
+            <button type="button" class="btn btn-warning" onclick="remove('{{i.pkTest}}')"></i>
+                删除
+            </button>
+        </td>
     </tr>
     {{/each}}
-    {{/if}}
 </script>
 <script>
     $(function () {
-        loadPaper();
+        var pkPaper = art.dialog.data('pkPaper');
+        getTests(pkPaper);
     });
 </script>
 </html>

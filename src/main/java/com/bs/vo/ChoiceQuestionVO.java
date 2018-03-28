@@ -53,6 +53,10 @@ public class ChoiceQuestionVO {
      */
     private String flag;
     /**
+     * 分值
+     */
+    private String score;
+    /**
      * 创建人
      */
     private String createdBy;
@@ -63,7 +67,7 @@ public class ChoiceQuestionVO {
 
     @Override
     public String toString() {
-        return "choiceQuestionVO{" +
+        return "ChoiceQuestionVO{" +
                 "pkTest=" + pkTest +
                 ", testType='" + testType + '\'' +
                 ", testSubject='" + testSubject + '\'' +
@@ -75,6 +79,7 @@ public class ChoiceQuestionVO {
                 ", testAnswer='" + testAnswer + '\'' +
                 ", testAnalyze='" + testAnalyze + '\'' +
                 ", flag='" + flag + '\'' +
+                ", score='" + score + '\'' +
                 ", createdBy='" + createdBy + '\'' +
                 ", lastUpdatedTime='" + lastUpdatedTime + '\'' +
                 '}';
@@ -166,6 +171,14 @@ public class ChoiceQuestionVO {
 
     public void setFlag(String flag) {
         this.flag = flag;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
     }
 
     public String getCreatedBy() {

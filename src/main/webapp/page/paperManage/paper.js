@@ -1,6 +1,6 @@
 var selectedTr = null;
 
-//查询框显示隐藏
+//新增试卷框显示隐藏
 function addOpen() {
     $("#addBox").toggle();
 }
@@ -31,7 +31,6 @@ function loadPaper() {
 //新增试卷
 function addPaper() {
     selectedTr = null;
-
     var paperName = $("#addPaperName").val(),
         publicFlag = $("#publicFlag").val();
     if (isNull(paperName) || isNull(publicFlag)) {
@@ -111,7 +110,7 @@ function sel() {
         window.parent.document.getElementById("fkPaper").value = fkPaper;
         art.dialog.close();
     } else {
-        swal("", "请选择一条信息！","warning");
+        swal("", "请选择一条信息！", "warning");
     }
 }
 
@@ -134,19 +133,20 @@ function sub() {
         fkTests = $("#fkTests").val(),
         score = $("#score").val(),
         priority = $("#priority").val();
-    if (isNull(fkPaper) || isNull(fkTests)){
-        swal("","试卷或试题不能为空!","warning");
+    if (isNull(fkPaper) || isNull(fkTests)) {
+        swal("", "试卷或试题不能为空!", "warning");
         return;
     }
-    var reg=/^[0-9]{3}$/;   /*定义验证表达式*/
-    if(!reg.test(score)){
-        swal("","成绩必须是不超过三位的数字!","warning");
-        return;
-    }
-    if(!reg.test(priority)){
-        swal("","优先级必须是不超过三位的数字!","warning");
-        return;
-    }
+    var reg = /^[0-9]{3}$/;
+    /*定义验证表达式*/
+    // if (!reg.test(score)) {
+    //     swal("", "成绩必须是不超过三位的数字!", "warning");
+    //     return;
+    // }
+    // if (!reg.test(priority)) {
+    //     swal("", "优先级必须是不超过三位的数字!", "warning");
+    //     return;
+    // }
     $("#addPaperTests").ajaxSubmit({
         url: '../../paper/compositionPaper.do',
         type: 'post',
@@ -193,4 +193,149 @@ function paging(pageNum) {
             window.location.href = "../other/error500.html";
         }
     });
+}
+
+//试题编辑
+function modifyTests() {
+    if (selectedTr !== null) {
+        var pkPaper = selectedTr.childNodes[1].innerHTML;
+        art.dialog.data("pkPaper", pkPaper);
+        $.dialog.open('paperTestsManage.html', {
+            id: "paperTestsManage",
+            title: "试题编辑",
+            lock: true,
+            height: '540px',
+            width: '880px',
+            cancelDisplay: false,
+            resize: false
+        });
+    } else {
+        swal("", "请选择一条信息！", "warning");
+    }
+}
+
+//获取试卷试题
+function getTests(pkPaper) {
+    selectedTr = null;
+    $.ajax({
+        url: "../../paper/selectPaperTests.do",
+        type: 'post',
+        data: {
+            fkPaper: pkPaper
+        },
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("", data.msg, "error");
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+//清空试卷所有试题
+function allRemove() {
+    var pkPaper = art.dialog.data('pkPaper');
+    window.parent.swal({
+            title: "您确定要清空该试卷所有试题吗",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            closeOnConfirm: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: '../../paper/emptyTestsFromPaper.do',
+                    data: {
+                        fkPaper: pkPaper
+                    },
+                    type: 'post',
+                    success: function (data) {
+                        window.parent.swal.close();
+                        if (data.status === 10) {
+                            window.parent.location.href = "../../login.html";
+                        } else if (data.status === 1) {
+                            window.parent.toast("error", data.msg);
+                        } else {
+                            window.parent.toast("success", data.msg);
+                            getTests(pkPaper);
+                        }
+                    },
+                    error: function () {
+                        window.location.href = "../other/error500.html";
+                    }
+                });
+            }
+        });
+}
+
+//删除试卷试题
+function remove(pkTest) {
+    var pkPaper = art.dialog.data('pkPaper');
+    window.parent.swal({
+            title: "您确定要删除这道试题吗",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            closeOnConfirm: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: '../../paper/deleteTestsFromPaper.do',
+                    data: {
+                        fkTest: pkTest,
+                        fkPaper:pkPaper
+                    },
+                    type: 'post',
+                    success: function (data) {
+                        window.parent.swal.close();
+                        if (data.status === 10) {
+                            window.parent.location.href = "../../login.html";
+                        } else if (data.status === 1) {
+                            window.parent.toast("error", data.msg);
+                        } else {
+                            window.parent.toast("success", data.msg);
+                            getTests(pkPaper);
+                        }
+                    },
+                    error: function () {
+                        window.location.href = "../other/error500.html";
+                    }
+                });
+            }
+        });
+}
+
+
+function preview() {
+    if (selectedTr !== null) {
+        var pkPaper = selectedTr.childNodes[1].innerHTML;
+        art.dialog.data("pkPaper", pkPaper);
+        $.dialog.open('paperPreView.html', {
+            id: "paperPreView",
+            title: "试卷预览",
+            lock: true,
+            height: '540px',
+            width: '990px',
+            cancelDisplay: false,
+            resize: false
+        });
+    } else {
+        swal("", "请选择一条信息！", "warning");
+    }
+}
+
+function loadPaperDetail(pkPaper){
+
 }

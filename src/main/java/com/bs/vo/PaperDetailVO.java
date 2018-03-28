@@ -9,13 +9,13 @@ import java.util.List;
  * @create 2018-03-14 20:07
  **/
 public class PaperDetailVO {
-
+    /** 试卷名称 */
     private String paperName;
-
+    /** 创建人 */
     private String createdBy;
-
+    /** 总分 */
     private String score;
-
+    /** 选择题VO */
     private List<ChoiceQuestionVO> choiceQuestion;
 
     @Override

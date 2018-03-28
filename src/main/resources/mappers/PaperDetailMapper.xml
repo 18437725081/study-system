@@ -109,6 +109,7 @@
         <include refid="Base_Column_List"/>
         FROM bs_paper_detail
         WHERE fk_paper = #{pkPaper}
+        ORDER BY priority desc
     </select>
 
     <delete id="deleteTestsFromPaper" parameterType="map">
