@@ -142,8 +142,8 @@
 
     function sel() {
         if (selectedTr !== null) {
-            var fkTests = selectedTr.childNodes[1].innerHTML;
-            window.parent.document.getElementById("fkTests").value = fkTests;
+            window.parent.document.getElementById("fkTests").value = selectedTr.childNodes[1].innerHTML;
+            window.parent.document.getElementById("t").value = selectedTr.childNodes[5].innerHTML;
             art.dialog.close();
         } else {
             swal("", "请选择一条信息！","warning");

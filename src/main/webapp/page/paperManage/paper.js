@@ -106,8 +106,8 @@ function selectPaper() {
 
 function sel() {
     if (selectedTr !== null) {
-        var fkPaper = selectedTr.childNodes[1].innerHTML;
-        window.parent.document.getElementById("fkPaper").value = fkPaper;
+        window.parent.document.getElementById("fkPaper").value = selectedTr.childNodes[1].innerHTML;
+        window.parent.document.getElementById("p").value = selectedTr.childNodes[3].innerHTML;
         art.dialog.close();
     } else {
         swal("", "请选择一条信息！", "warning");
@@ -137,16 +137,16 @@ function sub() {
         swal("", "试卷或试题不能为空!", "warning");
         return;
     }
-    var reg = /^[0-9]{3}$/;
+    var reg = /^(0|[1-9][0-9]{0,2})$/;
     /*定义验证表达式*/
-    // if (!reg.test(score)) {
-    //     swal("", "成绩必须是不超过三位的数字!", "warning");
-    //     return;
-    // }
-    // if (!reg.test(priority)) {
-    //     swal("", "优先级必须是不超过三位的数字!", "warning");
-    //     return;
-    // }
+    if (!reg.test(score)) {
+        swal("", "成绩必须是不超过三位的数字!", "warning");
+        return;
+    }
+    if (!reg.test(priority)) {
+        swal("", "优先级必须是不超过三位的数字!", "warning");
+        return;
+    }
     $("#addPaperTests").ajaxSubmit({
         url: '../../paper/compositionPaper.do',
         type: 'post',
@@ -337,5 +337,23 @@ function preview() {
 }
 
 function loadPaperDetail(pkPaper){
-
+    $.ajax({
+        url: "../../paper/paperDetail.do",
+        type: 'post',
+        data:{
+            pkPaper:pkPaper
+        },
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("", data.msg, "error");
+            } else {
+                document.getElementById('content-header').innerHTML = template('template', data);
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
 }

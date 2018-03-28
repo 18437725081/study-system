@@ -30,12 +30,14 @@
                         <form id="addPaperTests">
                             <div style="margin: 20px">
                                 <div>
-                                    <label for="fkPaper">试卷：</label>
-                                    <input type="text" class="inputText" id="fkPaper" name="fkPaper" readonly="readonly"/>
+                                    <label for="p">试卷：</label>
+                                    <input type="hidden" id="fkPaper" name="fkPaper"/>
+                                    <input type="text" class="inputText" id="p" name="p" readonly="readonly"/>
                                     <button type="button" class="btn btn-info" onclick="selectPaper()">选择</button>
 
-                                    <label for="fkTests" style="margin-left: 30px">试题：</label>
-                                    <input type="text" class="inputText" id="fkTests" name="fkTests" readonly="readonly"/>
+                                    <label for="t" style="margin-left: 30px">试题：</label>
+                                    <input type="hidden" id="fkTests" name="fkTests"/>
+                                    <input type="text" class="inputText" id="t" name="t" readonly="readonly"/>
                                     <button type="button" class="btn btn-info" onclick="selectTests()">选择</button>
 
                                     <label for="score" style="margin-left: 30px">分数：</label>
