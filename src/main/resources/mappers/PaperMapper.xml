@@ -181,17 +181,9 @@
     WHERE paper_name = #{paperName}
   </select>
 
-    <insert id="insertAndGetPk" parameterType="com.bs.pojo.Paper">
-        <selectKey keyProperty="pkPaper" order="AFTER" resultType="int">
-            select LAST_INSERT_ID()
-        </selectKey>
-        insert into bs_paper (pk_paper, paper_name, flag_public,
-        flag_edit, flag, created_by,
-        created_time, last_updated_by, last_updated_time
-        )
-        values (#{pkPaper,jdbcType=INTEGER}, #{paperName,jdbcType=VARCHAR}, #{flagPublic,jdbcType=CHAR},
-        #{flagEdit,jdbcType=CHAR}, #{flag,jdbcType=CHAR}, #{createdBy,jdbcType=INTEGER},
-        now(), #{lastUpdatedBy,jdbcType=INTEGER}, now()
-        )
-    </insert>
+    <select id="selectByPaperName" parameterType="string" resultType="integer">
+    SELECT pk_paper
+    FROM bs_paper
+    WHERE paper_name = #{paperName}
+    </select>
 </mapper>

@@ -104,5 +104,5 @@ public interface TestsMapper {
 
     List<Tests> randomOptionTests(@Param("subject") String subject, @Param("optionNumber") Integer optionNumber, @Param("type") String type);
 
-    int selectTestsNumber(String type);
+    int selectTestsNumber(@Param("type") String type,@Param("subject") String subject);
 }

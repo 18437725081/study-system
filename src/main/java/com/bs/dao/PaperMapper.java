@@ -106,5 +106,5 @@ public interface PaperMapper {
 
     int selectPaperName(String paperName);
 
-    int insertAndGetPk(Paper paper);
+    Integer selectByPaperName(String paperName);
 }

@@ -358,7 +358,7 @@ function remove(pkTest) {
         });
 }
 
-
+//试卷预览
 function preview() {
     if (selectedTr !== null) {
         var pkPaper = selectedTr.childNodes[1].innerHTML;
@@ -377,6 +377,7 @@ function preview() {
     }
 }
 
+//获取试卷详情
 function loadPaperDetail(pkPaper){
     $.ajax({
         url: "../../paper/paperDetail.do",
@@ -391,6 +392,27 @@ function loadPaperDetail(pkPaper){
                 swal("", data.msg, "error");
             } else {
                 document.getElementById('content-header').innerHTML = template('template', data);
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+//自动组卷
+function autoCompositionPaper() {
+    $("#autoCompositionPaper").ajaxSubmit({
+        url: '../../paper/autoBuildPaper.do',
+        type: 'post',
+        dataType: "json",
+        success: function (data) {
+            if (data.status === 10) {
+                location.href = "../../login.html";
+            } else if (data.status === 1) {
+                toast("error", data.msg)
+            } else {
+                toast("success", data.msg)
             }
         },
         error: function () {

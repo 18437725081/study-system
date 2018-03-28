@@ -1,10 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>手动组卷</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../../css/matrix-style2.css"/>
+    <link rel="stylesheet" href="../../css/toastr.min.css">
+    <link rel="stylesheet" href="../../css/sweetalert.css">
+    <link rel="stylesheet" href="../../css/select2.min.css"/>
+    <link rel="stylesheet" href="../../css/opera.css">
+    <link rel="stylesheet" href="../../css/common.css">
 </head>
-<body>
 
+<body>
+<div id="content">
+    <div id="content-header">
+        <h1>组卷</h1>
+    </div>
+    <form id="autoCompositionPaper">
+        <div class="container-fluid" id="paper">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="widget-box">
+                        <div class="widget-content nopadding">
+                            <div style="margin: 20px">
+                                <div>
+                                    <label for="paperName">试卷名称：</label>
+                                    <input type="text" class="inputText" id="paperName" name="paperName"/>
+
+                                    <label for="subject" style="margin-left: 30px">题目所属学科：</label>
+                                    <input type="text" class="inputText" id="subject" name="subject"/>
+
+                                    <label for="flagPublic" style="margin-left: 30px">是否公开试卷：</label>
+                                    <select id="flagPublic" name="flagPublic" style="width: 80px">
+                                        <option value="Y" selected>公开</option>
+                                        <option value="N">私有</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-box">
+                        <div class="widget-content nopadding">
+                            <div style="margin: 20px">
+                                <div>
+                                    <div>
+                                        <label for="optionNumber">选择题数量：</label>
+                                        <input type="text" class="inputText" style="width: 80px" id="optionNumber"
+                                               name="optionNumber"/>
+
+                                        <label for="optionScore" style="margin-left: 30px">每道选择题分数：</label>
+                                        <input type="text" class="inputText" style="width: 80px" id="optionScore"
+                                               name="optionScore"/>
+
+                                        <button type="button" class="btn btn-info" style="margin-left: 30px"
+                                                onclick="autoCompositionPaper()">确定
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget-box">
+                        <div class="widget-content nopadding">
+                            <div style="margin: 20px">
+                                <div>
+                                    <div>
+                                        <label>判断题数量：</label>
+                                        <input readonly="readonly" type="text" class="inputText" style="width: 80px" />
+
+                                        <label style="margin-left: 30px">每道判断题分数：</label>
+                                        <input readonly="readonly" type="text" class="inputText" style="width: 80px"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="widget-box">
+                        <div class="widget-content nopadding">
+                            <div style="margin: 20px">
+                                <div>
+                                    <div>
+                                        <label>填空题数量：</label>
+                                        <input readonly="readonly" type="text" class="inputText" style="width: 80px" />
+
+                                        <label style="margin-left: 30px">每道填空题分数：</label>
+                                        <input readonly="readonly" type="text" class="inputText" style="width: 80px"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="prompt">* 点击选择按钮选择试卷；</p>
+                    <p class="prompt">* 点击选择按钮选择试题；</p>
+                    <p class="prompt">* 分数代表此题在该试卷中的分值；</p>
+                    <p class="prompt">* 优先级代表题目在试卷中同类型题目的先后顺序，数值越大越靠前，最大为999，最小为1；</p>
+                    <p class="prompt">* 试卷一旦发布便不可修改，请谨慎操作。</p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
+<script src="../../js/jquery-2.1.1.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery.uniform.js"></script>
+<script src="../../js/matrix.js"></script>
+<script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
+<script src="../../js/iframeTools.js" type="text/javascript"></script>
+<script src="../../js/jquery.form.js"></script>
+<script src="../../js/template.js"></script>
+<script src="../../js/toastr.min.js"></script>
+<script src="../../js/sweetalert.min.js"></script>
+<script src="../../js/select2.min.js"></script>
+<script src="../../js/common.js"></script>
+<script src="paper.js" type="text/javascript"></script>
+<script>
+    $(function () {
+        $('select').select2();
+    });
+</script>
 </html>

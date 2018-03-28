@@ -205,7 +205,7 @@ public class PaperService {
      */
     public ServerResponse compositionPaper(PaperDetail paperDetail, Teacher teacher) {
         Integer pkTeacher = paperMapper.selectCreatedByPkPaper(paperDetail.getFkPaper());
-        if (pkTeacher == null){
+        if (pkTeacher == null) {
             return ServerResponse.createByErrorMessage("试卷不存在！");
         }
         //判断试卷是否为该教师创建
@@ -219,7 +219,7 @@ public class PaperService {
                 }
                 //获取试题类型
                 String type = testsMapper.selectType(paperDetail.getFkTests());
-                if (type == null){
+                if (type == null) {
                     return ServerResponse.createByErrorMessage("试题不存在！");
                 }
                 paperDetail.setTestsType(type);
@@ -323,9 +323,9 @@ public class PaperService {
             return ServerResponse.createByErrorMessage("试卷名称重复，请修改");
         }
         //判断题库中试题数量是否大于需求数量
-        int number = testsMapper.selectTestsNumber("1");
+        int number = testsMapper.selectTestsNumber("1",subject);
         if (number < optionNumber) {
-            return ServerResponse.createByErrorMessage("题库中试题数量少于要求数量，请重试");
+            return ServerResponse.createByErrorMessage("题库中该试题的数量为:"+number);
         }
         //新建试卷
         Paper paper = new Paper();
@@ -335,10 +335,10 @@ public class PaperService {
         paper.setFlag("Y");
         paper.setCreatedBy(teacher.getPkTeacher());
         paper.setLastUpdatedBy(teacher.getPkTeacher());
-        int pkPaper = paperMapper.insertAndGetPk(paper);
-        //试卷是不是刚刚新建的那张
-        if (paperName.equals(paperMapper.selectByPrimaryKey(pkPaper).getPaperName())) {
+        int result = paperMapper.insert(paper);
+        if (result > 0) {
             //获取试题list
+            Integer pkPaper = paperMapper.selectByPaperName(paperName);
             List<Tests> testsList = testsMapper.randomOptionTests(subject, optionNumber, "1");
             if (testsList != null) {
                 for (Tests t : testsList) {
@@ -350,7 +350,9 @@ public class PaperService {
                     paperDetail.setPriority("1");
                     paperDetailMapper.insert(paperDetail);
                 }
+                return ServerResponse.createBySuccessMessage("组卷完成，试卷名称:"+paperName);
             }
+            return ServerResponse.createByErrorMessage("获取试题失败");
         }
         return ServerResponse.createByErrorMessage("试卷生成失败");
     }
@@ -363,7 +365,7 @@ public class PaperService {
     public ServerResponse selectPaperTests(Integer fkPaper) {
         List<PaperDetail> paperDetailList = paperDetailMapper.selectPaperDetailByPkPaper(fkPaper);
         List<PaperTestsVO> paperTestsVOList = Lists.newArrayList();
-        for (PaperDetail paperDetail : paperDetailList){
+        for (PaperDetail paperDetail : paperDetailList) {
             PaperTestsVO paperTestsVO = new PaperTestsVO();
             Tests tests = testsMapper.selectByPrimaryKey(paperDetail.getFkTests());
             paperTestsVO.setPkTest(tests.getPkTest());

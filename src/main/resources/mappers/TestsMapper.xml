@@ -215,9 +215,10 @@
     ORDER BY rand() limit #{optionNumber}
   </select>
 
-  <select id="selectTestsNumber" parameterType="string" resultType="int">
+  <select id="selectTestsNumber" parameterType="map" resultType="int">
     SELECT COUNT(*)
     FROM bs_tests
     WHERE test_type = #{type}
+    AND test_subject = #{subject}
   </select>
 </mapper>
