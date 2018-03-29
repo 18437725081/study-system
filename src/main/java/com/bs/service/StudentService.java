@@ -304,5 +304,24 @@ public class StudentService {
         choiceQuestionVOList.add(choiceQuestionVO);
     }
 
+    /**
+     * @author 张靖烽
+     * @description 学生交卷，计算分数
+     * @createtime 2018-03-29 20:25
+     */
+    public ServerResponse submitPaper(Integer pkPaper, Student student, String testsAndAnswer) {
+        int score = 0;
 
+        //检查试卷题目数量与学生提交的答案数量是否相等
+        String [] taa = testsAndAnswer.split(";");
+
+
+        //遍历试题和答案，检查是否正确
+
+
+        //将成绩存入数据库
+
+
+        return null;
+    }
 }

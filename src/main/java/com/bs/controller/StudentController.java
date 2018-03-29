@@ -153,4 +153,21 @@ public class StudentController {
         }
         return studentService.getPaperDetail(pkPaper, student);
     }
+
+
+    /**
+     * @author 张靖烽
+     * @description 学生交卷，计算分数
+     * @createtime 2018-03-29 20:23
+     */
+    @RequestMapping("submitPaper.do")
+    @ResponseBody
+    public ServerResponse submitPaper(HttpSession session, Integer pkPaper, String testsAndAnswer) {
+        //判断登录
+        Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
+        if (student == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        return studentService.submitPaper(pkPaper, student, testsAndAnswer);
+    }
 }
