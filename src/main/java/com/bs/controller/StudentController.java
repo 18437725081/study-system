@@ -4,7 +4,6 @@ import com.bs.common.Constant;
 import com.bs.common.ResponseCode;
 import com.bs.common.ServerResponse;
 import com.bs.pojo.Student;
-import com.bs.pojo.Teacher;
 import com.bs.service.StudentService;
 import com.bs.vo.StudentVO;
 import org.springframework.beans.factory.annotation.Autowired;
