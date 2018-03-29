@@ -105,4 +105,10 @@
       finish_time = #{finishTime,jdbcType=TIMESTAMP}
     where pk_score = #{pkScore,jdbcType=INTEGER}
   </update>
+
+  <select id="selectScoreCount" resultType="int" parameterType="map">
+    SELECT COUNT(1)
+    FROM bs_score bs
+    WHERE bs.fk_paper = #{fkPaper} and bs.fk_student = #{pkStudent}
+  </select>
 </mapper>

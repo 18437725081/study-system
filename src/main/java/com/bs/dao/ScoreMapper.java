@@ -1,6 +1,7 @@
 package com.bs.dao;
 
 import com.bs.pojo.Score;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author 张靖烽
@@ -67,4 +68,6 @@ public interface ScoreMapper {
      * @createtime 2018-03-14 14:47
      */
     int updateByPrimaryKey(Score score);
+
+    int selectScoreCount(@Param("pkStudent") Integer pkStudent, @Param("fkPaper") Integer fkPaper);
 }

@@ -9,23 +9,44 @@ import java.util.List;
  * @create 2018-03-14 20:07
  **/
 public class PaperDetailVO {
-    /** 试卷名称 */
+    /**
+     * 试卷主键
+     */
+    private Integer pkPaper;
+    /**
+     * 试卷名称
+     */
     private String paperName;
-    /** 创建人 */
+    /**
+     * 创建人
+     */
     private String createdBy;
-    /** 总分 */
+    /**
+     * 总分
+     */
     private String score;
-    /** 选择题VO */
+    /**
+     * 选择题VO
+     */
     private List<ChoiceQuestionVO> choiceQuestion;
 
     @Override
     public String toString() {
         return "PaperDetailVO{" +
-                "paperName='" + paperName + '\'' +
+                "pkPaper='" + pkPaper + '\'' +
+                ", paperName='" + paperName + '\'' +
                 ", createdBy='" + createdBy + '\'' +
                 ", score='" + score + '\'' +
                 ", choiceQuestion=" + choiceQuestion +
                 '}';
+    }
+
+    public Integer getPkPaper() {
+        return pkPaper;
+    }
+
+    public void setPkPaper(Integer pkPaper) {
+        this.pkPaper = pkPaper;
     }
 
     public String getPaperName() {

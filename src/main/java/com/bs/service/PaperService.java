@@ -151,6 +151,7 @@ public class PaperService {
         //根据主键获取试卷信息，设置试卷名称和创建人
         Paper paper = paperMapper.selectByPrimaryKey(pkPaper);
         if (paper != null) {
+            paperDetailVO.setPkPaper(pkPaper);
             //试卷名称
             paperDetailVO.setPaperName(paper.getPaperName());
             String createdBy = teacherMapper.selectTeacherName(paper.getCreatedBy());

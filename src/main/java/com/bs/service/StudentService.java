@@ -2,16 +2,23 @@ package com.bs.service;
 
 import com.bs.common.ServerResponse;
 import com.bs.common.TokenCache;
-import com.bs.dao.MajorMapper;
-import com.bs.dao.StudentMapper;
-import com.bs.pojo.Major;
-import com.bs.pojo.Student;
+import com.bs.dao.*;
+import com.bs.pojo.*;
+import com.bs.util.BigDecimalUtil;
 import com.bs.util.MD5;
+import com.bs.util.Time;
+import com.bs.vo.ChoiceQuestionVO;
+import com.bs.vo.PaperDetailVO;
+import com.bs.vo.StudentPaperVO;
 import com.bs.vo.StudentVO;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -28,6 +35,24 @@ public class StudentService {
 
     @Autowired
     private MajorMapper majorMapper;
+
+    @Autowired
+    private RelPaperMajorMapper relPaperMajorMapper;
+
+    @Autowired
+    private PaperMapper paperMapper;
+
+    @Autowired
+    private ScoreMapper scoreMapper;
+
+    @Autowired
+    private TeacherMapper teacherMapper;
+
+    @Autowired
+    private PaperDetailMapper paperDetailMapper;
+
+    @Autowired
+    private TestsMapper testsMapper;
 
     /**
      * @author 张靖烽
@@ -85,11 +110,11 @@ public class StudentService {
      * @createtime 2018-01-12 13:40
      */
     public ServerResponse<String> checkAnswer(String username, String question, String answer) {
-        int resultCount = studentMapper.checkAnswer(username,question,answer);
-        if(resultCount>0){
+        int resultCount = studentMapper.checkAnswer(username, question, answer);
+        if (resultCount > 0) {
             //说明问题及问题答案是这个用户的,并且是正确的
             String forgetToken = UUID.randomUUID().toString();
-            TokenCache.setKey(TokenCache.TOKEN_PREFIX+username,forgetToken);
+            TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
             return ServerResponse.createBySuccess(forgetToken);
         }
         return ServerResponse.createByErrorMessage("问题的答案错误");
@@ -101,7 +126,7 @@ public class StudentService {
      * @createtime 2018-01-12 13:41
      */
     public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
-        if(StringUtils.isBlank(forgetToken)){
+        if (StringUtils.isBlank(forgetToken)) {
             return ServerResponse.createByErrorMessage("参数错误,token需要传递");
         }
         //检查用户名是否存在
@@ -110,17 +135,17 @@ public class StudentService {
         if (result <= 0) {
             return ServerResponse.createByErrorMessage("用户名不存在");
         }
-        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX+username);
-        if(StringUtils.isBlank(token)){
+        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
+        if (StringUtils.isBlank(token)) {
             return ServerResponse.createByErrorMessage("token无效或者过期");
         }
-        if(StringUtils.equals(forgetToken,token)){
-            String md5Password  = MD5.md5EncodeUtf8(passwordNew);
-            result = studentMapper.updatePasswordByUsername(username,md5Password);
-            if(result > 0){
+        if (StringUtils.equals(forgetToken, token)) {
+            String md5Password = MD5.md5EncodeUtf8(passwordNew);
+            result = studentMapper.updatePasswordByUsername(username, md5Password);
+            if (result > 0) {
                 return ServerResponse.createBySuccessMessage("修改密码成功");
             }
-        }else{
+        } else {
             return ServerResponse.createByErrorMessage("token错误,请重新获取重置密码的token");
         }
         return ServerResponse.createByErrorMessage("修改密码失败");
@@ -133,14 +158,14 @@ public class StudentService {
      */
     public ServerResponse<String> resetStudentPassword(String passwordNew, String passwordOld, Student student) {
         //防止横向越权,要校验一下这个用户的旧密码,一定要指定是这个用户.因为我们会查询一个count(1),如果不指定id,那么结果就是true啦count>0;
-        int resultCount = studentMapper.checkPassword(MD5.md5EncodeUtf8(passwordOld),student.getPkStudent());
-        if(resultCount == 0){
+        int resultCount = studentMapper.checkPassword(MD5.md5EncodeUtf8(passwordOld), student.getPkStudent());
+        if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("旧密码错误");
         }
         student.setPassword(MD5.md5EncodeUtf8(passwordNew));
         student.setLastUpdatedBy(student.getPkStudent());
         int updateCount = studentMapper.updateByPrimaryKeySelective(student);
-        if(updateCount > 0){
+        if (updateCount > 0) {
             return ServerResponse.createBySuccessMessage("密码更新成功");
         }
         return ServerResponse.createByErrorMessage("密码更新失败");
@@ -152,7 +177,7 @@ public class StudentService {
      * @createtime 2018-01-12 13:42
      */
     public ServerResponse updateStudentInformation(String question, String answer, Student student) {
-        if(StringUtils.isBlank(question) || StringUtils.isBlank(answer)){
+        if (StringUtils.isBlank(question) || StringUtils.isBlank(answer)) {
             return ServerResponse.createByErrorMessage("请填写问题和答案");
         }
         Student stu = new Student();
@@ -161,7 +186,7 @@ public class StudentService {
         stu.setAnswer(answer);
         stu.setLastUpdatedBy(student.getPkStudent());
         int result = studentMapper.updateByPrimaryKeySelective(stu);
-        if (result > 0){
+        if (result > 0) {
             return ServerResponse.createBySuccessMessage("设置找回密码问题答案成功");
         }
         return ServerResponse.createByErrorMessage("设置找回密码问题答案失败");
@@ -179,7 +204,7 @@ public class StudentService {
         studentVO.setName(student.getName());
         studentVO.setStudentId(student.getStudentId());
         Major major = majorMapper.selectByPrimaryKey(student.getFkMajor());
-        if (major != null){
+        if (major != null) {
             studentVO.setMajor(major.getMajor());
             studentVO.setGrade(major.getGrade());
         }
@@ -187,4 +212,99 @@ public class StudentService {
         studentVO.setLastUpdatedTime(student.getLastUpdatedTime());
         return studentVO;
     }
+
+    /**
+     * @author 张靖烽
+     * @description 查询待完成的试卷
+     * @createtime 2018-03-29 17:20
+     */
+    public ServerResponse getUnfinishedPaper(Student student) {
+        //通过专业获取试卷ID和发布时间
+        List<RelPaperMajor> relPaperMajorList = relPaperMajorMapper.selectByFkMajor(student.getFkMajor());
+
+        List<StudentPaperVO> list = Lists.newArrayList();
+
+        for (RelPaperMajor relPaperMajor : relPaperMajorList) {
+            int count = scoreMapper.selectScoreCount(student.getPkStudent(), relPaperMajor.getFkPaper());
+            if (count > 0) {
+                continue;
+            }
+            StudentPaperVO studentPaperVO = new StudentPaperVO();
+            studentPaperVO.setPkPaper(relPaperMajor.getFkPaper());
+            studentPaperVO.setPublicTime(Time.dateToStr(relPaperMajor.getPublishTime()));
+            Paper paper = paperMapper.selectByPrimaryKey(relPaperMajor.getFkPaper());
+            studentPaperVO.setPaperName(paper.getPaperName());
+            list.add(studentPaperVO);
+        }
+        return ServerResponse.createBySuccess(list);
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 获取试卷内容
+     * @createtime 2018-03-29 19:37
+     */
+    public ServerResponse getPaperDetail(Integer pkPaper, Student student) {
+        //查询试卷是否分配给该专业学生
+        int count = relPaperMajorMapper.selectCount(pkPaper, student.getFkMajor());
+        if (count < 1){
+            return ServerResponse.createByErrorMessage("无法浏览该试卷");
+        }
+        //试卷详情对象
+        PaperDetailVO paperDetailVO = new PaperDetailVO();
+        //选择题list对象
+        List<ChoiceQuestionVO> choiceQuestionVOList = Lists.newArrayList();
+
+        String score = "0";
+        //根据主键获取试卷信息，设置试卷名称和创建人
+        Paper paper = paperMapper.selectByPrimaryKey(pkPaper);
+        if (paper != null) {
+            paperDetailVO.setPkPaper(pkPaper);
+            //试卷名称
+            paperDetailVO.setPaperName(paper.getPaperName());
+            String createdBy = teacherMapper.selectTeacherName(paper.getCreatedBy());
+            //创建人
+            paperDetailVO.setCreatedBy(createdBy);
+        }
+        //根据试卷主键获取list
+        List<PaperDetail> paperDetailList = paperDetailMapper.selectPaperDetailByPkPaper(pkPaper);
+        if (paperDetailList.size() > 0) {
+            for (PaperDetail p : paperDetailList) {
+                //累积分数
+                score = BigDecimalUtil.add(p.getScore(), score);
+                //根据试题类型分别加入对应list
+                String type = p.getTestsType();
+                if ("1".equals(type)) {
+                    setOption(p, choiceQuestionVOList);
+                }
+            }
+        }
+        //分数
+        paperDetailVO.setScore(String.valueOf(score));
+        //选择题list
+        paperDetailVO.setChoiceQuestion(choiceQuestionVOList);
+        return ServerResponse.createBySuccess(paperDetailVO);
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 选择题拼装
+     * @createtime 2018-03-15 9:40
+     */
+    private void setOption(PaperDetail p, List<ChoiceQuestionVO> choiceQuestionVOList) {
+        ChoiceQuestionVO choiceQuestionVO = new ChoiceQuestionVO();
+        Tests tests = testsMapper.selectByPrimaryKey(p.getFkTests());
+        //拼装choiceQuestionVO对象
+        choiceQuestionVO.setPkTest(tests.getPkTest());
+        choiceQuestionVO.setTestTitle(tests.getTestTitle());
+        String[] contents = tests.getTestContent().split(";");
+        choiceQuestionVO.setOptionA(contents[0]);
+        choiceQuestionVO.setOptionB(contents[1]);
+        choiceQuestionVO.setOptionC(contents[2]);
+        choiceQuestionVO.setOptionD(contents[3]);
+        choiceQuestionVO.setScore(p.getScore());
+        choiceQuestionVOList.add(choiceQuestionVO);
+    }
+
+
 }

@@ -81,4 +81,17 @@
       publish_time = #{publishTime,jdbcType=TIMESTAMP}
     where pk_rel_paper_major = #{pkRelPaperMajor,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByFkMajor" resultMap="BaseResultMap" parameterType="integer">
+    SELECT <include refid="Base_Column_List"/>
+    FROM bs_rel_paper_major
+    WHERE fk_major = #{fkMajor}
+  </select>
+
+  <select id="selectCount" parameterType="map" resultType="int">
+    SELECT COUNT(1)
+    FROM bs_rel_paper_major
+    WHERE fk_paper = #{pkPaper}
+    AND fk_major = #{fkMajor}
+  </select>
 </mapper>

@@ -1,6 +1,9 @@
 package com.bs.dao;
 
 import com.bs.pojo.RelPaperMajor;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author 张靖烽
@@ -67,4 +70,8 @@ public interface RelPaperMajorMapper {
      * @createtime 2018-03-14 14:53
      */
     int updateByPrimaryKey(RelPaperMajor relPaperMajor);
+
+    List<RelPaperMajor> selectByFkMajor(Integer fkMajor);
+
+    int selectCount(@Param("pkPaper") Integer pkPaper,@Param("fkMajor") Integer fkMajor);
 }

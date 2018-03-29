@@ -4,6 +4,7 @@ import com.bs.common.Constant;
 import com.bs.common.ResponseCode;
 import com.bs.common.ServerResponse;
 import com.bs.pojo.Student;
+import com.bs.pojo.Teacher;
 import com.bs.service.StudentService;
 import com.bs.vo.StudentVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,5 +122,36 @@ public class StudentController {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
         return studentService.updateStudentInformation(question, answer, student);
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 查询待完成的试卷
+     * @createtime 2018-01-12 12:49
+     */
+    @RequestMapping(value = "getUnfinishedPaper.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse getUnfinishedPaper(HttpSession session) {
+        Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
+        if (student == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        return studentService.getUnfinishedPaper(student);
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 获取试卷内容
+     * @createtime 2018-03-29 19:36
+     */
+    @RequestMapping("getPaperDetail.do")
+    @ResponseBody
+    public ServerResponse getPaperDetail(HttpSession session, Integer pkPaper) {
+        //判断登录
+        Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
+        if (student == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        return studentService.getPaperDetail(pkPaper, student);
     }
 }
