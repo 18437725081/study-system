@@ -221,4 +221,11 @@
     WHERE test_type = #{type}
     AND test_subject = #{subject}
   </select>
+
+  <select id="checkAnswer" resultType="int" parameterType="map">
+    SELECT COUNT(1)
+    FROM bs_tests
+    WHERE pk_test = #{pkTest}
+    AND test_answer = #{answer}
+  </select>
 </mapper>

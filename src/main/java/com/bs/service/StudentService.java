@@ -245,7 +245,7 @@ public class StudentService {
     public ServerResponse getPaperDetail(Integer pkPaper, Student student) {
         //查询试卷是否分配给该专业学生
         int count = relPaperMajorMapper.selectCount(pkPaper, student.getFkMajor());
-        if (count < 1){
+        if (count < 1) {
             return ServerResponse.createByErrorMessage("无法浏览该试卷");
         }
         //试卷详情对象
@@ -310,18 +310,30 @@ public class StudentService {
      * @createtime 2018-03-29 20:25
      */
     public ServerResponse submitPaper(Integer pkPaper, Student student, String testsAndAnswer) {
-        int score = 0;
+        Integer scores = 0;
 
         //检查试卷题目数量与学生提交的答案数量是否相等
-        String [] taa = testsAndAnswer.split(";");
-
-
-        //遍历试题和答案，检查是否正确
-
-
-        //将成绩存入数据库
-
-
-        return null;
+        String[] taas = testsAndAnswer.split(";");
+        for (String t : taas) {
+            String[] taa = t.split("_");
+            if (StringUtils.isNoneBlank(taa[0], taa[1])) {
+                int count = testsMapper.checkAnswer(taa[0], taa[1]);
+                if (count > 0) {
+                    scores += Integer.valueOf(taa[2]);
+                }
+            } else {
+                return ServerResponse.createByErrorMessage("非法请求！！！");
+            }
+            Score score = new Score();
+            score.setFkPaper(pkPaper);
+            score.setFkStudent(student.getPkStudent());
+            score.setScore(String.valueOf(scores));
+            score.setFlag("Y");
+            int result = scoreMapper.insert(score);
+            if (result > 0) {
+                return ServerResponse.createBySuccessMessage("交卷成功");
+            }
+        }
+        return ServerResponse.createByErrorMessage("交卷失败");
     }
 }
