@@ -294,10 +294,14 @@ public class PaperService {
             if (count < 1) {
                 return ServerResponse.createByErrorMessage("你不是该专业的教师");
             }
+            int result = relPaperMajorMapper.selectCount(fkPaper,fkMajor);
+            if (result > 0){
+                return ServerResponse.createByErrorMessage("该专业已经被布置过该试卷");
+            }
             RelPaperMajor relPaperMajor = new RelPaperMajor();
             relPaperMajor.setFkMajor(fkMajor);
             relPaperMajor.setFkPaper(fkPaper);
-            int result = relPaperMajorMapper.insert(relPaperMajor);
+            result = relPaperMajorMapper.insert(relPaperMajor);
             if (result > 0) {
                 return ServerResponse.createBySuccessMessage("发布成功");
             }

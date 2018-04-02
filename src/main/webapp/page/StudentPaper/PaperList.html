@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>待完成试卷</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../../css/matrix-style2.css"/>
+    <link rel="stylesheet" href="../../css/toastr.min.css">
+    <link rel="stylesheet" href="../../css/sweetalert.css">
+    <link rel="stylesheet" href="../../css/select2.min.css"/>
+    <link rel="stylesheet" href="../../css/opera.css">
+    <link rel="stylesheet" href="../../css/common.css">
+</head>
+
+<body>
+<div id="content">
+    <div id="content-header">
+        <h1>待完成试卷</h1>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"><span class="icon"><i class="icon-th"></i></span>
+                        <h5>待完成试卷</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th width="10%">序号</th>
+                                <th width="60%">试卷名称</th>
+                                <th width="20%">发布时间</th>
+                                <th width="10%">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tab">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../../js/jquery-2.1.1.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery.uniform.js"></script>
+<script src="../../js/matrix.js"></script>
+<script src="../../js/jquery.artDialog.js" type="text/javascript"></script>
+<script src="../../js/iframeTools.js" type="text/javascript"></script>
+<script src="../../js/jquery.form.js"></script>
+<script src="../../js/template.js"></script>
+<script src="../../js/toastr.min.js"></script>
+<script src="../../js/sweetalert.min.js"></script>
+<script src="../../js/select2.min.js"></script>
+<script src="../../js/common.js"></script>
+<script src="StudentPaper.js" type="text/javascript"></script>
+<!--用于存放模版-->
+<script id="template" type="text/html">
+    {{if data.total == 0}}
+    <tr>
+        <td colspan=5>未找到数据</td>
+    </tr>
+    {{else}}
+    {{each data as i index}}
+    <tr>
+        <td>{{index + 1}}</td>
+        <td>{{i.paperName}}</td>
+        <td>{{i.publicTime}}</td>
+        <td><button class="btn btn-info" onclick="exam('{{i.pkPaper}}')">答卷</button></td>
+    </tr>
+    {{/each}}
+    {{/if}}
+</script>
+<script>
+    $(function () {
+        getPaper();
+    });
+</script>
+</html>
