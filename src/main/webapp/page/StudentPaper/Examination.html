@@ -20,6 +20,7 @@
 
     </div>
 </div>
+<input type="hidden" name="pkPaper" id="pkPaper">
 </body>
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
@@ -43,14 +44,15 @@
     <div style="margin: 20px 20px 0 20px">
         <h4>一、选择题</h4>
         {{each data.choiceQuestion as i index}}
-        <input type="hidden" name="pkTest">
-        <h6>{{index + 1}}、{{i.testTitle}}<span class="score">({{i.score}}分)</span></h6>
+        <input type="hidden" name="pkTest" value="{{i.pkTest}}">
+        <h6>{{index + 1}}、{{i.testTitle}}(<span class="score">{{i.score}}</span>分)</h6>
         <p>A、{{i.optionA}};</p>
         <p>B、{{i.optionB}};</p>
         <p>C、{{i.optionC}};</p>
         <p>D、{{i.optionD}}.</p>
         <label>答案：</label>
         <select title="" style="border-radius: 25px;" name="answer">
+            <option value="">--选择答案--</option>
             <option value="A">A</option>
             <option value="B">B</option>
             <option value="C">C</option>
@@ -64,6 +66,7 @@
 <script>
     $(function () {
         var pkPaper = location.search.split("?")[1];
+        $("#pkPaper").val(pkPaper);
         getPaperDetail(pkPaper);
     });
 </script>

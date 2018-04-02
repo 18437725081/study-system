@@ -312,7 +312,6 @@ public class StudentService {
     public ServerResponse submitPaper(Integer pkPaper, Student student, String testsAndAnswer) {
         Integer scores = 0;
 
-        //检查试卷题目数量与学生提交的答案数量是否相等
         String[] taas = testsAndAnswer.split(";");
         for (String t : taas) {
             String[] taa = t.split("_");
@@ -324,16 +323,17 @@ public class StudentService {
             } else {
                 return ServerResponse.createByErrorMessage("非法请求！！！");
             }
-            Score score = new Score();
-            score.setFkPaper(pkPaper);
-            score.setFkStudent(student.getPkStudent());
-            score.setScore(String.valueOf(scores));
-            score.setFlag("Y");
-            int result = scoreMapper.insert(score);
-            if (result > 0) {
-                return ServerResponse.createBySuccessMessage("交卷成功");
-            }
         }
-        return ServerResponse.createByErrorMessage("交卷失败");
+        Score score = new Score();
+        score.setFkPaper(pkPaper);
+        score.setFkStudent(student.getPkStudent());
+        score.setScore(String.valueOf(scores));
+        score.setFlag("Y");
+        int result = scoreMapper.insert(score);
+        if (result > 0) {
+            return ServerResponse.createBySuccessMessage("交卷成功");
+        } else {
+            return ServerResponse.createByErrorMessage("交卷失败");
+        }
     }
 }
