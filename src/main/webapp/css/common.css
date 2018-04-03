@@ -173,3 +173,26 @@ textarea{
     padding-left: 10px;
     color: #ff0000;
 }
+.toHomeDiv {
+    height: 40px;
+    width: 180px;
+    top: 35%;
+    position: absolute;
+    left: 23%;
+    background-color: #81dbce;
+    border-radius: 20px;
+}
+
+.toPreDiv {
+    height: 40px;
+    width: 180px;
+    top: 35%;
+    position: absolute;
+    right: 23%;
+    background-color: #81dbce;
+    border-radius: 20px;
+}
+
+.toHome {
+    font-size: 18px;
+}
