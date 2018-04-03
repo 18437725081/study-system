@@ -6,6 +6,8 @@ import com.bs.common.ServerResponse;
 import com.bs.pojo.Student;
 import com.bs.service.StudentService;
 import com.bs.vo.StudentVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,8 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/student/")
 public class StudentController {
+
+    private static final Logger log = LoggerFactory.getLogger(StudentController.class);
 
     @Autowired
     private StudentService studentService;
@@ -169,5 +173,26 @@ public class StudentController {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
         return studentService.submitPaper(pkPaper, student, testsAndAnswer);
+    }
+
+    /**
+     * @author 张靖烽
+     * @description 学生查询成绩
+     * @createtime 2018-04-03 9:39
+     */
+    @RequestMapping("inquiryScore.do")
+    @ResponseBody
+    public ServerResponse inquiryScore(HttpSession session) {
+        //判断登录
+        try {
+            Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
+            if (student == null) {
+                return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+            }
+            return studentService.inquiryScore(student);
+        }catch (Exception e){
+            log.error("学生查询成绩:"+e);
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "未登录或无权限");
+        }
     }
 }

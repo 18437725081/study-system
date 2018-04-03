@@ -336,4 +336,8 @@ public class StudentService {
             return ServerResponse.createByErrorMessage("交卷失败");
         }
     }
+
+    public ServerResponse inquiryScore(Student student) {
+        return  null;
+    }
 }
