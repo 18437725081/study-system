@@ -7,10 +7,7 @@ import com.bs.pojo.*;
 import com.bs.util.BigDecimalUtil;
 import com.bs.util.MD5;
 import com.bs.util.Time;
-import com.bs.vo.ChoiceQuestionVO;
-import com.bs.vo.PaperDetailVO;
-import com.bs.vo.StudentPaperVO;
-import com.bs.vo.StudentVO;
+import com.bs.vo.*;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -337,7 +334,26 @@ public class StudentService {
         }
     }
 
+    /**
+     * @author 张靖烽
+     * @description 学生查询个人成绩
+     * @createtime 2018-04-04 10:37
+     */
     public ServerResponse inquiryScore(Student student) {
-        return  null;
+        List<Score> scoreList = scoreMapper.StudentQueryScore(student.getPkStudent());
+        List<ScoreDisplayVO> scoreDisplayVOList = Lists.newArrayList();
+        for (Score score:scoreList){
+            ScoreDisplayVO scoreDisplayVO = new ScoreDisplayVO();
+            Student stu = studentMapper.selectByPrimaryKey(student.getPkStudent());
+            scoreDisplayVO.setStudentId(stu.getStudentId());
+            scoreDisplayVO.setStudentName(stu.getName());
+            Major major = majorMapper.selectByPrimaryKey(stu.getFkMajor());
+            scoreDisplayVO.setMajor(major.getGrade()+" "+major.getMajor());
+            Paper paper = paperMapper.selectByPrimaryKey(score.getFkPaper());
+            scoreDisplayVO.setPaperName(paper.getPaperName());
+            scoreDisplayVO.setScore(score.getScore());
+            scoreDisplayVOList.add(scoreDisplayVO);
+        }
+        return ServerResponse.createBySuccess(scoreDisplayVOList);
     }
 }

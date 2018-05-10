@@ -298,6 +298,10 @@ public class PaperService {
             if (result > 0){
                 return ServerResponse.createByErrorMessage("该专业已经被布置过该试卷");
             }
+            String flag = paperMapper.selectByPrimaryKey(fkPaper).getFlag();
+            if ("N".equals(flag)){
+                return ServerResponse.createByErrorMessage("试卷无效，如需使用请联系该教师");
+            }
             RelPaperMajor relPaperMajor = new RelPaperMajor();
             relPaperMajor.setFkMajor(fkMajor);
             relPaperMajor.setFkPaper(fkPaper);

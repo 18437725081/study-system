@@ -3,6 +3,8 @@ package com.bs.dao;
 import com.bs.pojo.Score;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author 张靖烽
  * @description 成绩DAO
@@ -70,4 +72,6 @@ public interface ScoreMapper {
     int updateByPrimaryKey(Score score);
 
     int selectScoreCount(@Param("pkStudent") Integer pkStudent, @Param("fkPaper") Integer fkPaper);
+
+    List<Score> StudentQueryScore(Integer pkStudent);
 }

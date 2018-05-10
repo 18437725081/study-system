@@ -67,9 +67,10 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th width="15%">编号</th>
-                                <th width="70%">试卷名称</th>
+                                <th width="10%">编号</th>
+                                <th width="65%">试卷名称</th>
                                 <th width="15%">可否编辑</th>
+                                <th width="10%">有效</th>
                             </tr>
                             </thead>
                             <tbody id="tab">
@@ -117,6 +118,12 @@
         <td>√</td>
         {{else}}
         <td>×</td>
+        {{/if}}
+
+        {{if i.flag == 'Y'}}
+        <td>有效</td>
+        {{else}}
+        <td>无效</td>
         {{/if}}
     </tr>
     {{/each}}

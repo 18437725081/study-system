@@ -62,7 +62,9 @@ function submitPaper() {
             swal("", "请检查是否完成所有试题！", "warning");
             return false;
         }
-        testsAndAnswer = testsAndAnswer === "" ? pkTests[i].value + "_" + answers[i].value + "_" + scores[i].innerHTML : testsAndAnswer + ";" + pkTests[i].value + "_" + answers[i].value + "_" + scores[i].innerHTML;
+        testsAndAnswer = testsAndAnswer === "" ? pkTests[i].value + "_" + answers[i].value + "_"
+            + scores[i].innerHTML : testsAndAnswer + ";" + pkTests[i].value + "_"
+            + answers[i].value + "_" + scores[i].innerHTML;
     }
 
     $.ajax({
@@ -79,6 +81,27 @@ function submitPaper() {
                 window.location.href = "SubmitError.html";
             } else {
                 window.location.href = "SubmitSuccess.html";
+            }
+        },
+        error: function () {
+            window.location.href = "../other/error500.html";
+        }
+    });
+}
+
+function getScore() {
+    selectedTr = null;
+    $.ajax({
+        url: '../../student/inquiryScore.do',
+        type: 'post',
+        success: function (data) {
+            if (data.status === 10) {
+                window.parent.location.href = "../../login.html";
+            } else if (data.status === 1) {
+                swal("", data.msg, "warning");
+            } else {
+                document.getElementById('tab').innerHTML = template('template', data);
+                showPaging(data);
             }
         },
         error: function () {

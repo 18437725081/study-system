@@ -154,7 +154,7 @@ function query() {
     });
 }
 
-//设置试题详情
+//设置选择题详情
 function setDetail(data) {
     var spans = $("span");
     spans[0].innerHTML = data.testType;
