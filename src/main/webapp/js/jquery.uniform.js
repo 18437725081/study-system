@@ -656,7 +656,7 @@ Enjoy!
           //element is a radio
           doRadio(elem);
         }else if(elem.is(":file")){
-          //element is a file upload
+          //element is a file reflect
           doFile(elem);
         }else if(elem.is(":text, :password, input[type='email']")){
           doInput(elem);
