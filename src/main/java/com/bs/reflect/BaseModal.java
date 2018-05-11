@@ -26,4 +26,8 @@ public abstract class BaseModal {
     public void setFile(File file) {
         this.file = file;
     }
+
+    protected boolean excelVersion(String name){
+        return name.matches("^.+\\.(?i)(xls)$");
+    }
 }
