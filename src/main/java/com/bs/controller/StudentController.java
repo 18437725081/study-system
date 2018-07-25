@@ -38,7 +38,7 @@ public class StudentController {
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse login(String username, String password, HttpSession session) {
+    public ServerResponse login1(String username, String password, HttpSession session) {
         //验证用户登录信息是否正确
         ServerResponse response = studentService.login(username, password);
         //验证通过，将当前用户信息放入session
@@ -190,8 +190,8 @@ public class StudentController {
                 return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
             }
             return studentService.inquiryScore(student);
-        }catch (Exception e){
-            log.error("学生查询成绩:"+e);
+        } catch (Exception e) {
+            log.error("学生查询成绩:" + e);
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "未登录或无权限");
         }
     }

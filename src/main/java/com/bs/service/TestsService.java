@@ -2,12 +2,11 @@ package com.bs.service;
 
 import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
-import com.bs.dao.PaperDetailMapper;
 import com.bs.dao.TeacherMapper;
 import com.bs.dao.TestsMapper;
 import com.bs.pojo.Teacher;
 import com.bs.pojo.Tests;
-import com.bs.util.Time;
+import com.bs.util.TimeUtil;
 import com.bs.vo.TestVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -146,7 +145,7 @@ public class TestsService {
         } else {
             testVO.setFlag("无法使用");
         }
-        testVO.setLastUpdatedTime(Time.dateToStr(tests.getLastUpdatedTime()));
+        testVO.setLastUpdatedTime(TimeUtil.dateToStr(tests.getLastUpdatedTime()));
         String createdBy = teacherMapper.selectTeacherName(tests.getCreatedBy());
         testVO.setCreatedBy(createdBy);
         return testVO;

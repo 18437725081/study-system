@@ -4,10 +4,6 @@ import com.bs.common.ServerResponse;
 import com.bs.reflect.BaseModal;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,6 +20,7 @@ import java.io.*;
  * 项目名称： bs
  * 类名称： DownFileController
  * 描述：文件下载
+ *
  * @author 张靖烽
  * 创建时间 2018-05-10 18:51
  * 修改人：张靖烽  修改日期： 2018-05-10
@@ -79,12 +76,11 @@ public class DownFileController {
      */
     @RequestMapping(value = "upFile.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse upFile(HttpServletRequest request, HttpServletResponse response, MultipartFile
-            multipartFile, String className) {
-        if (multipartFile == null){
+    public ServerResponse upFile(HttpServletRequest request, MultipartFile multipartFile, String className) {
+        if (multipartFile == null) {
             return ServerResponse.createByErrorMessage("文件不能为空");
         }
-        if (StringUtils.isBlank(className)){
+        if (StringUtils.isBlank(className)) {
             return ServerResponse.createByErrorMessage("系统错误");
         }
         try {
@@ -97,7 +93,7 @@ public class DownFileController {
             BaseModal bm = (BaseModal) clazz.newInstance();
             bm.setFile(file);
             return bm.parse();
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("上传文件出错", e);
             return ServerResponse.createByErrorMessage("上传文件出错");
         }

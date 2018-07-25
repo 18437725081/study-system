@@ -6,7 +6,7 @@ import com.bs.dao.*;
 import com.bs.pojo.*;
 import com.bs.util.BigDecimalUtil;
 import com.bs.util.MD5;
-import com.bs.util.Time;
+import com.bs.util.TimeUtil;
 import com.bs.vo.*;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
@@ -226,7 +226,7 @@ public class StudentService {
             }
             StudentPaperVO studentPaperVO = new StudentPaperVO();
             studentPaperVO.setPkPaper(relPaperMajor.getFkPaper());
-            studentPaperVO.setPublicTime(Time.dateToStr(relPaperMajor.getPublishTime()));
+            studentPaperVO.setPublicTime(TimeUtil.dateToStr(relPaperMajor.getPublishTime()));
             Paper paper = paperMapper.selectByPrimaryKey(relPaperMajor.getFkPaper());
             studentPaperVO.setPaperName(paper.getPaperName());
             list.add(studentPaperVO);

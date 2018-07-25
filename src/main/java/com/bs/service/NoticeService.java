@@ -4,7 +4,7 @@ import com.bs.common.ServerResponse;
 import com.bs.dao.NoticeMapper;
 import com.bs.pojo.Manager;
 import com.bs.pojo.Notice;
-import com.bs.util.Time;
+import com.bs.util.TimeUtil;
 import com.bs.vo.NoticeVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -13,9 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.print.Doc;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author 张靖烽
@@ -56,7 +54,7 @@ public class NoticeService {
             } else if ("N".equals(n.getFlag())) {
                 noticeVO.setFlag("无效");
             }
-            noticeVO.setLastUpdatedTime(Time.dateToStr(n.getLastUpdatedTime()));
+            noticeVO.setLastUpdatedTime(TimeUtil.dateToStr(n.getLastUpdatedTime()));
             noticeVOList.add(noticeVO);
         }
         PageInfo pageInfo = new PageInfo(list);

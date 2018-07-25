@@ -18,9 +18,9 @@ import java.util.List;
 public class Ftp {
     private static Logger logger = LoggerFactory.getLogger(Ftp.class);
 
-    private static String ftpIp = Properties.getProperty("ftp.server.ip");
-    private static String ftpUser = Properties.getProperty("ftp.user");
-    private static String ftpPass = Properties.getProperty("ftp.pass");
+    private static String ftpIp = PropertiesUtil.getProperty("ftp.server.ip");
+    private static String ftpUser = PropertiesUtil.getProperty("ftp.user");
+    private static String ftpPass = PropertiesUtil.getProperty("ftp.pass");
 
     private Ftp(String ip, int port, String user, String pwd) {
         this.ip = ip;

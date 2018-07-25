@@ -9,13 +9,13 @@ import java.io.InputStreamReader;
 
 /**
  * @author 张靖烽
- * @name Properties
+ * @name PropertiesUtil
  * @description
  * @create 2017-10-16 9:41
  **/
-public class Properties {
+public class PropertiesUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(Properties.class);
+    private static Logger log = LoggerFactory.getLogger(PropertiesUtil.class);
 
     private static java.util.Properties props;
 
@@ -23,21 +23,21 @@ public class Properties {
         String fileName = "bs.properties";
         props = new java.util.Properties();
         try {
-            props.load(new InputStreamReader(Properties.class.getClassLoader().getResourceAsStream(fileName),"UTF-8"));
+            props.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName), "UTF-8"));
         } catch (IOException e) {
-            logger.error("配置文件读取异常",e);
+            log.error("配置文件读取异常", e);
         }
     }
 
-    static String getProperty(String key){
+    static String getProperty(String key) {
         String value = props.getProperty(key.trim());
-        if(StringUtils.isBlank(value)){
+        if (StringUtils.isBlank(value)) {
             return null;
         }
         return value.trim();
     }
 
-    public static String getProperty(String key,String defaultValue) {
+    public static String getProperty(String key, String defaultValue) {
 
         String value = props.getProperty(key.trim());
         if (StringUtils.isBlank(value)) {

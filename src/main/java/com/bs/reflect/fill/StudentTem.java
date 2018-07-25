@@ -2,9 +2,6 @@ package com.bs.reflect.fill;
 
 import com.bs.common.ServerResponse;
 import com.bs.reflect.BaseModal;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -15,14 +12,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 
 /**
- * 项目名称：
- * 类名称： StudentTem
- * 描述：
  * @author 张靖烽
- * 创建时间 2018-05-11 16:07
- * 修改人：张靖烽  修改日期： 2018-05-11
- * 修改备注：
- **/
+ * @description
+ * @createtime 2018-05-11 20:21
+ */
 public class StudentTem extends BaseModal {
 
     private static final String ZZ = "^.+\\.(?i)((xls)|(xlsx))$";

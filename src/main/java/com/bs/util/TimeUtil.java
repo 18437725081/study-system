@@ -9,11 +9,11 @@ import java.util.Date;
 
 /**
  * @author 张靖烽
- * @name Time
+ * @name TimeUtil
  * @description
  * @create 2017-11-01 12:46
  **/
-public class Time {
+public class TimeUtil {
 
     private static final String STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss";
 

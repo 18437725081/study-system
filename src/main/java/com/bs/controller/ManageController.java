@@ -8,6 +8,9 @@ import com.bs.pojo.Manager;
 import com.bs.pojo.Student;
 import com.bs.pojo.Teacher;
 import com.bs.service.ManageService;
+import com.bs.util.CookieUtil;
+import com.bs.util.JacksonUtil;
+import com.bs.util.RedisPoolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -41,14 +45,16 @@ public class ManageController {
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse login(String username, String password, HttpSession session) {
+    public ServerResponse login(String username, String password, HttpSession session,HttpServletResponse response) {
         //验证用户登录信息是否正确
-        ServerResponse response = manageService.login(username, password);
+        ServerResponse sr = manageService.login(username, password);
         //验证通过，将当前用户信息放入session
-        if (response.isSuccess()) {
-            session.setAttribute(Constant.CURRENT_USER, response.getData());
+        if (sr.isSuccess()) {
+            CookieUtil.writeCookie(response,session.getId());
+            RedisPoolUtil.setEx(session.getId(), JacksonUtil.objToString(sr.getData()),60*60*24*365);
+            //session.setAttribute(Constant.CURRENT_USER, response.getData());
         }
-        return response;
+        return sr;
     }
 
     /**
