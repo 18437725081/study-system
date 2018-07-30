@@ -63,4 +63,7 @@ public class Constant {
      */
     public static final String FLAG_N = "N";
 
+
+    public static final String TOKEN_PREFIX = "token_";
+
 }

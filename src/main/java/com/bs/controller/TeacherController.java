@@ -3,14 +3,21 @@ package com.bs.controller;
 import com.bs.common.Constant;
 import com.bs.common.ResponseCode;
 import com.bs.common.ServerResponse;
+import com.bs.pojo.Student;
 import com.bs.pojo.Teacher;
 import com.bs.service.TeacherService;
+import com.bs.util.CookieUtil;
+import com.bs.util.JacksonUtil;
+import com.bs.util.RedisPoolUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -33,14 +40,15 @@ public class TeacherController {
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse login(String username, String password , HttpSession session) {
+    public ServerResponse login(String username, String password, HttpSession session, HttpServletResponse response) {
         //验证用户登录信息是否正确
-        ServerResponse response = teacherService.login(username, password);
+        ServerResponse sr = teacherService.login(username, password);
         //验证通过，将当前用户信息放入session
-        if (response.isSuccess()) {
-            session.setAttribute(Constant.CURRENT_USER, response.getData());
+        if (sr.isSuccess()) {
+            CookieUtil.writeCookie(response, session.getId());
+            RedisPoolUtil.setEx(session.getId(), JacksonUtil.objToString(sr.getData()), 60 * 30);
         }
-        return response;
+        return sr;
     }
 
     /**
@@ -50,12 +58,17 @@ public class TeacherController {
      */
     @RequestMapping(value = "getUserName.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse getUserName(HttpSession session) {
-        Teacher teacher = (Teacher)session.getAttribute(Constant.CURRENT_USER);
-        if (teacher != null){
+    public ServerResponse getUserName(HttpServletRequest request) {
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String teacherStr = RedisPoolUtil.get(token);
+        Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
+        if (teacher != null) {
             return ServerResponse.createBySuccess(teacher);
         }
-        return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"请先登录");
+        return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
     }
 
     /**
@@ -98,8 +111,13 @@ public class TeacherController {
      */
     @RequestMapping(value = "resetPassword.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew) {
-        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+    public ServerResponse<String> resetPassword(HttpServletRequest request, String passwordOld, String passwordNew) {
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String teacherStr = RedisPoolUtil.get(token);
+        Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -113,8 +131,13 @@ public class TeacherController {
      */
     @RequestMapping(value = "updateTeacherInformation.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse updateTeacherInformation(HttpSession session, String question, String answer) {
-        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+    public ServerResponse updateTeacherInformation(HttpServletRequest request, String question, String answer) {
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String teacherStr = RedisPoolUtil.get(token);
+        Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -129,8 +152,13 @@ public class TeacherController {
      */
     @RequestMapping(value = "getTeacherMajor.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse getTeacherMajor(HttpSession session) {
-        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+    public ServerResponse getTeacherMajor(HttpServletRequest request) {
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String teacherStr = RedisPoolUtil.get(token);
+        Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }

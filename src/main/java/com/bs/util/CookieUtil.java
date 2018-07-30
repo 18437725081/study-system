@@ -19,6 +19,11 @@ public class CookieUtil {
     //cookie名称
     private final static String COOKIE_NAME = "qx";
 
+    /**
+     * @author 张靖烽
+     * @description 存入Cookie
+     * @createtime 2018-07-30 15:22
+     */
     public static void writeCookie(HttpServletResponse response, String value) {
         Cookie cookie = new Cookie(COOKIE_NAME, value);
         cookie.setDomain(COOKIE_DOMAIN);
@@ -30,6 +35,11 @@ public class CookieUtil {
         response.addCookie(cookie);
     }
 
+    /**
+     * @author 张靖烽
+     * @description 读取Cookie
+     * @createtime 2018-07-30 15:22
+     */
     public static String readCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length > 0) {
@@ -42,6 +52,11 @@ public class CookieUtil {
         return null;
     }
 
+    /**
+     * @author 张靖烽
+     * @description 删除Cookie
+     * @createtime 2018-07-30 15:22
+     */
     public static void deleteCookie(HttpServletRequest request,HttpServletResponse response){
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length > 0) {
@@ -50,6 +65,7 @@ public class CookieUtil {
                     ck.setDomain(COOKIE_DOMAIN);
                     ck.setPath("/");
                     ck.setHttpOnly(true);
+                    //直接设置Cookie有效期为0，表示删除此Cookie
                     ck.setMaxAge(0);
                     response.addCookie(ck);
                 }

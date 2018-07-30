@@ -3,9 +3,14 @@ package com.bs.controller;
 import com.bs.common.Constant;
 import com.bs.common.ResponseCode;
 import com.bs.common.ServerResponse;
+import com.bs.pojo.Manager;
 import com.bs.pojo.Student;
 import com.bs.service.StudentService;
+import com.bs.util.CookieUtil;
+import com.bs.util.JacksonUtil;
+import com.bs.util.RedisPoolUtil;
 import com.bs.vo.StudentVO;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -38,14 +45,15 @@ public class StudentController {
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse login1(String username, String password, HttpSession session) {
+    public ServerResponse login1(String username, String password, HttpSession session,HttpServletResponse response) {
         //验证用户登录信息是否正确
-        ServerResponse response = studentService.login(username, password);
+        ServerResponse sr = studentService.login(username, password);
         //验证通过，将当前用户信息放入session
-        if (response.isSuccess()) {
-            session.setAttribute(Constant.CURRENT_USER, response.getData());
+        if (sr.isSuccess()) {
+            CookieUtil.writeCookie(response, session.getId());
+            RedisPoolUtil.setEx(session.getId(), JacksonUtil.objToString(sr.getData()), 60 * 30);
         }
-        return response;
+        return sr;
     }
 
     /**
@@ -55,8 +63,13 @@ public class StudentController {
      */
     @RequestMapping(value = "getUserName.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse getUserName(HttpSession session) {
-        Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
+    public ServerResponse getUserName(HttpServletRequest request) {
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String studentStr = RedisPoolUtil.get(token);
+        Student student = JacksonUtil.stringToObj(studentStr, Student.class);
         if (student != null) {
             StudentVO studentVO = studentService.setStudentVO(student);
             return ServerResponse.createBySuccess(studentVO);
@@ -104,8 +117,13 @@ public class StudentController {
      */
     @RequestMapping(value = "resetPassword.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew) {
-        Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
+    public ServerResponse<String> resetPassword(HttpServletRequest request, String passwordOld, String passwordNew) {
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String studentStr = RedisPoolUtil.get(token);
+        Student student = JacksonUtil.stringToObj(studentStr, Student.class);
         if (student == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -119,8 +137,13 @@ public class StudentController {
      */
     @RequestMapping(value = "updateStudentInformation.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse updateStudentInformation(HttpSession session, String question, String answer) {
-        Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
+    public ServerResponse updateStudentInformation(HttpServletRequest request, String question, String answer) {
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String studentStr = RedisPoolUtil.get(token);
+        Student student = JacksonUtil.stringToObj(studentStr, Student.class);
         if (student == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -134,8 +157,13 @@ public class StudentController {
      */
     @RequestMapping(value = "getUnfinishedPaper.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse getUnfinishedPaper(HttpSession session) {
-        Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
+    public ServerResponse getUnfinishedPaper(HttpServletRequest request) {
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String studentStr = RedisPoolUtil.get(token);
+        Student student = JacksonUtil.stringToObj(studentStr, Student.class);
         if (student == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -149,9 +177,14 @@ public class StudentController {
      */
     @RequestMapping("getPaperDetail.do")
     @ResponseBody
-    public ServerResponse getPaperDetail(HttpSession session, Integer pkPaper) {
+    public ServerResponse getPaperDetail(HttpServletRequest request, Integer pkPaper) {
         //判断登录
-        Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String studentStr = RedisPoolUtil.get(token);
+        Student student = JacksonUtil.stringToObj(studentStr, Student.class);
         if (student == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -166,9 +199,14 @@ public class StudentController {
      */
     @RequestMapping("submitPaper.do")
     @ResponseBody
-    public ServerResponse submitPaper(HttpSession session, Integer pkPaper, String testsAndAnswer) {
+    public ServerResponse submitPaper(HttpServletRequest request, Integer pkPaper, String testsAndAnswer) {
         //判断登录
-        Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String studentStr = RedisPoolUtil.get(token);
+        Student student = JacksonUtil.stringToObj(studentStr, Student.class);
         if (student == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -182,10 +220,15 @@ public class StudentController {
      */
     @RequestMapping("inquiryScore.do")
     @ResponseBody
-    public ServerResponse inquiryScore(HttpSession session) {
+    public ServerResponse inquiryScore(HttpServletRequest request) {
         //判断登录
         try {
-            Student student = (Student) session.getAttribute(Constant.CURRENT_USER);
+            String token = CookieUtil.readCookie(request);
+            if (StringUtils.isEmpty(token)) {
+                return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+            }
+            String studentStr = RedisPoolUtil.get(token);
+            Student student = JacksonUtil.stringToObj(studentStr, Student.class);
             if (student == null) {
                 return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
             }

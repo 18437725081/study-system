@@ -11,6 +11,7 @@ import com.bs.service.ManageService;
 import com.bs.util.CookieUtil;
 import com.bs.util.JacksonUtil;
 import com.bs.util.RedisPoolUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -45,14 +47,13 @@ public class ManageController {
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse login(String username, String password, HttpSession session,HttpServletResponse response) {
+    public ServerResponse login(String username, String password, HttpSession session, HttpServletResponse response) {
         //验证用户登录信息是否正确
         ServerResponse sr = manageService.login(username, password);
         //验证通过，将当前用户信息放入session
         if (sr.isSuccess()) {
-            CookieUtil.writeCookie(response,session.getId());
-            RedisPoolUtil.setEx(session.getId(), JacksonUtil.objToString(sr.getData()),60*60*24*365);
-            //session.setAttribute(Constant.CURRENT_USER, response.getData());
+            CookieUtil.writeCookie(response, session.getId());
+            RedisPoolUtil.setEx(session.getId(), JacksonUtil.objToString(sr.getData()), 60 * 30);
         }
         return sr;
     }
@@ -64,11 +65,16 @@ public class ManageController {
      */
     @RequestMapping("queryTeacher.do")
     @ResponseBody
-    public ServerResponse queryTeacher(HttpSession session, Teacher teacher,
+    public ServerResponse queryTeacher(HttpServletRequest request, Teacher teacher,
                                        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -86,9 +92,14 @@ public class ManageController {
      */
     @RequestMapping("addOrUpdateTeacher.do")
     @ResponseBody
-    public ServerResponse addOrUpdateTeacher(HttpSession session, Teacher teacher) {
+    public ServerResponse addOrUpdateTeacher(HttpServletRequest request, Teacher teacher) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -101,35 +112,19 @@ public class ManageController {
 
     /**
      * @author 张靖烽
-     * @description 批量新增教师信息
-     * @createtime 2018-01-05 10:12
-     */
-    @RequestMapping("batchAddTeacher.do")
-    @ResponseBody
-    public ServerResponse batchAddTeacher(HttpSession session) {
-        //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
-        if (manager == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
-        }
-        //判断权限，业务处理
-        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            //todo
-            return null;
-        }
-        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
-    }
-
-    /**
-     * @author 张靖烽
      * @description 获取单条教师信息
      * @createtime 2018-01-05 10:12
      */
     @RequestMapping("getTeacherInfo.do")
     @ResponseBody
-    public ServerResponse getTeacherInfo(HttpSession session, Integer pkTeacher) {
+    public ServerResponse getTeacherInfo(HttpServletRequest request, Integer pkTeacher) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -147,9 +142,14 @@ public class ManageController {
      */
     @RequestMapping("delTeacher.do")
     @ResponseBody
-    public ServerResponse delTeacher(HttpSession session, Integer pkTeacher) {
+    public ServerResponse delTeacher(HttpServletRequest request, Integer pkTeacher) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -167,11 +167,16 @@ public class ManageController {
      */
     @RequestMapping("queryStudent.do")
     @ResponseBody
-    public ServerResponse queryStudent(HttpSession session, Student student,
+    public ServerResponse queryStudent(HttpServletRequest request, Student student,
                                        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -189,9 +194,14 @@ public class ManageController {
      */
     @RequestMapping("addOrUpdateStudent.do")
     @ResponseBody
-    public ServerResponse addOrUpdateStudent(HttpSession session, Student student) {
+    public ServerResponse addOrUpdateStudent(HttpServletRequest request, Student student) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -204,35 +214,19 @@ public class ManageController {
 
     /**
      * @author 张靖烽
-     * @description 批量新增学生信息
-     * @createtime 2018-01-05 10:18
-     */
-    @RequestMapping("batchAddStudent.do")
-    @ResponseBody
-    public ServerResponse batchAddStudent(HttpSession session) {
-        //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
-        if (manager == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
-        }
-        //判断权限，业务处理
-        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
-            //todo
-            return null;
-        }
-        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
-    }
-
-    /**
-     * @author 张靖烽
      * @description 获取单条学生信息
      * @createtime 2018-01-05 10:18
      */
     @RequestMapping("getStudentInfo.do")
     @ResponseBody
-    public ServerResponse getStudentInfo(HttpSession session, Integer pkStudent) {
+    public ServerResponse getStudentInfo(HttpServletRequest request, Integer pkStudent) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -250,9 +244,14 @@ public class ManageController {
      */
     @RequestMapping("delStudent.do")
     @ResponseBody
-    public ServerResponse delStudent(HttpSession session, Integer pkStudent) {
+    public ServerResponse delStudent(HttpServletRequest request, Integer pkStudent) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -270,9 +269,14 @@ public class ManageController {
      */
     @RequestMapping("getRelTeacherMajor.do")
     @ResponseBody
-    public ServerResponse getRelTeacherMajor(HttpSession session, Integer pkTeacher) {
+    public ServerResponse getRelTeacherMajor(HttpServletRequest request, Integer pkTeacher) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -290,9 +294,14 @@ public class ManageController {
      */
     @RequestMapping("addRelTeacherMajor.do")
     @ResponseBody
-    public ServerResponse addRelTeacherMajor(HttpSession session, Integer pkTeacher, Integer pkMajor) {
+    public ServerResponse addRelTeacherMajor(HttpServletRequest request, Integer pkTeacher, Integer pkMajor) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -310,9 +319,14 @@ public class ManageController {
      */
     @RequestMapping("delRelTeacherMajor.do")
     @ResponseBody
-    public ServerResponse delRelTeacherMajor(HttpSession session, Integer pkTeacher, Integer pkMajor) {
+    public ServerResponse delRelTeacherMajor(HttpServletRequest request, Integer pkTeacher, Integer pkMajor) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -331,9 +345,14 @@ public class ManageController {
      */
     @RequestMapping("getGrade.do")
     @ResponseBody
-    public ServerResponse getGrade(HttpSession session) {
+    public ServerResponse getGrade(HttpServletRequest request) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -351,9 +370,14 @@ public class ManageController {
      */
     @RequestMapping("getMajor.do")
     @ResponseBody
-    public ServerResponse getMajor(HttpSession session, String grade) {
+    public ServerResponse getMajor(HttpServletRequest request, String grade) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -371,11 +395,16 @@ public class ManageController {
      */
     @RequestMapping("getTeacherMajor.do")
     @ResponseBody
-    public ServerResponse getTeacherMajor(HttpSession session, Integer pkTeacher,
+    public ServerResponse getTeacherMajor(HttpServletRequest request, Integer pkTeacher,
                                           @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                           @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -393,11 +422,16 @@ public class ManageController {
      */
     @RequestMapping("queryMajor.do")
     @ResponseBody
-    public ServerResponse queryMajor(HttpSession session, Major major,
+    public ServerResponse queryMajor(HttpServletRequest request, Major major,
                                      @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -415,9 +449,14 @@ public class ManageController {
      */
     @RequestMapping("getMajorInfo.do")
     @ResponseBody
-    public ServerResponse getMajorInfo(HttpSession session, Integer pkMajor) {
+    public ServerResponse getMajorInfo(HttpServletRequest request, Integer pkMajor) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -435,9 +474,14 @@ public class ManageController {
      */
     @RequestMapping("addOrUpdateMajor.do")
     @ResponseBody
-    public ServerResponse addOrUpdateMajor(HttpSession session, Major major) {
+    public ServerResponse addOrUpdateMajor(HttpServletRequest request, Major major) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -455,9 +499,14 @@ public class ManageController {
      */
     @RequestMapping("delMajor.do")
     @ResponseBody
-    public ServerResponse delMajor(HttpSession session, Integer pkMajor) {
+    public ServerResponse delMajor(HttpServletRequest request, Integer pkMajor) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -475,9 +524,14 @@ public class ManageController {
      */
     @RequestMapping("resetTeacherPwd.do")
     @ResponseBody
-    public ServerResponse resetTeacherPwd(HttpSession session, Integer pkTeacher) {
+    public ServerResponse resetTeacherPwd(HttpServletRequest request, Integer pkTeacher) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -495,9 +549,14 @@ public class ManageController {
      */
     @RequestMapping("resetStudentPwd.do")
     @ResponseBody
-    public ServerResponse resetStudentPwd(HttpSession session, Integer pkStudent) {
+    public ServerResponse resetStudentPwd(HttpServletRequest request, Integer pkStudent) {
         //判断登录
-        Manager manager = (Manager) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String manageStr = RedisPoolUtil.get(token);
+        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
         if (manager == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }

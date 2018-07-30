@@ -1,5 +1,6 @@
 package com.bs.service;
 
+import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
 import com.bs.common.TokenCache;
 import com.bs.dao.MajorMapper;
@@ -8,6 +9,7 @@ import com.bs.dao.TeacherMapper;
 import com.bs.pojo.Major;
 import com.bs.pojo.Teacher;
 import com.bs.util.MD5;
+import com.bs.util.RedisPoolUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,7 +95,7 @@ public class TeacherService {
         if (resultCount > 0) {
             //说明问题及问题答案是这个用户的,并且是正确的
             String forgetToken = UUID.randomUUID().toString();
-            TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
+            RedisPoolUtil.setEx(Constant.TOKEN_PREFIX + username, forgetToken,60*60*12);
             return ServerResponse.createBySuccess(forgetToken);
         }
         return ServerResponse.createByErrorMessage("答案错误");
@@ -114,7 +116,7 @@ public class TeacherService {
         if (resultCount <= 0) {
             return ServerResponse.createByErrorMessage("用户名不存在");
         }
-        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
+        String token = RedisPoolUtil.get(Constant.TOKEN_PREFIX + username);
         if (StringUtils.isBlank(token)) {
             return ServerResponse.createByErrorMessage("请求超时，请重试");
         }

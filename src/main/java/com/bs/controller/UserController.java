@@ -2,11 +2,15 @@ package com.bs.controller;
 
 import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
+import com.bs.util.CookieUtil;
+import com.bs.util.RedisPoolUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -25,9 +29,11 @@ public class UserController {
      */
     @RequestMapping(value = "loginOut.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> loginout(HttpSession session) {
-        //将用户信息从session中清除
-        session.removeAttribute(Constant.CURRENT_USER);
+    public ServerResponse<String> loginout(HttpServletRequest request, HttpServletResponse response) {
+        //将用户信息清除
+        String token = CookieUtil.readCookie(request);
+        CookieUtil.deleteCookie(request, response);
+        RedisPoolUtil.del(token);
         return ServerResponse.createBySuccess();
     }
 

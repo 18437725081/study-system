@@ -6,6 +6,10 @@ import com.bs.common.ServerResponse;
 import com.bs.pojo.Teacher;
 import com.bs.pojo.Tests;
 import com.bs.service.TestsService;
+import com.bs.util.CookieUtil;
+import com.bs.util.JacksonUtil;
+import com.bs.util.RedisPoolUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -29,8 +34,6 @@ public class TestsController {
     @Autowired
     private TestsService testsService;
 
-    private static final Logger log = LoggerFactory.getLogger(TestsController.class);
-
     /**
      * @author 张靖烽
      * @description 查询试题
@@ -38,11 +41,16 @@ public class TestsController {
      */
     @RequestMapping("queryTests.do")
     @ResponseBody
-    public ServerResponse queryTests(HttpSession session, Tests tests,
+    public ServerResponse queryTests(HttpServletRequest request, Tests tests,
                                      @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         //判断登录
-        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String teacherStr = RedisPoolUtil.get(token);
+        Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -62,11 +70,16 @@ public class TestsController {
      */
     @RequestMapping("queryMyTests.do")
     @ResponseBody
-    public ServerResponse queryMyTests(HttpSession session, Tests tests,
+    public ServerResponse queryMyTests(HttpServletRequest request, Tests tests,
                                        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         //判断登录
-        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String teacherStr = RedisPoolUtil.get(token);
+        Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -86,9 +99,14 @@ public class TestsController {
      */
     @RequestMapping("getTestsInfo.do")
     @ResponseBody
-    public ServerResponse getTestsInfo(HttpSession session, Integer pkTest) {
+    public ServerResponse getTestsInfo(HttpServletRequest request, Integer pkTest) {
         //判断登录
-        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String teacherStr = RedisPoolUtil.get(token);
+        Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -106,9 +124,14 @@ public class TestsController {
      */
     @RequestMapping("addTest.do")
     @ResponseBody
-    public ServerResponse addTest(HttpSession session, Tests tests) {
+    public ServerResponse addTest(HttpServletRequest request, Tests tests) {
         //判断登录
-        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String teacherStr = RedisPoolUtil.get(token);
+        Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -126,9 +149,14 @@ public class TestsController {
      */
     @RequestMapping("modifyTestFlag.do")
     @ResponseBody
-    public ServerResponse modifyTestFlag(HttpSession session, Integer pkTest, String flag) {
+    public ServerResponse modifyTestFlag(HttpServletRequest request, Integer pkTest, String flag) {
         //判断登录
-        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String teacherStr = RedisPoolUtil.get(token);
+        Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
@@ -146,9 +174,14 @@ public class TestsController {
      */
     @RequestMapping("selectSubjectList.do")
     @ResponseBody
-    public ServerResponse selectSubjectList(HttpSession session) {
+    public ServerResponse selectSubjectList(HttpServletRequest request) {
         //判断登录
-        Teacher teacher = (Teacher) session.getAttribute(Constant.CURRENT_USER);
+        String token = CookieUtil.readCookie(request);
+        if (StringUtils.isEmpty(token)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+        }
+        String teacherStr = RedisPoolUtil.get(token);
+        Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
