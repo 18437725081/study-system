@@ -1,7 +1,5 @@
 package com.bs.controller.interceptor;
 
-import com.bs.common.ResponseCode;
-import com.bs.common.ServerResponse;
 import com.bs.pojo.Teacher;
 import com.bs.util.CookieUtil;
 import com.bs.util.JacksonUtil;
@@ -15,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 
 /**
  * @author 张靖烽
@@ -40,23 +37,8 @@ public class TeacherInterceptor implements HandlerInterceptor {
             String studentStr = RedisPoolUtil.get(token);
             teacher = JacksonUtil.stringToObj(studentStr, Teacher.class);
         }
-        //用户信息为空或者身份权限不对
-        if (teacher == null || (!StringUtils.equals(teacher.getRole(), "1"))) {
-            //重置response
-            response.reset();
-            response.setCharacterEncoding("utf-8");
-            response.setContentType("application/json;charset=utf-8");
-            PrintWriter printWriter = response.getWriter();
-            if (teacher == null) {
-                printWriter.print(JacksonUtil.objToString(ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "操作被拦截，请先登录")));
-            } else {
-                printWriter.print(JacksonUtil.objToString(ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "无该操作权限")));
-            }
-            printWriter.flush();
-            printWriter.close();
-            return false;
-        }
-        return true;
+        //判断用户信息是否为空或者身份权限不对
+        return teacher != null && (StringUtils.equals(teacher.getRole(), "1")) || BaseInterceptor.check(response, teacher);
     }
 
     @Override
