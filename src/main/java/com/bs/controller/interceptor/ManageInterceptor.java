@@ -3,7 +3,6 @@ package com.bs.controller.interceptor;
 import com.bs.common.ResponseCode;
 import com.bs.common.ServerResponse;
 import com.bs.pojo.Manager;
-import com.bs.pojo.Student;
 import com.bs.util.CookieUtil;
 import com.bs.util.JacksonUtil;
 import com.bs.util.RedisPoolUtil;
