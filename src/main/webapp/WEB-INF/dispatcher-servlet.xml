@@ -44,9 +44,9 @@
 
     <!--&lt;!&ndash; 是URLBasedViewResolver的子类，所以URLBasedViewResolver支持的特性它都支持 &ndash;&gt;-->
     <!--<bean id="viewResolver"-->
-          <!--class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
-        <!--<property name="prefix" value="/WEB-INF/jsp/" />-->
-        <!--<property name="suffix" value=".jsp" />-->
+    <!--class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+    <!--<property name="prefix" value="/WEB-INF/jsp/" />-->
+    <!--<property name="suffix" value=".jsp" />-->
     <!--</bean>-->
 
 
@@ -54,10 +54,34 @@
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- 上传最大大小10M-->
         <property name="maxUploadSize" value="10485760"/>
-        <property name="maxInMemorySize" value="4096" />
+        <property name="maxInMemorySize" value="4096"/>
         <!-- 设置默认编码 -->
-        <property name="defaultEncoding" value="UTF-8"></property>
+        <property name="defaultEncoding" value="UTF-8"/>
     </bean>
+
+    <!-- 拦截器校验登录和权限 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/student/*"/>
+            <mvc:exclude-mapping path="/student/login.do"/>
+            <bean class="com.bs.controller.interceptor.StudentInterceptor"/>
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/teacher/*"/>
+            <mvc:mapping path="/paper/*"/>
+            <mvc:mapping path="/tests/*"/>
+            <mvc:exclude-mapping path="/teacher/login.do"/>
+            <bean class="com.bs.controller.interceptor.TeacherInterceptor"/>
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/manage/*"/>
+            <mvc:mapping path="/notice/*"/>
+            <mvc:exclude-mapping path="/manage/login.do"/>
+            <bean class="com.bs.controller.interceptor.ManageInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 
 </beans>
