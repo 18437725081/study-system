@@ -30,6 +30,10 @@ public class RedisPoolUtil {
             log.error("set key:{} ,value:{} ,error", key, value, e);
             RedisPool.returnBrokenResource(jedis);
             return null;
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
         }
         return result;
     }
@@ -49,6 +53,10 @@ public class RedisPoolUtil {
             log.error("set key:{} ,value:{} ,error", key, value, e);
             RedisPool.returnBrokenResource(jedis);
             return null;
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
         }
         return result;
     }
@@ -68,6 +76,10 @@ public class RedisPoolUtil {
             log.error("set key:{} ,value:{} ,error", key, e);
             RedisPool.returnBrokenResource(jedis);
             return null;
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
         }
         return result;
     }
@@ -87,6 +99,10 @@ public class RedisPoolUtil {
             log.error("get key:{} ,error", key, e);
             RedisPool.returnBrokenResource(jedis);
             return null;
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
         }
         return result;
     }
@@ -106,6 +122,10 @@ public class RedisPoolUtil {
             log.error("del key:{} ,error", key, e);
             RedisPool.returnBrokenResource(jedis);
             return null;
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
         }
         return result;
     }

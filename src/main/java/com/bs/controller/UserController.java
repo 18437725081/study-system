@@ -1,6 +1,5 @@
 package com.bs.controller;
 
-import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
 import com.bs.util.CookieUtil;
 import com.bs.util.RedisPoolUtil;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author 张靖烽

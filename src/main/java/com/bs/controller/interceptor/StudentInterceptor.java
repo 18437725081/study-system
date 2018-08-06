@@ -26,7 +26,7 @@ public class StudentInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
         String methodName = handlerMethod.getMethod().getName();
         String className = handlerMethod.getBean().getClass().getName();
         log.info("拦截类名：{}，方法名：{}", className, methodName);

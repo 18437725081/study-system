@@ -77,7 +77,6 @@
 
         <mvc:interceptor>
             <mvc:mapping path="/manage/*"/>
-            <mvc:mapping path="/notice/*"/>
             <mvc:exclude-mapping path="/manage/login.do"/>
             <bean class="com.bs.controller.interceptor.ManageInterceptor"/>
         </mvc:interceptor>

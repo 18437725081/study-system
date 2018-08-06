@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
  **/
 public class CookieUtil {
 
-    //cookie保存在.qx.com域名下
-    private final static String COOKIE_DOMAIN = ".qx.com";
+    //cookie保存在localhost下
+    private final static String COOKIE_DOMAIN = "localhost";
     //cookie名称
     private final static String COOKIE_NAME = "qx";
 

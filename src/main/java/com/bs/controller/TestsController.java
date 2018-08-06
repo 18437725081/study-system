@@ -10,8 +10,6 @@ import com.bs.util.CookieUtil;
 import com.bs.util.JacksonUtil;
 import com.bs.util.RedisPoolUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author 张靖烽
@@ -41,25 +38,11 @@ public class TestsController {
      */
     @RequestMapping("queryTests.do")
     @ResponseBody
-    public ServerResponse queryTests(HttpServletRequest request, Tests tests,
+    public ServerResponse queryTests(Tests tests,
                                      @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        //判断登录
-        String token = CookieUtil.readCookie(request);
-        if (StringUtils.isEmpty(token)) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
-        }
-        String teacherStr = RedisPoolUtil.get(token);
-        Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
-        if (teacher == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
-        }
-        //判断权限，业务处理
-        if (Constant.Role.ROLE_TEACHER.equals(teacher.getRole())) {
-            tests.setFlag("Y");
-            return testsService.queryTests(tests, pageNum, pageSize);
-        }
-        return ServerResponse.createByErrorMessage("不是教师，无法操作");
+        tests.setFlag("Y");
+        return testsService.queryTests(tests, pageNum, pageSize);
     }
 
 
