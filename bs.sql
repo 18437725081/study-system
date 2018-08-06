@@ -60,7 +60,6 @@ CREATE TABLE `bs_managers` (
 -- Records of bs_managers
 -- ----------------------------
 INSERT INTO `bs_managers` VALUES ('1000000', 'admin', 'admin', '0');
-INSERT INTO `bs_managers` VALUES ('1000001', 'lwj', 'lwj', '0');
 
 -- ----------------------------
 -- Table structure for bs_notice
