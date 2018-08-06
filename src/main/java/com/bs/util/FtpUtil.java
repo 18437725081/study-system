@@ -11,18 +11,18 @@ import java.util.List;
 
 /**
  * @author 张靖烽
- * @name Ftp
+ * @name FtpUtil
  * @description
  * @create 2017-11-02 14:14
  **/
-public class Ftp {
-    private static Logger logger = LoggerFactory.getLogger(Ftp.class);
+public class FtpUtil {
+    private static Logger logger = LoggerFactory.getLogger(FtpUtil.class);
 
     private static String ftpIp = PropertiesUtil.getProperty("ftp.server.ip");
     private static String ftpUser = PropertiesUtil.getProperty("ftp.user");
     private static String ftpPass = PropertiesUtil.getProperty("ftp.pass");
 
-    private Ftp(String ip, int port, String user, String pwd) {
+    private FtpUtil(String ip, int port, String user, String pwd) {
         this.ip = ip;
         this.port = port;
         this.user = user;
@@ -31,7 +31,7 @@ public class Ftp {
 
     public static boolean upFileToFtp(List<File> fileList) throws IOException {
         boolean flag;
-        Ftp ftp = new Ftp(ftpIp, 21, ftpUser, ftpPass);
+        FtpUtil ftp = new FtpUtil(ftpIp, 21, ftpUser, ftpPass);
         logger.info("开始连接ftp服务器...");
         flag = ftp.uploadFile(fileList);
         logger.info("开始连接ftp服务器,结束上传,上传结果:{}");

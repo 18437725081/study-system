@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author 张靖烽
  * @description 缓存工具类
+ *              由于使用了redis，这个缓存类已经废弃不在使用
  * @createtime 2018-02-07 8:58
  */
 public class TokenCache {

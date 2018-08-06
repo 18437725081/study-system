@@ -2,11 +2,10 @@ package com.bs.service;
 
 import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
-import com.bs.common.TokenCache;
 import com.bs.dao.*;
 import com.bs.pojo.*;
 import com.bs.util.BigDecimalUtil;
-import com.bs.util.MD5;
+import com.bs.util.Md5Util;
 import com.bs.util.RedisPoolUtil;
 import com.bs.util.TimeUtil;
 import com.bs.vo.*;
@@ -67,7 +66,7 @@ public class StudentService {
             return ServerResponse.createByErrorMessage("登录失败：用户名不存在");
         }
         //用户名存在，对密码进行加密
-        String md5Password = MD5.md5EncodeUtf8(password);
+        String md5Password = Md5Util.md5EncodeUtf8(password);
         //检查用户输入的用户名和密码是否匹配
         Student student = studentMapper.login(username, md5Password);
         //用户名和密码不匹配
@@ -137,7 +136,7 @@ public class StudentService {
             return ServerResponse.createByErrorMessage("token无效或者过期");
         }
         if (StringUtils.equals(forgetToken, token)) {
-            String md5Password = MD5.md5EncodeUtf8(passwordNew);
+            String md5Password = Md5Util.md5EncodeUtf8(passwordNew);
             result = studentMapper.updatePasswordByUsername(username, md5Password);
             if (result > 0) {
                 return ServerResponse.createBySuccessMessage("修改密码成功");
@@ -155,11 +154,11 @@ public class StudentService {
      */
     public ServerResponse<String> resetStudentPassword(String passwordNew, String passwordOld, Student student) {
         //防止横向越权,要校验一下这个用户的旧密码,一定要指定是这个用户.因为我们会查询一个count(1),如果不指定id,那么结果就是true啦count>0;
-        int resultCount = studentMapper.checkPassword(MD5.md5EncodeUtf8(passwordOld), student.getPkStudent());
+        int resultCount = studentMapper.checkPassword(Md5Util.md5EncodeUtf8(passwordOld), student.getPkStudent());
         if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("旧密码错误");
         }
-        student.setPassword(MD5.md5EncodeUtf8(passwordNew));
+        student.setPassword(Md5Util.md5EncodeUtf8(passwordNew));
         student.setLastUpdatedBy(student.getPkStudent());
         int updateCount = studentMapper.updateByPrimaryKeySelective(student);
         if (updateCount > 0) {

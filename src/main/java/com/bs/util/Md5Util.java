@@ -4,11 +4,11 @@ import java.security.MessageDigest;
 
 /**
  * @author 张靖烽
- * @name MD5
+ * @name Md5Util
  * @description MD5加密算法
  * @create 2017-10-16 9:41
  **/
-public class MD5 {
+public class Md5Util {
 
     private static String byteArrayToHexString(byte[] b) {
         StringBuilder resultSb = new StringBuilder();
@@ -35,7 +35,7 @@ public class MD5 {
         String resultString = null;
         try {
             resultString = origin;
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance("Md5Util");
             resultString = byteArrayToHexString(md.digest(resultString.getBytes("utf-8")));
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,7 +4,7 @@ import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
 import com.bs.dao.*;
 import com.bs.pojo.*;
-import com.bs.util.MD5;
+import com.bs.util.Md5Util;
 import com.bs.vo.RelTeacherMajorVO;
 import com.bs.vo.StudentVO;
 import com.github.pagehelper.PageHelper;
@@ -117,7 +117,7 @@ public class ManageService {
                 if (result > 0) {
                     return ServerResponse.createByErrorMessage("用户名已存在");
                 }
-                teacher.setPassword(MD5.md5EncodeUtf8(teacher.getUsername()));
+                teacher.setPassword(Md5Util.md5EncodeUtf8(teacher.getUsername()));
                 teacher.setRole("1");
                 result = teacherMapper.insert(teacher);
                 if (result > 0) {
@@ -196,7 +196,7 @@ public class ManageService {
                     return ServerResponse.createByErrorMessage("用户名已存在");
                 }
                 student.setCreatedBy(manager.getPkManager());
-                student.setPassword(MD5.md5EncodeUtf8(student.getUsername()));
+                student.setPassword(Md5Util.md5EncodeUtf8(student.getUsername()));
                 student.setRole(Constant.Role.ROLE_STUDENT);
                 result = studentMapper.insert(student);
                 if (result > 0) {
@@ -422,7 +422,7 @@ public class ManageService {
         if (pkTeacher == null) {
             return ServerResponse.createByErrorMessage("参数错误");
         }
-        String password = MD5.md5EncodeUtf8("123456");
+        String password = Md5Util.md5EncodeUtf8("123456");
         Teacher teacher = new Teacher();
         teacher.setPkTeacher(pkTeacher);
         teacher.setPassword(password);
@@ -442,7 +442,7 @@ public class ManageService {
         if (pkStudent == null) {
             return ServerResponse.createByErrorMessage("参数错误");
         }
-        String password = MD5.md5EncodeUtf8("888888");
+        String password = Md5Util.md5EncodeUtf8("888888");
         Student student = new Student();
         student.setPkStudent(pkStudent);
         student.setPassword(password);

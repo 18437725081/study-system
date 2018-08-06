@@ -2,13 +2,12 @@ package com.bs.service;
 
 import com.bs.common.Constant;
 import com.bs.common.ServerResponse;
-import com.bs.common.TokenCache;
 import com.bs.dao.MajorMapper;
 import com.bs.dao.RelTeacherMajorMapper;
 import com.bs.dao.TeacherMapper;
 import com.bs.pojo.Major;
 import com.bs.pojo.Teacher;
-import com.bs.util.MD5;
+import com.bs.util.Md5Util;
 import com.bs.util.RedisPoolUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ public class TeacherService {
             return ServerResponse.createByErrorMessage("登录失败：用户名不存在");
         }
         //用户名存在，对密码进行加密
-        String md5Password = MD5.md5EncodeUtf8(password);
+        String md5Password = Md5Util.md5EncodeUtf8(password);
         //检查用户输入的用户名和密码是否匹配
         Teacher teacher = teacherMapper.login(username, md5Password);
         //用户名和密码不匹配
@@ -121,7 +120,7 @@ public class TeacherService {
             return ServerResponse.createByErrorMessage("请求超时，请重试");
         }
         if (StringUtils.equals(forgetToken, token)) {
-            String md5Password = MD5.md5EncodeUtf8(passwordNew);
+            String md5Password = Md5Util.md5EncodeUtf8(passwordNew);
             int rowCount = teacherMapper.updatePasswordByUsername(username, md5Password);
             if (rowCount > 0) {
                 return ServerResponse.createBySuccessMessage("重置密码成功");
@@ -139,12 +138,12 @@ public class TeacherService {
      */
     public ServerResponse<String> resetTeacherPassword(String passwordNew, String passwordOld, Teacher teacher) {
         //防止横向越权,要校验一下这个用户的旧密码,一定要指定是这个用户.因为我们会查询一个count(1),如果不指定id,那么结果就是true啦count>0;
-        int resultCount = teacherMapper.checkPassword(MD5.md5EncodeUtf8(passwordOld), teacher.getPkTeacher());
+        int resultCount = teacherMapper.checkPassword(Md5Util.md5EncodeUtf8(passwordOld), teacher.getPkTeacher());
         if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("旧密码错误");
         }
 
-        teacher.setPassword(MD5.md5EncodeUtf8(passwordNew));
+        teacher.setPassword(Md5Util.md5EncodeUtf8(passwordNew));
         int updateCount = teacherMapper.updateByPrimaryKeySelective(teacher);
         if (updateCount > 0) {
             return ServerResponse.createBySuccessMessage("密码更新成功");

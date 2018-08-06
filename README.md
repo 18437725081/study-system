@@ -15,6 +15,7 @@
 ### 项目采用前后端分离技术实现
 ***
 - 框架：SSM（Spring，SpringMVC，Mybatis）
+- 缓存：redis
 - 数据库：MySQL
 - IDE：Intellij IDEA
 - 其他：Maven，Git
@@ -33,6 +34,9 @@
 1. Bootstrap。
 1. artTemplate，artDialog，iframe前端模板使用。
 1. select2、toastr、sweetalert等等前端插件的使用。
+1. redis缓存。
+1. 全局异常处理，拦截器权限统一检验。
+1. excel批量导入数据（未完成）。
 
         
       
