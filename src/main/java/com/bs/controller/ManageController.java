@@ -68,7 +68,7 @@ public class ManageController {
     public ServerResponse queryTeacher(HttpServletRequest request, Teacher teacher,
                                        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        //  判断登录
+          //判断登录
 //        String token = CookieUtil.readCookie(request);
 //        if (StringUtils.isEmpty(token)) {
 //            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
