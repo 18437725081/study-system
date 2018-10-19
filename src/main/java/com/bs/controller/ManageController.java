@@ -69,20 +69,20 @@ public class ManageController {
                                        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         //判断登录
-        String token = CookieUtil.readCookie(request);
-        if (StringUtils.isEmpty(token)) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
-        }
-        String manageStr = RedisPoolUtil.get(token);
-        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
-        if (manager == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
-        }
-        //判断权限，业务处理
-        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
+//        String token = CookieUtil.readCookie(request);
+//        if (StringUtils.isEmpty(token)) {
+//            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+//        }
+//        String manageStr = RedisPoolUtil.get(token);
+//        Manager manager = JacksonUtil.stringToObj(manageStr, Manager.class);
+//        if (manager == null) {
+//            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
+//        }
+//        //判断权限，业务处理
+//        if (Constant.Role.ROLE_ADMIN.equals(manager.getRole())) {
             return manageService.queryTeacher(teacher, pageNum, pageSize);
-        }
-        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
+//        }
+//        return ServerResponse.createByErrorMessage("不是管理员，无法操作");
     }
 
     /**
