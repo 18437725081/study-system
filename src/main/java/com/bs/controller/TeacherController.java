@@ -1,9 +1,8 @@
 package com.bs.controller;
 
-import com.bs.common.Constant;
+import com.bs.common.CheckUtil;
 import com.bs.common.ResponseCode;
 import com.bs.common.ServerResponse;
-import com.bs.pojo.Student;
 import com.bs.pojo.Teacher;
 import com.bs.service.TeacherService;
 import com.bs.util.CookieUtil;
@@ -20,12 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static com.bs.common.CheckUtil.checkLoginStatus;
+
 /**
- * @author 张靖烽
- * @name TeacherController
- * @description 教师Controller
- * @create 2018-01-12 14:49
- **/
+ * @author 教师
+ */
 @Controller
 @RequestMapping("/teacher/")
 public class TeacherController {
@@ -34,16 +32,18 @@ public class TeacherController {
     private TeacherService teacherService;
 
     /**
-     * @author 张靖烽
-     * @description 用户登录
-     * @createtime 2017-12-27 12:45
+     * 用户登录
+     *
+     * @param username
+     * @param password
+     * @param session
+     * @param response
+     * @return
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse login(String username, String password, HttpSession session, HttpServletResponse response) {
-        //验证用户登录信息是否正确
         ServerResponse sr = teacherService.login(username, password);
-        //验证通过，将当前用户信息放入session
         if (sr.isSuccess()) {
             CookieUtil.writeCookie(response, session.getId());
             RedisPoolUtil.setEx(session.getId(), JacksonUtil.objToString(sr.getData()), 60 * 30);
@@ -52,18 +52,18 @@ public class TeacherController {
     }
 
     /**
-     * @author 张靖烽
-     * @description 获取用户信息
-     * @createtime 2018-01-09 14:02
+     * 获取用户信息
+     *
+     * @param request
+     * @return
      */
     @RequestMapping(value = "getUserName.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse getUserName(HttpServletRequest request) {
-        String token = CookieUtil.readCookie(request);
-        if (StringUtils.isEmpty(token)) {
+        String teacherStr = checkLoginStatus(request);
+        if (StringUtils.isEmpty(teacherStr)) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        String teacherStr = RedisPoolUtil.get(token);
         Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher != null) {
             return ServerResponse.createBySuccess(teacher);
@@ -72,9 +72,10 @@ public class TeacherController {
     }
 
     /**
-     * @author 张靖烽
-     * @description 未登录：忘记密码，获取问题
-     * @createtime 2018-01-12 12:48
+     * 找回密码问题
+     *
+     * @param username
+     * @return
      */
     @RequestMapping(value = "forgetGetQuestion.do", method = RequestMethod.POST)
     @ResponseBody
@@ -83,9 +84,12 @@ public class TeacherController {
     }
 
     /**
-     * @author 张靖烽
-     * @description 未登录：忘记密码，检查答案是否正确
-     * @createtime 2018-01-12 12:48
+     * 未登录：忘记密码，检查答案是否正确
+     *
+     * @param username
+     * @param question
+     * @param answer
+     * @return
      */
     @RequestMapping(value = "forgetCheckAnswer.do", method = RequestMethod.POST)
     @ResponseBody
@@ -94,9 +98,12 @@ public class TeacherController {
     }
 
     /**
-     * @author 张靖烽
-     * @description 未登录：忘记密码，重置密码
-     * @createtime 2018-01-12 12:48
+     * 未登录：忘记密码，重置密码
+     *
+     * @param username
+     * @param passwordNew
+     * @param forgetToken
+     * @return
      */
     @RequestMapping(value = "forgetResetPassword.do", method = RequestMethod.POST)
     @ResponseBody
@@ -105,9 +112,12 @@ public class TeacherController {
     }
 
     /**
-     * @author 张靖烽
-     * @description 已登录，重置密码
-     * @createtime 2018-01-12 12:49
+     * 已登录，重置密码
+     *
+     * @param request
+     * @param passwordOld
+     * @param passwordNew
+     * @return
      */
     @RequestMapping(value = "resetPassword.do", method = RequestMethod.POST)
     @ResponseBody
@@ -125,18 +135,20 @@ public class TeacherController {
     }
 
     /**
-     * @author 张靖烽
-     * @description 设置或更新找回密码问题和答案
-     * @createtime 2018-01-12 12:49
+     * 设置或更新找回密码问题和答案
+     *
+     * @param request
+     * @param question
+     * @param answer
+     * @return
      */
     @RequestMapping(value = "updateTeacherInformation.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse updateTeacherInformation(HttpServletRequest request, String question, String answer) {
-        String token = CookieUtil.readCookie(request);
-        if (StringUtils.isEmpty(token)) {
+        String teacherStr = checkLoginStatus(request);
+        if (StringUtils.isEmpty(teacherStr)) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        String teacherStr = RedisPoolUtil.get(token);
         Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
@@ -146,18 +158,18 @@ public class TeacherController {
 
 
     /**
-     * @author 张靖烽
-     * @description 获取教师管理的专业信息
-     * @createtime 2018-01-12 12:49
+     * 获取教师管理的专业信息
+     *
+     * @param request
+     * @return
      */
     @RequestMapping(value = "getTeacherMajor.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse getTeacherMajor(HttpServletRequest request) {
-        String token = CookieUtil.readCookie(request);
-        if (StringUtils.isEmpty(token)) {
+        String teacherStr = checkLoginStatus(request);
+        if (StringUtils.isEmpty(teacherStr)) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");
         }
-        String teacherStr = RedisPoolUtil.get(token);
         Teacher teacher = JacksonUtil.stringToObj(teacherStr, Teacher.class);
         if (teacher == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "请先登录");

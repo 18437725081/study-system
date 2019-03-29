@@ -6,18 +6,16 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @description 年级专业DAO层
- * @createtime 2018-01-10 14:13
+ * 年级专业
+ *
+ * @author 暗香
  */
 public interface MajorMapper {
+
     /**
      * 根据主键删除年级专业
      *
      * @param pkMajor 年级专业主键
-     * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:13
      */
     int deleteByPrimaryKey(Integer pkMajor);
 
@@ -26,8 +24,6 @@ public interface MajorMapper {
      *
      * @param major 年级专业类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:13
      */
     int insert(Major major);
 
@@ -36,8 +32,6 @@ public interface MajorMapper {
      *
      * @param major 年级专业类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:13
      */
     int insertSelective(Major major);
 
@@ -46,8 +40,6 @@ public interface MajorMapper {
      *
      * @param pkMajor 年级专业主键
      * @return major
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:13
      */
     Major selectByPrimaryKey(Integer pkMajor);
 
@@ -56,8 +48,6 @@ public interface MajorMapper {
      *
      * @param major 年级专业类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:13
      */
     int updateByPrimaryKeySelective(Major major);
 
@@ -66,8 +56,6 @@ public interface MajorMapper {
      *
      * @param major 年级专业类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:13
      */
     int updateByPrimaryKey(Major major);
 
@@ -76,8 +64,6 @@ public interface MajorMapper {
      *
      * @param major 专业类
      * @return List<Major>
-     * @author 张靖烽
-     * @createtime 2018-01-17 15:00
      */
     List<Major> queryMajor(Major major);
 
@@ -85,8 +71,6 @@ public interface MajorMapper {
      * 获取年级列表
      *
      * @return List<String>
-     * @author 张靖烽
-     * @createtime 2018-02-06 19:02
      */
     List<String> getGrade();
 
@@ -95,8 +79,6 @@ public interface MajorMapper {
      *
      * @param grade 年级
      * @return List<Major>
-     * @author 张靖烽
-     * @createtime 2018-02-06 19:03
      */
     List<Major> getMajor(String grade);
 
@@ -105,18 +87,14 @@ public interface MajorMapper {
      *
      * @param pkMajorList 专业主键list
      * @return List<Major>
-     * @author 张靖烽
-     * @createtime 2018-02-06 19:05
      */
-    List<Major> selectMajorByPk(@Param("pkMajorList")List<Integer> pkMajorList);
+    List<Major> selectMajorByPk(@Param("pkMajorList") List<Integer> pkMajorList);
 
     /**
      * 查询是否存在该年级专业
      *
      * @param major 专业类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-02-06 19:06
      */
     int selectMajorCount(Major major);
 }

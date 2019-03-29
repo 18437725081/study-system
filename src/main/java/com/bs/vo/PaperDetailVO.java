@@ -1,13 +1,17 @@
 package com.bs.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @name PaperDetailVO
- * @description
- * @create 2018-03-14 20:07
- **/
+ * @author 暗香
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PaperDetailVO {
     /**
      * 试卷主键
@@ -29,55 +33,4 @@ public class PaperDetailVO {
      * 选择题VO
      */
     private List<ChoiceQuestionVO> choiceQuestion;
-
-    @Override
-    public String toString() {
-        return "PaperDetailVO{" +
-                "pkPaper='" + pkPaper + '\'' +
-                ", paperName='" + paperName + '\'' +
-                ", createdBy='" + createdBy + '\'' +
-                ", score='" + score + '\'' +
-                ", choiceQuestion=" + choiceQuestion +
-                '}';
-    }
-
-    public Integer getPkPaper() {
-        return pkPaper;
-    }
-
-    public void setPkPaper(Integer pkPaper) {
-        this.pkPaper = pkPaper;
-    }
-
-    public String getPaperName() {
-        return paperName;
-    }
-
-    public void setPaperName(String paperName) {
-        this.paperName = paperName;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
-    }
-
-    public List<ChoiceQuestionVO> getChoiceQuestion() {
-        return choiceQuestion;
-    }
-
-    public void setChoiceQuestion(List<ChoiceQuestionVO> choiceQuestion) {
-        this.choiceQuestion = choiceQuestion;
-    }
 }

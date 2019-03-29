@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @description 成绩DAO
- * @createtime 2018-03-14 14:41
+ * 成绩
+ *
+ * @author 暗香
  */
 public interface ScoreMapper {
     /**
@@ -16,8 +16,6 @@ public interface ScoreMapper {
      *
      * @param pkScore 成绩主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:41
      */
     int deleteByPrimaryKey(Integer pkScore);
 
@@ -26,8 +24,6 @@ public interface ScoreMapper {
      *
      * @param score 成绩类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:47
      */
     int insert(Score score);
 
@@ -36,8 +32,6 @@ public interface ScoreMapper {
      *
      * @param score 成绩类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:47
      */
     int insertSelective(Score score);
 
@@ -46,8 +40,6 @@ public interface ScoreMapper {
      *
      * @param pkScore 成绩主键
      * @return score
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:47
      */
     Score selectByPrimaryKey(Integer pkScore);
 
@@ -56,8 +48,6 @@ public interface ScoreMapper {
      *
      * @param score 成绩类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:47
      */
     int updateByPrimaryKeySelective(Score score);
 
@@ -66,8 +56,6 @@ public interface ScoreMapper {
      *
      * @param score 成绩类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:47
      */
     int updateByPrimaryKey(Score score);
 

@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @description 教师DAO层
- * @createtime 2018-01-03 20:48
+ * 教师
+ *
+ * @author 暗香
  */
 public interface TeacherMapper {
     /**
@@ -16,8 +16,6 @@ public interface TeacherMapper {
      *
      * @param pkTeacher 教师主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-03 20:49
      */
     int deleteByPrimaryKey(Integer pkTeacher);
 
@@ -26,8 +24,6 @@ public interface TeacherMapper {
      *
      * @param teacher 教师类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-03 20:49
      */
     int insert(Teacher teacher);
 
@@ -36,8 +32,6 @@ public interface TeacherMapper {
      *
      * @param teacher 教师类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-03 20:49
      */
     int insertSelective(Teacher teacher);
 
@@ -46,8 +40,6 @@ public interface TeacherMapper {
      *
      * @param pkTeacher 教师主键
      * @return Teacher
-     * @author 张靖烽
-     * @createtime 2018-01-03 20:49
      */
     Teacher selectByPrimaryKey(Integer pkTeacher);
 
@@ -56,8 +48,6 @@ public interface TeacherMapper {
      *
      * @param teacher 教师类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-03 20:49
      */
     int updateByPrimaryKeySelective(Teacher teacher);
 
@@ -66,8 +56,6 @@ public interface TeacherMapper {
      *
      * @param teacher 教师类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-03 20:49
      */
     int updateByPrimaryKey(Teacher teacher);
 
@@ -76,8 +64,6 @@ public interface TeacherMapper {
      *
      * @param username 用户名
      * @return int
-     * @author 张靖烽
-     * @createtime 2017-12-26 13:34
      */
     int checkUsername(String username);
 
@@ -87,8 +73,6 @@ public interface TeacherMapper {
      * @param username 用户名
      * @param password 密码
      * @return Manager
-     * @author 张靖烽
-     * @createtime 2017-12-26 13:35
      */
     Teacher login(@Param("username") String username, @Param("password") String password);
 
@@ -97,8 +81,6 @@ public interface TeacherMapper {
      *
      * @param username 用户名
      * @return Manager
-     * @author 张靖烽
-     * @createtime 2018-01-12 14:37
      */
     String selectQuestionByTeacher(String username);
 
@@ -109,8 +91,6 @@ public interface TeacherMapper {
      * @param question 问题
      * @param answer   答案
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-12 16:40
      */
     int checkAnswer(@Param("username") String username, @Param("question") String question, @Param("answer") String answer);
 
@@ -120,8 +100,6 @@ public interface TeacherMapper {
      * @param username    用户名
      * @param passwordNew 密码
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-16 17:22
      */
     int updatePasswordByUsername(@Param("username") String username, @Param("passwordNew") String passwordNew);
 
@@ -131,8 +109,6 @@ public interface TeacherMapper {
      * @param password  密码
      * @param pkTeacher 教师主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-16 17:22
      */
     int checkPassword(@Param(value = "password") String password, @Param("pkTeacher") Integer pkTeacher);
 
@@ -141,8 +117,6 @@ public interface TeacherMapper {
      *
      * @param username 用户名
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-17 09:05
      */
     int selectUsername(String username);
 
@@ -151,8 +125,6 @@ public interface TeacherMapper {
      *
      * @param teacher 教师类
      * @return List<Teacher>
-     * @author 张靖烽
-     * @createtime 2018-01-17 15:00
      */
     List<Teacher> queryTeacher(Teacher teacher);
 
@@ -161,8 +133,6 @@ public interface TeacherMapper {
      *
      * @param pkTeacher 教师主键
      * @return String
-     * @author 张靖烽
-     * @createtime 2018-03-08 15:36
      */
     String selectTeacherName(Integer pkTeacher);
 }

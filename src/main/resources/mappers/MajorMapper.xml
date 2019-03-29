@@ -13,8 +13,8 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    pk_major, major, grade, created_by, created_time, last_updated_by, last_updated_time
-  </sql>
+        pk_major, major, grade, created_by, created_time, last_updated_by, last_updated_time
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -22,17 +22,17 @@
         where pk_major = #{pkMajor,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from bs_major
-    where pk_major = #{pkMajor,jdbcType=INTEGER}
-  </delete>
+        delete from bs_major
+        where pk_major = #{pkMajor,jdbcType=INTEGER}
+    </delete>
     <insert id="insert" parameterType="com.bs.pojo.Major">
-    insert into bs_major (pk_major, major, grade, 
-      created_by, created_time, last_updated_by, 
-      last_updated_time)
-    values (#{pkMajor,jdbcType=INTEGER}, #{major,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR},
-      #{createdBy,jdbcType=INTEGER}, now(), #{lastUpdatedBy,jdbcType=INTEGER},
-      now())
-  </insert>
+        insert into bs_major (pk_major, major, grade,
+                              created_by, created_time, last_updated_by,
+                              last_updated_time)
+        values (#{pkMajor,jdbcType=INTEGER}, #{major,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR},
+                #{createdBy,jdbcType=INTEGER}, now(), #{lastUpdatedBy,jdbcType=INTEGER},
+                now())
+    </insert>
     <insert id="insertSelective" parameterType="com.bs.pojo.Major">
         insert into bs_major
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -101,13 +101,13 @@
         where pk_major = #{pkMajor,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.bs.pojo.Major">
-    update bs_major
-    set major = #{major,jdbcType=VARCHAR},
-      grade = #{grade,jdbcType=VARCHAR},
-      last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
-      last_updated_time = now()
-    where pk_major = #{pkMajor,jdbcType=INTEGER}
-  </update>
+        update bs_major
+        set major             = #{major,jdbcType=VARCHAR},
+            grade             = #{grade,jdbcType=VARCHAR},
+            last_updated_by   = #{lastUpdatedBy,jdbcType=INTEGER},
+            last_updated_time = now()
+        where pk_major = #{pkMajor,jdbcType=INTEGER}
+    </update>
 
     <select id="queryMajor" resultMap="BaseResultMap" parameterType="com.bs.pojo.Major">
         SELECT
@@ -149,6 +149,6 @@
         SELECT COUNT(1)
         FROM bs_major
         WHERE major = #{major}
-        AND grade = #{grade}
+              AND grade = #{grade}
     </select>
 </mapper>

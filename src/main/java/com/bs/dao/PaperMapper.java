@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @description 试卷DAO
- * @createtime 2018-03-14 14:40
+ * 试卷
+ *
+ * @author 暗香
  */
 public interface PaperMapper {
     /**
@@ -17,8 +17,6 @@ public interface PaperMapper {
      *
      * @param pkPaper 试卷主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:41
      */
     int deleteByPrimaryKey(Integer pkPaper);
 
@@ -27,8 +25,6 @@ public interface PaperMapper {
      *
      * @param paper 试卷类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:49
      */
     int insert(Paper paper);
 
@@ -37,8 +33,6 @@ public interface PaperMapper {
      *
      * @param paper 试卷类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:49
      */
     int insertSelective(Paper paper);
 
@@ -47,8 +41,6 @@ public interface PaperMapper {
      *
      * @param pkPaper 试卷主键
      * @return paper
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:49
      */
     Paper selectByPrimaryKey(Integer pkPaper);
 
@@ -57,8 +49,6 @@ public interface PaperMapper {
      *
      * @param paper 试卷类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:49
      */
     int updateByPrimaryKeySelective(Paper paper);
 
@@ -67,8 +57,6 @@ public interface PaperMapper {
      *
      * @param paper 试卷类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:49
      */
     int updateByPrimaryKey(Paper paper);
 
@@ -77,8 +65,6 @@ public interface PaperMapper {
      *
      * @param paper 试卷类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 17:30
      */
     List<Paper> queryPaper(Paper paper);
 
@@ -87,8 +73,6 @@ public interface PaperMapper {
      *
      * @param pkPaper 试卷主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 19:00
      */
     Integer selectCreatedByPkPaper(@Param("pkPaper") Integer pkPaper);
 
@@ -97,8 +81,6 @@ public interface PaperMapper {
      *
      * @param pkPaper 试卷主键
      * @return String
-     * @author 张靖烽
-     * @createtime 2018-03-14 20:29
      */
     String selectPublicFlag(Integer pkPaper);
 

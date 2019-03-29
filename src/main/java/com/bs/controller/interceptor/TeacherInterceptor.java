@@ -15,11 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author 张靖烽
- * @name TeacherInterceptor
- * @description
- * @create 2018-07-31 0:01
- **/
+ * @author 教师模块拦截器
+ */
 public class TeacherInterceptor implements HandlerInterceptor {
 
     private static final Logger log = LoggerFactory.getLogger(TeacherInterceptor.class);
@@ -31,7 +28,6 @@ public class TeacherInterceptor implements HandlerInterceptor {
         String className = handlerMethod.getBean().getClass().getName();
         log.info("拦截类名：{}，方法名：{}", className, methodName);
         Teacher teacher = null;
-        //从redis获取用户信息
         String token = CookieUtil.readCookie(request);
         if (StringUtils.isNotEmpty(token)) {
             String studentStr = RedisPoolUtil.get(token);

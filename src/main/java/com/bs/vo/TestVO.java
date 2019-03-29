@@ -1,12 +1,16 @@
 package com.bs.vo;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
- * @author 张靖烽
- * @name TestVO
- * @description
- * @create 2018-03-08 14:42
- **/
+ * @author 暗香
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TestVO {
     /**
      * 试题表主键

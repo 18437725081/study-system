@@ -68,7 +68,7 @@ function showPaging(data) {
 
 var tab = $('#tab');
 //表格绑定点击背景色改变
-tab.on('click','tr', function() {
+tab.on('click', 'tr', function () {
     this.style.backgroundColor = "#b4b4bb";
     if (selectedTr !== null)
         selectedTr.style.backgroundColor = "#f9f9f9";
@@ -80,7 +80,7 @@ tab.on('click','tr', function() {
 });
 
 //绑定按钮阻止冒泡
-tab.on('click','.btn', function(event) {
+tab.on('click', '.btn', function (event) {
     event.stopPropagation();
     event.preventDefault();
 });
@@ -100,7 +100,7 @@ function isNull(val) {
     return val === null || val === "" || val === undefined;
 }
 
-function toast(status,content) {
+function toast(status, content) {
     /*toast提示信息*/
     toastr.options = {
         "closeButton": true,
@@ -156,7 +156,7 @@ $("#grade").change(function () {
             } else {
                 document.getElementById('major').innerHTML = template('majorModal', data);
                 var m = $("#majorValue").val();
-                if (!isNull(m)){
+                if (!isNull(m)) {
                     $("#major").select2().val(m).trigger("change");
                 }
             }

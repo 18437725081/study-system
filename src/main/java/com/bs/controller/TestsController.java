@@ -19,11 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author 张靖烽
- * @name TestsController
- * @description
- * @create 2018-03-07 19:12
- **/
+ * 试卷
+ *
+ * @author 暗香
+ */
 @Controller
 @RequestMapping("/tests/")
 public class TestsController {
@@ -32,9 +31,12 @@ public class TestsController {
     private TestsService testsService;
 
     /**
-     * @author 张靖烽
-     * @description 查询试题
-     * @createtime 2018-03-07 19:23
+     * 查询试题
+     *
+     * @param tests    试卷
+     * @param pageNum  页码
+     * @param pageSize 页长
+     * @return
      */
     @RequestMapping("queryTests.do")
     @ResponseBody

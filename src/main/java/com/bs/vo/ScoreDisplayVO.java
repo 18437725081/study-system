@@ -1,11 +1,15 @@
 package com.bs.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
- * @author 张靖烽
- * @name ScoreDisplayVO
- * @description
- * @create 2018-04-03 22:22
- **/
+ * @author 暗香
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ScoreDisplayVO {
 
     private String studentName;
@@ -17,55 +21,4 @@ public class ScoreDisplayVO {
     private String paperName;
 
     private String score;
-
-    @Override
-    public String toString() {
-        return "ScoreDisplayVO{" +
-                "studentName='" + studentName + '\'' +
-                ", studentId='" + studentId + '\'' +
-                ", major='" + major + '\'' +
-                ", paperName='" + paperName + '\'' +
-                ", score='" + score + '\'' +
-                '}';
-    }
-
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
-    public String getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major;
-    }
-
-    public String getPaperName() {
-        return paperName;
-    }
-
-    public void setPaperName(String paperName) {
-        this.paperName = paperName;
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
-    }
 }

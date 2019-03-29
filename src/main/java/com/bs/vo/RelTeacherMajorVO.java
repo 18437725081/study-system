@@ -1,42 +1,27 @@
 package com.bs.vo;
 
 import com.bs.pojo.Major;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @name RelTeacherMajorVO
- * @description
- * @create 2018-01-10 9:03
- **/
+ * @author 暗香
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RelTeacherMajorVO {
 
+    /**
+     * 教师名称
+     */
     private String name;
 
+    /**
+     * 专业列表
+     */
     private List<Major> majorList;
-
-    @Override
-    public String toString() {
-        return "RelTeacherMajorVO{" +
-                "name='" + name + '\'' +
-                ", majorList=" + majorList +
-                '}';
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Major> getMajorList() {
-        return majorList;
-    }
-
-    public void setMajorList(List<Major> majorList) {
-        this.majorList = majorList;
-    }
 }

@@ -12,9 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 
 /**
- * @author 张靖烽
- * @description
- * @createtime 2018-05-11 20:21
+ * @author 暗香
  */
 public class StudentTem extends BaseModal {
 

@@ -1,128 +1,131 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.bs.dao.NoticeMapper" >
-  <resultMap id="BaseResultMap" type="com.bs.pojo.Notice" >
-    <constructor >
-      <idArg column="pk_notice" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="notice_content" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="flag" jdbcType="CHAR" javaType="java.lang.String" />
-      <arg column="created_by" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="last_updated_by" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="last_updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List" >
-    pk_notice, notice_content, flag, created_by, created_time, last_updated_by, last_updated_time
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from bs_notice
-    where pk_notice = #{pkNotice,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from bs_notice
-    where pk_notice = #{pkNotice,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.bs.pojo.Notice" >
-    insert into bs_notice (pk_notice, notice_content, flag, 
-      created_by, created_time, last_updated_by, 
-      last_updated_time)
-    values (#{pkNotice,jdbcType=INTEGER}, #{noticeContent,jdbcType=VARCHAR}, #{flag,jdbcType=CHAR}, 
-      #{createdBy,jdbcType=INTEGER}, now(), #{lastUpdatedBy,jdbcType=INTEGER},
-      now())
-  </insert>
-  <insert id="insertSelective" parameterType="com.bs.pojo.Notice" >
-    insert into bs_notice
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkNotice != null" >
-        pk_notice,
-      </if>
-      <if test="noticeContent != null" >
-        notice_content,
-      </if>
-      <if test="flag != null" >
-        flag,
-      </if>
-      <if test="createdBy != null" >
-        created_by,
-      </if>
-      <if test="createdTime != null" >
-        created_time,
-      </if>
-      <if test="lastUpdatedBy != null" >
-        last_updated_by,
-      </if>
-      <if test="lastUpdatedTime != null" >
-        last_updated_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkNotice != null" >
-        #{pkNotice,jdbcType=INTEGER},
-      </if>
-      <if test="noticeContent != null" >
-        #{noticeContent,jdbcType=VARCHAR},
-      </if>
-      <if test="flag != null" >
-        #{flag,jdbcType=CHAR},
-      </if>
-      <if test="createdBy != null" >
-        #{createdBy,jdbcType=INTEGER},
-      </if>
-      <if test="createdTime != null" >
-        now(),
-      </if>
-      <if test="lastUpdatedBy != null" >
-        #{lastUpdatedBy,jdbcType=INTEGER},
-      </if>
-      <if test="lastUpdatedTime != null" >
-        now(),
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bs.pojo.Notice" >
-    update bs_notice
-    <set >
-      <if test="noticeContent != null" >
-        notice_content = #{noticeContent,jdbcType=VARCHAR},
-      </if>
-      <if test="flag != null" >
-        flag = #{flag,jdbcType=CHAR},
-      </if>
-      <if test="lastUpdatedBy != null" >
-        last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
-      </if>
-      <if test="lastUpdatedTime != null" >
-        last_updated_time = now(),
-      </if>
-    </set>
-    where pk_notice = #{pkNotice,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.bs.pojo.Notice" >
-    update bs_notice
-    set notice_content = #{noticeContent,jdbcType=VARCHAR},
-      flag = #{flag,jdbcType=CHAR},
-      last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
-      last_updated_time = now()
-    where pk_notice = #{pkNotice,jdbcType=INTEGER}
-  </update>
+<mapper namespace="com.bs.dao.NoticeMapper">
+    <resultMap id="BaseResultMap" type="com.bs.pojo.Notice">
+        <constructor>
+            <idArg column="pk_notice" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="notice_content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="flag" jdbcType="CHAR" javaType="java.lang.String"/>
+            <arg column="created_by" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="last_updated_by" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="last_updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+        pk_notice, notice_content, flag, created_by, created_time, last_updated_by, last_updated_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from bs_notice
+        where pk_notice = #{pkNotice,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from bs_notice
+        where pk_notice = #{pkNotice,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bs.pojo.Notice">
+        insert into bs_notice (pk_notice, notice_content, flag,
+                               created_by, created_time, last_updated_by,
+                               last_updated_time)
+        values (#{pkNotice,jdbcType=INTEGER}, #{noticeContent,jdbcType=VARCHAR}, #{flag,jdbcType=CHAR},
+                #{createdBy,jdbcType=INTEGER}, now(), #{lastUpdatedBy,jdbcType=INTEGER},
+                now())
+    </insert>
+    <insert id="insertSelective" parameterType="com.bs.pojo.Notice">
+        insert into bs_notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkNotice != null">
+                pk_notice,
+            </if>
+            <if test="noticeContent != null">
+                notice_content,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="createdTime != null">
+                created_time,
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by,
+            </if>
+            <if test="lastUpdatedTime != null">
+                last_updated_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkNotice != null">
+                #{pkNotice,jdbcType=INTEGER},
+            </if>
+            <if test="noticeContent != null">
+                #{noticeContent,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=CHAR},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=INTEGER},
+            </if>
+            <if test="createdTime != null">
+                now(),
+            </if>
+            <if test="lastUpdatedBy != null">
+                #{lastUpdatedBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastUpdatedTime != null">
+                now(),
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bs.pojo.Notice">
+        update bs_notice
+        <set>
+            <if test="noticeContent != null">
+                notice_content = #{noticeContent,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=CHAR},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by = #{lastUpdatedBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastUpdatedTime != null">
+                last_updated_time = now(),
+            </if>
+        </set>
+        where pk_notice = #{pkNotice,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bs.pojo.Notice">
+        update bs_notice
+        set notice_content    = #{noticeContent,jdbcType=VARCHAR},
+            flag              = #{flag,jdbcType=CHAR},
+            last_updated_by   = #{lastUpdatedBy,jdbcType=INTEGER},
+            last_updated_time = now()
+        where pk_notice = #{pkNotice,jdbcType=INTEGER}
+    </update>
 
-  <select id="selectNotice" resultType="String">
-    SELECT notice_content FROM bs_notice WHERE flag = 'Y';
-  </select>
+    <select id="selectNotice" resultType="String">
+        SELECT notice_content
+        FROM bs_notice
+        WHERE flag = 'Y';
+    </select>
 
-  <select id="queryNotice" resultMap="BaseResultMap" parameterType="com.bs.pojo.Notice">
-    SELECT <include refid="Base_Column_List"/>
-    FROM bs_notice
-    <where>
-      <if test="noticeContent != null">
-        AND notice_content LIKE '%${noticeContent}%'
-      </if>
-      <if test="flag != null">
-        AND flag = #{flag} order by last_updated_time desc
-      </if>
-    </where>
-  </select>
+    <select id="queryNotice" resultMap="BaseResultMap" parameterType="com.bs.pojo.Notice">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bs_notice
+        <where>
+            <if test="noticeContent != null">
+                AND notice_content LIKE '%${noticeContent}%'
+            </if>
+            <if test="flag != null">
+                AND flag = #{flag} order by last_updated_time desc
+            </if>
+        </where>
+    </select>
 </mapper>

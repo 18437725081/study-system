@@ -1,11 +1,8 @@
 package com.bs.common;
 
 /**
- * @author 张靖烽
- * @name ResponseCode
- * @description 响应枚举类
- * @create 2017-10-16 8:53
- **/
+ *
+ */
 public enum ResponseCode {
     /*
      *成功

@@ -6,19 +6,19 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 
 /**
- * @author 张靖烽
- * @name RedisPoolUtil
- * @description redis工具类
- * @create 2018-07-05 10:50
- **/
+ * @author 暗香
+ */
+
 public class RedisPoolUtil {
 
     private static final Logger log = LoggerFactory.getLogger(RedisPoolUtil.class);
 
     /**
-     * @author 张靖烽
-     * @description 设值
-     * @createtime 2018-07-05 11:19
+     * 存储redis
+     *
+     * @param key
+     * @param value
+     * @return
      */
     public static String set(String key, String value) {
         Jedis jedis = null;
@@ -39,9 +39,10 @@ public class RedisPoolUtil {
     }
 
     /**
-     * @author 张靖烽
-     * @description 设带有有效期的值，单位为秒
-     * @createtime 2018-07-07 17:38
+     * @param key
+     * @param value
+     * @param exTime
+     * @return
      */
     public static String setEx(String key, String value, int exTime) {
         Jedis jedis = null;
@@ -62,9 +63,11 @@ public class RedisPoolUtil {
     }
 
     /**
-     * @author 张靖烽
-     * @description 重置有效时间
-     * @createtime 2018-07-06 9:04
+     * 过期时间
+     *
+     * @param key
+     * @param exTime
+     * @return
      */
     public static Long expire(String key, int exTime) {
         Jedis jedis = null;
@@ -85,9 +88,10 @@ public class RedisPoolUtil {
     }
 
     /**
-     * @author 张靖烽
-     * @description 获取值
-     * @createtime 2018-07-05 11:19
+     * 从redis中取值
+     *
+     * @param key
+     * @return
      */
     public static String get(String key) {
         Jedis jedis = null;
@@ -108,9 +112,10 @@ public class RedisPoolUtil {
     }
 
     /**
-     * @author 张靖烽
-     * @description 删除key
-     * @createtime 2018-07-06 9:04
+     * 删除redis
+     *
+     * @param key
+     * @return
      */
     public static Long del(String key) {
         Jedis jedis = null;
@@ -129,5 +134,4 @@ public class RedisPoolUtil {
         }
         return result;
     }
-
 }

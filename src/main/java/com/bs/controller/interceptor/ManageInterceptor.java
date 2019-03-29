@@ -1,5 +1,6 @@
 package com.bs.controller.interceptor;
 
+import com.alibaba.fastjson.JSON;
 import com.bs.pojo.Manager;
 import com.bs.util.CookieUtil;
 import com.bs.util.JacksonUtil;
@@ -15,17 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author 张靖烽
- * @name ManageInterceptor
- * @description
- * @create 2018-07-31 0:40
- **/
+ * 拦截器
+ *
+ * @author 暗香
+ */
 public class ManageInterceptor implements HandlerInterceptor {
 
     private static final Logger log = LoggerFactory.getLogger(ManageInterceptor.class);
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         String methodName = handlerMethod.getMethod().getName();
         String className = handlerMethod.getBean().getClass().getName();

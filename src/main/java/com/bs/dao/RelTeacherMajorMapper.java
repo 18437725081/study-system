@@ -6,9 +6,8 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @description 教师和专业关联DAO层
- * @createtime 2018-01-10 14:16
+ * 教师和专业关联DAO层
+ * @author 暗香
  */
 public interface RelTeacherMajorMapper {
     /**
@@ -16,8 +15,6 @@ public interface RelTeacherMajorMapper {
      *
      * @param pkRelTeacherMajor 主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:17
      */
     int deleteByPrimaryKey(Integer pkRelTeacherMajor);
 
@@ -26,8 +23,6 @@ public interface RelTeacherMajorMapper {
      *
      * @param relTeacherMajor 关联类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:17
      */
     int insert(RelTeacherMajor relTeacherMajor);
 
@@ -36,8 +31,6 @@ public interface RelTeacherMajorMapper {
      *
      * @param relTeacherMajor 关联类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:17
      */
     int insertSelective(RelTeacherMajor relTeacherMajor);
 
@@ -46,8 +39,6 @@ public interface RelTeacherMajorMapper {
      *
      * @param pkRelTeacherMajor 关联主键
      * @return RelTeacherMajor类对象
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:17
      */
     RelTeacherMajor selectByPrimaryKey(Integer pkRelTeacherMajor);
 
@@ -56,8 +47,6 @@ public interface RelTeacherMajorMapper {
      *
      * @param relTeacherMajor 关联类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:17
      */
     int updateByPrimaryKeySelective(RelTeacherMajor relTeacherMajor);
 
@@ -66,8 +55,6 @@ public interface RelTeacherMajorMapper {
      *
      * @param relTeacherMajor 关联类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:17
      */
     int updateByPrimaryKey(RelTeacherMajor relTeacherMajor);
 
@@ -76,8 +63,6 @@ public interface RelTeacherMajorMapper {
      *
      * @param pkTeacher 教师外键
      * @return List<Integer>
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:20
      */
     List<Integer> selectFkMajor(Integer pkTeacher);
 
@@ -87,8 +72,6 @@ public interface RelTeacherMajorMapper {
      * @param pkTeacher 教师外键
      * @param pkMajor 专业外键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 14:20
      */
     int delete(@Param("pkTeacher") Integer pkTeacher, @Param("pkMajor") Integer pkMajor);
 
@@ -97,8 +80,6 @@ public interface RelTeacherMajorMapper {
      *
      * @param pkTeacher 教师外键
      * @return List<Integer>
-     * @author 张靖烽
-     * @createtime 2018-02-06 19:17
      */
     List<Integer> selectFkMajorList(Integer pkTeacher);
 
@@ -108,8 +89,6 @@ public interface RelTeacherMajorMapper {
      * @param pkTeacher 教师外键
      * @param pkMajor 专业外键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-02-06 19:18
      */
     int selectRelCount(@Param("pkTeacher")Integer pkTeacher, @Param("pkMajor")Integer pkMajor);
 }

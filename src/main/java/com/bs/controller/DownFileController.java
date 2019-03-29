@@ -17,15 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 /**
- * 项目名称： bs
- * 类名称： DownFileController
- * 描述：文件下载
- *
- * @author 张靖烽
- * 创建时间 2018-05-10 18:51
- * 修改人：张靖烽  修改日期： 2018-05-10
- * 修改备注：
- **/
+ * @author 文件下载
+ */
 @Controller
 @RequestMapping("/file/")
 public class DownFileController {
@@ -33,9 +26,12 @@ public class DownFileController {
     private static final Logger log = LoggerFactory.getLogger(DownFileController.class);
 
     /**
-     * @author 张靖烽
-     * @description 下载模板文件
-     * @createtime 2018-05-11 15:20
+     * 下载模板文件
+     *
+     * @param request
+     * @param response
+     * @param fileName
+     * @return
      */
     @RequestMapping(value = "downFile.do", method = RequestMethod.POST)
     @ResponseBody
@@ -70,9 +66,12 @@ public class DownFileController {
     }
 
     /**
-     * @author 张靖烽
-     * @description 上传文件
-     * @createtime 2018-05-11 15:20
+     * 文件上传
+     *
+     * @param request
+     * @param multipartFile
+     * @param className
+     * @return
      */
     @RequestMapping(value = "upFile.do", method = RequestMethod.POST)
     @ResponseBody
@@ -87,7 +86,6 @@ public class DownFileController {
             String path = request.getServletContext().getRealPath("") + "\\file\\upload";
             String fileName = multipartFile.getOriginalFilename();
             File file = new File(path, fileName);
-            //MultipartFile自带的解析方法
             multipartFile.transferTo(file);
             Class<?> clazz = Class.forName(className);
             BaseModal bm = (BaseModal) clazz.newInstance();

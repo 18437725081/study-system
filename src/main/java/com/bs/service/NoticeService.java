@@ -16,32 +16,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @name NoticeService
- * @description
- * @create 2017-12-21 10:07
- **/
+ * @author 暗香
+ */
 @Service
 public class NoticeService {
 
     @Autowired
     private NoticeMapper noticeMapper;
 
-    /**
-     * @author 张靖烽
-     * @description 获取有效通知内容，用于首页展示
-     * @createtime 2017-12-29 12:44
-     */
     public List selectNotice() {
         return noticeMapper.selectNotice();
     }
 
-    /**
-     * @author 张靖烽
-     * @description 查询
-     * @createtime 2018-01-17 14:56
-     */
-    public ServerResponse queryNotice(Notice notice,Integer pageNum,Integer pageSize) {
+    public ServerResponse queryNotice(Notice notice, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Notice> list = noticeMapper.queryNotice(notice);
         List<NoticeVO> noticeVOList = Lists.newArrayList();
@@ -62,11 +49,6 @@ public class NoticeService {
         return ServerResponse.createBySuccess(pageInfo);
     }
 
-    /**
-     * @author 张靖烽
-     * @description 新增或更新通知
-     * @createtime 2017-12-29 12:51
-     */
     public ServerResponse addOrModifyNotice(Notice notice, Manager manager) {
         if (notice != null) {
             //通知内容不能为空
@@ -92,11 +74,6 @@ public class NoticeService {
         return ServerResponse.createByErrorMessage("通知内容不能为空");
     }
 
-    /**
-     * @author 张靖烽
-     * @description 获取单条通知内容
-     * @createtime 2018-01-04 8:56
-     */
     public ServerResponse getNotice(Integer pkNotice) {
         if (pkNotice == null) {
             return ServerResponse.createByErrorMessage("参数错误");
@@ -107,5 +84,4 @@ public class NoticeService {
         }
         return ServerResponse.createByErrorMessage("通知不存在或已被删除");
     }
-
 }

@@ -10,8 +10,8 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    pk_manager, username, password, role
-  </sql>
+        pk_manager, username, password, role
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -19,15 +19,15 @@
         where pk_manager = #{pkManager,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from bs_managers
-    where pk_manager = #{pkManager,jdbcType=INTEGER}
-  </delete>
+        delete from bs_managers
+        where pk_manager = #{pkManager,jdbcType=INTEGER}
+    </delete>
     <insert id="insert" parameterType="com.bs.pojo.Manager">
-    insert into bs_managers (pk_manager, username, password, 
-      role)
-    values (#{pkManager,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{role,jdbcType=CHAR})
-  </insert>
+        insert into bs_managers (pk_manager, username, password,
+                                 role)
+        values (#{pkManager,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{role,jdbcType=CHAR})
+    </insert>
     <insert id="insertSelective" parameterType="com.bs.pojo.Manager">
         insert into bs_managers
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -75,18 +75,18 @@
         where pk_manager = #{pkManager,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.bs.pojo.Manager">
-    update bs_managers
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      role = #{role,jdbcType=CHAR}
-    where pk_manager = #{pkManager,jdbcType=INTEGER}
-  </update>
+        update bs_managers
+        set username = #{username,jdbcType=VARCHAR},
+            password = #{password,jdbcType=VARCHAR},
+            role     = #{role,jdbcType=CHAR}
+        where pk_manager = #{pkManager,jdbcType=INTEGER}
+    </update>
 
     <select id="checkUsername" parameterType="string" resultType="int">
-    SELECT COUNT(1)
-    FROM bs_managers
-    WHERE username = #{username}
-  </select>
+        SELECT COUNT(1)
+        FROM bs_managers
+        WHERE username = #{username}
+    </select>
 
     <select id="login" parameterType="map" resultMap="BaseResultMap">
         SELECT

@@ -81,6 +81,4 @@
             <bean class="com.bs.controller.interceptor.ManageInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
-
-
 </beans>

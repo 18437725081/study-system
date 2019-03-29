@@ -101,17 +101,17 @@ public class TeacherService {
     }
 
     /**
-     * @author 张靖烽
-     * @description 未登录：忘记密码，重置密码
-     * @createtime 2018-01-12 13:41
+     * 未登录：忘记密码，重置密码
+     * @param username
+     * @param passwordNew
+     * @param forgetToken
+     * @return
      */
     public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
         if (StringUtils.isBlank(forgetToken)) {
             return ServerResponse.createByErrorMessage("请求超时");
         }
-        //检查用户名是否存在
         int resultCount = teacherMapper.checkUsername(username);
-        //用户名不存在
         if (resultCount <= 0) {
             return ServerResponse.createByErrorMessage("用户名不存在");
         }

@@ -9,23 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * @author 张靖烽
- * @name SessionExpireFilter
- * @description
- * @create 2018-07-30 17:24
+ * @author 暗香
  **/
 public class SessionExpireFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest res = (HttpServletRequest) request;
         String token = CookieUtil.readCookie(res);
-        if (StringUtils.isNotEmpty(token)) {
+        if (!StringUtils.isEmpty(token)) {
             String userStr = RedisPoolUtil.get(token);
             if (StringUtils.isNotBlank(userStr)) {
                 RedisPoolUtil.expire(token, 60 * 30);

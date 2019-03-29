@@ -31,9 +31,12 @@ public class TestsService {
     private TeacherMapper teacherMapper;
 
     /**
-     * @author 张靖烽
-     * @description 查询试题
-     * @createtime 2018-03-07 19:33
+     * 查询试题
+     *
+     * @param tests
+     * @param pageNum
+     * @param pageSize
+     * @return
      */
     public ServerResponse queryTests(Tests tests, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -42,15 +45,15 @@ public class TestsService {
         for (Tests t : list) {
             lists.add(setTestVO(t));
         }
-        PageInfo pageInfo = new PageInfo(list);
-        pageInfo.setList(lists);
+        PageInfo<TestVO> pageInfo = new PageInfo<>(lists);
         return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**
-     * @author 张靖烽
-     * @description 获取单试题信息
-     * @createtime 2018-03-07 19:33
+     * 获取单试题信息
+     *
+     * @param pkTest
+     * @return
      */
     public ServerResponse getTestsInfo(Integer pkTest) {
         if (pkTest == null) {
@@ -65,9 +68,11 @@ public class TestsService {
     }
 
     /**
-     * @author 张靖烽
-     * @description 新增试题
-     * @createtime 2018-03-08 13:32
+     * 新增试题
+     *
+     * @param tests
+     * @param teacher
+     * @return
      */
     public ServerResponse addTest(Tests tests, Teacher teacher) {
         if (tests != null) {
@@ -84,13 +89,15 @@ public class TestsService {
     }
 
     /**
-     * @author 张靖烽
-     * @description 修改试题状态
-     * @createtime 2018-03-08 13:38
+     * 修改试题状态
+     *
+     * @param pkTest
+     * @param flag
+     * @param teacher
+     * @return
      */
     public ServerResponse modifyTestFlag(Integer pkTest, String flag, Teacher teacher) {
         if (pkTest != null && flag != null) {
-            //判断该试题是否属于该教师创建
             int pkTeacher = testsMapper.selectCreatedByPkTest(pkTest);
             if (pkTeacher == teacher.getPkTeacher()) {
                 Tests tests = new Tests();
@@ -109,19 +116,19 @@ public class TestsService {
     }
 
     /**
-     * @author 张靖烽
-     * @description 查询科目列表
-     * @createtime 2018-03-08 13:42
+     * 查询科目列表
+     *
+     * @return
      */
     public ServerResponse selectSubjectList() {
-        List<String> list = testsMapper.selectSubjectList();
-        return ServerResponse.createBySuccess(list);
+        return ServerResponse.createBySuccess(testsMapper.selectSubjectList());
     }
 
     /**
-     * @author 张靖烽
-     * @description 设置TestVO返回对象
-     * @createtime 2018-03-08 15:50
+     * 设置TestVO返回对象
+     *
+     * @param tests 试卷
+     * @return
      */
     private TestVO setTestVO(Tests tests) {
         TestVO testVO = new TestVO();

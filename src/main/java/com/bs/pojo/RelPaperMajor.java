@@ -1,62 +1,38 @@
 package com.bs.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
 /**
- * @author 张靖烽
- * @description 关联pojo（试卷&专业）
- * @createtime 2018-03-14 14:30
+ * 试卷和专业关联
+ *
+ * @author 暗香
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RelPaperMajor {
-    /** 关联（试卷&专业）表主键 */
+
+    /**
+     * 关联（试卷&专业）表主键
+     */
     private Integer pkRelPaperMajor;
-    /** 试卷表外键 */
+
+    /**
+     * 试卷表外键
+     */
     private Integer fkPaper;
-    /** 专业表外键 */
+
+    /**
+     * 专业表外键
+     */
     private Integer fkMajor;
-    /** 发布时间 */
+
+    /**
+     * 发布时间
+     */
     private Date publishTime;
-
-    public RelPaperMajor(Integer pkRelPaperMajor, Integer fkPaper, Integer fkMajor, Date publishTime) {
-        this.pkRelPaperMajor = pkRelPaperMajor;
-        this.fkPaper = fkPaper;
-        this.fkMajor = fkMajor;
-        this.publishTime = publishTime;
-    }
-
-    public RelPaperMajor() {
-        super();
-    }
-
-    public Integer getPkRelPaperMajor() {
-        return pkRelPaperMajor;
-    }
-
-    public void setPkRelPaperMajor(Integer pkRelPaperMajor) {
-        this.pkRelPaperMajor = pkRelPaperMajor;
-    }
-
-    public Integer getFkPaper() {
-        return fkPaper;
-    }
-
-    public void setFkPaper(Integer fkPaper) {
-        this.fkPaper = fkPaper;
-    }
-
-    public Integer getFkMajor() {
-        return fkMajor;
-    }
-
-    public void setFkMajor(Integer fkMajor) {
-        this.fkMajor = fkMajor;
-    }
-
-    public Date getPublishTime() {
-        return publishTime;
-    }
-
-    public void setPublishTime(Date publishTime) {
-        this.publishTime = publishTime;
-    }
 }

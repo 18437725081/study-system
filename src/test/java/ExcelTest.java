@@ -3,14 +3,8 @@ import org.apache.poi.hssf.usermodel.*;
 import java.io.*;
 
 /**
- * 项目名称： bs
- * 类名称： ExcelTest
- * 描述：
- * @author 张靖烽
- * 创建时间 2018-05-10 17:30
- * 修改人：张靖烽  修改日期： 2018-05-10
- * 修改备注：
- **/
+ * @author 暗香
+ */
 public class ExcelTest {
     public static void main(String[] args) throws Exception {
         testWriteExcel();

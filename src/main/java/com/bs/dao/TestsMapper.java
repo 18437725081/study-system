@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @description 试题DAO层
- * @createtime 2018-03-07 19:17
+ * 试卷
+ *
+ * @author 暗香
  */
 public interface TestsMapper {
     /**
@@ -16,8 +16,6 @@ public interface TestsMapper {
      *
      * @param pkTest 试题表主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-07 19:18
      */
     int deleteByPrimaryKey(Integer pkTest);
 
@@ -26,8 +24,6 @@ public interface TestsMapper {
      *
      * @param tests 试题类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-07 19:18
      */
     int insert(Tests tests);
 
@@ -36,8 +32,6 @@ public interface TestsMapper {
      *
      * @param tests 试题类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-07 19:18
      */
     int insertSelective(Tests tests);
 
@@ -46,8 +40,6 @@ public interface TestsMapper {
      *
      * @param pkTest 试题主键
      * @return Tests
-     * @author 张靖烽
-     * @createtime 2018-03-07 19:18
      */
     Tests selectByPrimaryKey(Integer pkTest);
 
@@ -56,8 +48,6 @@ public interface TestsMapper {
      *
      * @param tests 试题类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-07 19:18
      */
     int updateByPrimaryKeySelective(Tests tests);
 
@@ -66,8 +56,6 @@ public interface TestsMapper {
      *
      * @param tests 试题类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-07 19:18
      */
     int updateByPrimaryKey(Tests tests);
 
@@ -76,8 +64,6 @@ public interface TestsMapper {
      *
      * @param tests 试题类
      * @return Tests
-     * @author 张靖烽
-     * @createtime 2018-03-08 12:49
      */
     List<Tests> queryTests(Tests tests);
 
@@ -85,8 +71,6 @@ public interface TestsMapper {
      * 查询科目列表
      *
      * @return String
-     * @author 张靖烽
-     * @createtime 2018-03-08 13:44
      */
     List<String> selectSubjectList();
 
@@ -95,8 +79,6 @@ public interface TestsMapper {
      *
      * @param pkTest 试题主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 19:00
      */
     int selectCreatedByPkTest(Integer pkTest);
 
@@ -104,7 +86,7 @@ public interface TestsMapper {
 
     List<Tests> randomOptionTests(@Param("subject") String subject, @Param("optionNumber") Integer optionNumber, @Param("type") String type);
 
-    int selectTestsNumber(@Param("type") String type,@Param("subject") String subject);
+    int selectTestsNumber(@Param("type") String type, @Param("subject") String subject);
 
-    int checkAnswer(@Param("pkTest")String pkTest, @Param("answer")String answer);
+    int checkAnswer(@Param("pkTest") String pkTest, @Param("answer") String answer);
 }

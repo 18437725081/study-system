@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @description 关联（试卷&专业）DAO
- * @createtime 2018-03-14 14:40
+ * 关联（试卷&专业）DAO
+ *
+ * @author 暗香
  */
 public interface RelPaperMajorMapper {
     /**
@@ -16,8 +16,6 @@ public interface RelPaperMajorMapper {
      *
      * @param pkRelPaperMajor 主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:41
      */
     int deleteByPrimaryKey(Integer pkRelPaperMajor);
 
@@ -26,8 +24,6 @@ public interface RelPaperMajorMapper {
      *
      * @param relPaperMajor 关联类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:52
      */
     int insert(RelPaperMajor relPaperMajor);
 
@@ -36,8 +32,6 @@ public interface RelPaperMajorMapper {
      *
      * @param relPaperMajor 关联类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:52
      */
     int insertSelective(RelPaperMajor relPaperMajor);
 
@@ -46,8 +40,6 @@ public interface RelPaperMajorMapper {
      *
      * @param pkRelPaperMajor 关联主键
      * @return relPaperMajor类对象
-     * @author 张靖烽 
-     * @createtime 2018-03-14 14:52
      */
     RelPaperMajor selectByPrimaryKey(Integer pkRelPaperMajor);
 
@@ -56,8 +48,6 @@ public interface RelPaperMajorMapper {
      *
      * @param relPaperMajor 关联类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:52
      */
     int updateByPrimaryKeySelective(RelPaperMajor relPaperMajor);
 
@@ -66,12 +56,10 @@ public interface RelPaperMajorMapper {
      *
      * @param relPaperMajor 关联类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:53
      */
     int updateByPrimaryKey(RelPaperMajor relPaperMajor);
 
     List<RelPaperMajor> selectByFkMajor(Integer fkMajor);
 
-    int selectCount(@Param("pkPaper") Integer pkPaper,@Param("fkMajor") Integer fkMajor);
+    int selectCount(@Param("pkPaper") Integer pkPaper, @Param("fkMajor") Integer fkMajor);
 }

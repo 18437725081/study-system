@@ -146,6 +146,7 @@ function sub() {
                 window.parent.paging(_page);
                 window.parent.toast("success", data.msg)
             }
+            $.dialog.close();
         },
         error: function () {
             window.location.href = "../other/error500.html";

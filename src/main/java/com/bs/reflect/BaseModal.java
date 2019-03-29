@@ -5,14 +5,8 @@ import com.bs.common.ServerResponse;
 import java.io.File;
 
 /**
- * 项目名称： bs
- * 类名称： BaseModal
- * 描述：excel导入文件抽象类
- * @author 张靖烽
- * 创建时间 2018-05-11 16:04
- * 修改人：张靖烽  修改日期： 2018-05-11
- * 修改备注：
- **/
+ * @author 暗香
+ */
 public abstract class BaseModal {
 
     private File file;
@@ -27,7 +21,7 @@ public abstract class BaseModal {
         this.file = file;
     }
 
-    protected boolean excelVersion(String name){
+    protected boolean excelVersion(String name) {
         return name.matches("^.+\\.(?i)(xls)$");
     }
 }

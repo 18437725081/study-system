@@ -15,29 +15,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author 张靖烽
- * @name StudentInterceptor
- * @description
- * @create 2018-07-31 0:05
- **/
+ * 学生模块拦截器
+ *
+ * @author 暗香
+ */
 public class StudentInterceptor implements HandlerInterceptor {
 
     private static final Logger log = LoggerFactory.getLogger(StudentInterceptor.class);
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-            HandlerMethod handlerMethod = (HandlerMethod) handler;
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
         String methodName = handlerMethod.getMethod().getName();
         String className = handlerMethod.getBean().getClass().getName();
         log.info("拦截类名：{}，方法名：{}", className, methodName);
         Student student = null;
-        //从redis获取用户信息
         String token = CookieUtil.readCookie(request);
         if (StringUtils.isNotEmpty(token)) {
             String studentStr = RedisPoolUtil.get(token);
             student = JacksonUtil.stringToObj(studentStr, Student.class);
         }
-        //判断用户信息是否为空或者身份权限不对
         return student != null && (StringUtils.equals(student.getRole(), "2")) || BaseInterceptor.check(response, student);
     }
 

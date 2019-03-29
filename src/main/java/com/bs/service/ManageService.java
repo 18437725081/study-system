@@ -10,10 +10,13 @@ import com.bs.vo.StudentVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import javafx.scene.chart.ChartBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,97 +45,99 @@ public class ManageService {
     private ManagerMapper managerMapper;
 
     /**
-     * @author 张靖烽
-     * @description 管理员登录
-     * @createtime 2018-01-12 14:56
+     * 校验教师是否存在
+     */
+    private static final String CHECK_TEACHER = "check_teacher";
+
+    /**
+     * 校验学生是否存在
+     */
+    private static final String CHECK_STUDENT = "check_student";
+
+
+    /**
+     * 登录操作
+     *
+     * @param username
+     * @param password
+     * @return
      */
     public ServerResponse login(String username, String password) {
         if (StringUtils.isAnyBlank(username, password)) {
             return ServerResponse.createByErrorMessage("请检查是否正确填写用户名和密码");
         }
-        //检查用户名是否存在
         int resultCount = managerMapper.checkUsername(username);
-        //用户名不存在
         if (resultCount <= 0) {
             return ServerResponse.createByErrorMessage("用户名不存在");
         }
-        //检查用户输入的用户名和密码是否匹配
         Manager manager = managerMapper.login(username, password);
-        //用户名和密码不匹配
-        if (manager == null) {
+        if (Objects.isNull(manager)) {
             return ServerResponse.createByErrorMessage("密码不正确");
         }
-        //通过校验，将密码置为空
         manager.setPassword(StringUtils.EMPTY);
         return ServerResponse.createBySuccess("登录成功", manager);
     }
 
     /**
-     * @author 张靖烽
-     * @description 查询教师
-     * @createtime 2018-01-17 15:01
+     * 查询教师
+     *
+     * @param teacher
+     * @param pageNum
+     * @param pageSize
+     * @return
      */
     public ServerResponse queryTeacher(Teacher teacher, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Teacher> list = teacherMapper.queryTeacher(teacher);
-        //将密码,找回密码问题、答案置为空
         for (Teacher t : list) {
             t.setPassword(StringUtils.EMPTY);
             t.setQuestion(StringUtils.EMPTY);
             t.setAnswer(StringUtils.EMPTY);
         }
-        PageInfo pageInfo = new PageInfo(list);
-        pageInfo.setList(list);
+        PageInfo<Teacher> pageInfo = new PageInfo<>(list);
         return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**
-     * @author 张靖烽
-     * @description 新增或修改教师信息
-     * @createtime 2018-01-09 13:40
+     * 新增教师
+     *
+     * @param teacher
+     * @param manager
+     * @return
      */
     public ServerResponse addOrModifyTeacher(Teacher teacher, Manager manager) {
-        if (teacher != null) {
-            teacher.setLastUpdatedBy(manager.getPkManager());
-            //根据主键是否为空决定新增还是修改
-            if (teacher.getPkTeacher() != null) {
-                //通过主键获取数据库里该学生信息
-                Teacher tea = teacherMapper.selectByPrimaryKey(teacher.getPkTeacher());
-                //如果当前传入用户名与原来不一致，则查看用户名是否已存在
-                if (!Objects.equals(tea.getUsername(), teacher.getUsername())){
-                    int result = teacherMapper.selectUsername(teacher.getUsername());
-                    if (result > 0) {
-                        return ServerResponse.createByErrorMessage("用户名已存在");
-                    }
-                }
-                int result = teacherMapper.updateByPrimaryKeySelective(teacher);
-                if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("修改成功");
-                }
-                return ServerResponse.createByErrorMessage("修改失败");
-            } else {
-                teacher.setCreatedBy(manager.getPkManager());
-                //检查用户名是否已存在
-                int result = teacherMapper.selectUsername(teacher.getUsername());
-                if (result > 0) {
+        if (Objects.isNull(teacher)) {
+            return ServerResponse.createByErrorMessage("参数不正确");
+        }
+        teacher.setLastUpdatedBy(manager.getPkManager());
+        if (teacher.getPkTeacher() != null) {
+            Teacher tea = teacherMapper.selectByPrimaryKey(teacher.getPkTeacher());
+            if (!Objects.equals(tea.getUsername(), teacher.getUsername())) {
+                boolean exist = checkExistByUserName(teacher.getUsername(), CHECK_TEACHER);
+                if (exist) {
                     return ServerResponse.createByErrorMessage("用户名已存在");
                 }
-                teacher.setPassword(Md5Util.md5EncodeUtf8(teacher.getUsername()));
-                teacher.setRole("1");
-                result = teacherMapper.insert(teacher);
-                if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("新增成功");
-                }
-                return ServerResponse.createByErrorMessage("新增失败");
             }
+            teacherMapper.updateByPrimaryKeySelective(teacher);
+            return ServerResponse.createBySuccessMessage("修改成功");
+        } else {
+            teacher.setCreatedBy(manager.getPkManager());
+            boolean exist = checkExistByUserName(teacher.getUsername(), CHECK_TEACHER);
+            if (exist) {
+                return ServerResponse.createByErrorMessage("用户名已存在");
+            }
+            teacher.setPassword(Md5Util.md5EncodeUtf8(teacher.getUsername()));
+            teacher.setRole("1");
+            teacherMapper.insert(teacher);
+            return ServerResponse.createBySuccessMessage("新增成功");
         }
-        return ServerResponse.createByErrorMessage("参数不正确");
     }
 
     /**
-     * @author 张靖烽
-     * @description 获取单条教师信息
-     * @createtime 2018-01-09 13:55
+     * 获取教师详情
+     *
+     * @param pkTeacher
+     * @return
      */
     public ServerResponse getTeacherInfo(Integer pkTeacher) {
         if (pkTeacher == null) {
@@ -140,7 +145,6 @@ public class ManageService {
         }
         Teacher teacher = teacherMapper.selectByPrimaryKey(pkTeacher);
         if (teacher != null) {
-            //将密码,找回密码问题、答案置为空
             teacher.setPassword(StringUtils.EMPTY);
             teacher.setQuestion(StringUtils.EMPTY);
             teacher.setAnswer(StringUtils.EMPTY);
@@ -150,68 +154,74 @@ public class ManageService {
     }
 
     /**
-     * @author 张靖烽
-     * @description 删除教师
-     * @createtime 2018-01-09 14:00
+     * 删除教师
+     *
+     * @param pkTeacher
+     * @return
      */
     public ServerResponse delTeacher(Integer pkTeacher) {
         if (pkTeacher == null) {
             return ServerResponse.createByErrorMessage("参数错误");
         }
-        int result = teacherMapper.deleteByPrimaryKey(pkTeacher);
-        if (result > 0) {
-            return ServerResponse.createBySuccessMessage("删除成功");
-        }
-        return ServerResponse.createByErrorMessage("删除失败,该教师不存在或已被删除");
+        teacherMapper.deleteByPrimaryKey(pkTeacher);
+        return ServerResponse.createBySuccessMessage("删除成功");
     }
 
     /**
-     * @author 张靖烽
-     * @description 新增或修改学生信息
-     * @createtime 2018-01-09 20:35
+     * 新增或修改学生信息
+     *
+     * @param student
+     * @param manager
+     * @return
      */
     public ServerResponse addOrModifyStudent(Student student, Manager manager) {
         if (student != null) {
             student.setLastUpdatedBy(manager.getPkManager());
-            //根据主键是否为空决定新增还是修改
             if (student.getPkStudent() != null) {
-                //通过主键获取数据库里该学生信息
                 Student stu = studentMapper.selectByPrimaryKey(student.getPkStudent());
-                //如果当前传入用户名与原来不一致，则查看用户名是否已存在
-                if (!Objects.equals(stu.getUsername(), student.getUsername())){
-                    int result = studentMapper.selectUsername(student.getUsername());
-                    if (result > 0) {
+                if (!Objects.equals(stu.getUsername(), student.getUsername())) {
+                    boolean exist = checkExistByUserName(student.getUsername(), CHECK_STUDENT);
+                    if (exist) {
                         return ServerResponse.createByErrorMessage("用户名已存在");
                     }
                 }
-                int result = studentMapper.updateByPrimaryKeySelective(student);
-                if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("修改成功");
-                }
-                return ServerResponse.createByErrorMessage("修改失败");
+                studentMapper.updateByPrimaryKeySelective(student);
+                return ServerResponse.createBySuccessMessage("修改成功");
             } else {
-                //检查用户名是否已存在
-                int result = studentMapper.selectUsername(student.getUsername());
-                if (result > 0) {
+                boolean exist = checkExistByUserName(student.getUsername(), CHECK_STUDENT);
+                if (exist) {
                     return ServerResponse.createByErrorMessage("用户名已存在");
                 }
                 student.setCreatedBy(manager.getPkManager());
                 student.setPassword(Md5Util.md5EncodeUtf8(student.getUsername()));
                 student.setRole(Constant.Role.ROLE_STUDENT);
-                result = studentMapper.insert(student);
-                if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("新增成功");
-                }
-                return ServerResponse.createByErrorMessage("新增失败");
+                studentMapper.insert(student);
+                return ServerResponse.createBySuccessMessage("新增成功");
             }
         }
         return ServerResponse.createByErrorMessage("参数不正确");
     }
 
     /**
-     * @author 张靖烽
-     * @description 获取单条学生信息
-     * @createtime 2018-01-09 20:40
+     * 校验用户名是否存在
+     *
+     * @param username 用户名
+     */
+    private boolean checkExistByUserName(String username, String checkObj) {
+        Integer result;
+        if (checkObj.equalsIgnoreCase(CHECK_STUDENT)) {
+            result = studentMapper.selectUsername(username);
+        } else {
+            result = teacherMapper.selectUsername(username);
+        }
+        return result > 0;
+    }
+
+    /**
+     * 获取学生信息
+     *
+     * @param pkStudent
+     * @return
      */
     public ServerResponse getStudentInfo(Integer pkStudent) {
         if (pkStudent == null) {
@@ -229,9 +239,10 @@ public class ManageService {
     }
 
     /**
-     * @author 张靖烽
-     * @description 设置StudentVO对象
-     * @createtime 2018-01-17 10:51
+     * 封装对象数据
+     *
+     * @param student
+     * @return
      */
     private StudentVO setStudentVO(Student student) {
         StudentVO studentVO = new StudentVO();
@@ -251,25 +262,24 @@ public class ManageService {
     }
 
     /**
-     * @author 张靖烽
-     * @description 删除学生
-     * @createtime 2018-01-09 20:42
+     * 删除学生
+     *
+     * @param pkStudent
+     * @return
      */
     public ServerResponse delStudent(Integer pkStudent) {
         if (pkStudent == null) {
             return ServerResponse.createByErrorMessage("参数错误");
         }
-        int result = studentMapper.deleteByPrimaryKey(pkStudent);
-        if (result > 0) {
-            return ServerResponse.createBySuccessMessage("删除成功");
-        }
-        return ServerResponse.createByErrorMessage("删除失败，该学生不存在或已被删除");
+        studentMapper.deleteByPrimaryKey(pkStudent);
+        return ServerResponse.createBySuccessMessage("删除成功");
     }
 
     /**
-     * @author 张靖烽
-     * @description 查看教师关联班级
-     * @createtime 2018-01-10 8:52
+     * 查看教师关联的专业
+     *
+     * @param pkTeacher
+     * @return
      */
     public ServerResponse getRelTeacherMajor(Integer pkTeacher) {
         if (pkTeacher == null) {
@@ -283,7 +293,7 @@ public class ManageService {
             return ServerResponse.createByErrorMessage("未找到该教师");
         }
         List<Integer> majorFkList = relTeacherMajorMapper.selectFkMajor(pkTeacher);
-        if (majorFkList != null && majorFkList.size() > 0) {
+        if (!majorFkList.isEmpty()) {
             List<Major> majorList = Lists.newArrayList();
             for (Integer fkMajor : majorFkList) {
                 Major major = majorMapper.selectByPrimaryKey(fkMajor);
@@ -297,15 +307,18 @@ public class ManageService {
     }
 
     /**
-     * @author 张靖烽
-     * @description 新增教师关联班级
-     * @createtime 2018-01-10 10:13
+     * 教师关联专业保存
+     *
+     * @param pkTeacher 教师ID
+     * @param pkMajor   专业ID
+     * @param manager   管理员
+     * @return
      */
     public ServerResponse addRelTeacherMajor(Integer pkTeacher, Integer pkMajor, Manager manager) {
         if (pkTeacher == null || pkMajor == null) {
             return ServerResponse.createByErrorMessage("请选择年级和专业！");
         }
-        int result = relTeacherMajorMapper.selectRelCount(pkTeacher,pkMajor);
+        int result = relTeacherMajorMapper.selectRelCount(pkTeacher, pkMajor);
         if (result > 0) {
             return ServerResponse.createByErrorMessage("操作失败：教师和专业已关联");
         }
@@ -314,46 +327,45 @@ public class ManageService {
         relTeacherMajor.setFkMajor(pkMajor);
         relTeacherMajor.setCreatedBy(manager.getPkManager());
         relTeacherMajor.setLastUpdatedBy(manager.getPkManager());
-        result = relTeacherMajorMapper.insert(relTeacherMajor);
-        if (result > 0) {
-            return ServerResponse.createBySuccessMessage("关联成功");
-        }
-        return ServerResponse.createByErrorMessage("关联失败");
+        relTeacherMajorMapper.insert(relTeacherMajor);
+        return ServerResponse.createBySuccessMessage("关联成功");
     }
 
     /**
-     * @author 张靖烽
-     * @description 删除教师关联班级
-     * @createtime 2018-01-10 10:23
+     * 取消教师关联专业
+     *
+     * @param pkTeacher
+     * @param pkMajor
+     * @return
      */
     public ServerResponse delRelTeacherMajor(Integer pkTeacher, Integer pkMajor) {
         if (pkTeacher == null || pkMajor == null) {
             return ServerResponse.createByErrorMessage("参数错误");
         }
-        int result = relTeacherMajorMapper.delete(pkTeacher, pkMajor);
-        if (result > 0) {
-            return ServerResponse.createBySuccessMessage("删除关联成功");
-        }
-        return ServerResponse.createByErrorMessage("该教师未关联该班级");
+        relTeacherMajorMapper.delete(pkTeacher, pkMajor);
+        return ServerResponse.createBySuccessMessage("删除关联成功");
     }
 
     /**
-     * @author 张靖烽
-     * @description 获取专业信息&&查询专业
-     * @createtime 2018-01-17 15:01
+     * 获取专业列表
+     *
+     * @param major    专业对象
+     * @param pageNum  页码
+     * @param pageSize 页长
+     * @return
      */
     public ServerResponse queryMajor(Major major, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Major> majorList = majorMapper.queryMajor(major);
-        PageInfo pageInfo = new PageInfo(majorList);
-        pageInfo.setList(majorList);
+        PageInfo<Major> pageInfo = new PageInfo<>(majorList);
         return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**
-     * @author 张靖烽
-     * @description 查看单条专业信息
-     * @createtime 2018-01-10 10:58
+     * 查看单条专业信息
+     *
+     * @param pkMajor
+     * @return
      */
     public ServerResponse getMajorInfo(Integer pkMajor) {
         if (pkMajor == null) {
@@ -366,10 +378,13 @@ public class ManageService {
         return ServerResponse.createByErrorMessage("专业不存在或已被删除");
     }
 
+
     /**
-     * @author 张靖烽
-     * @description 新增或修改年级专业信息
-     * @createtime 2018-01-10 11:00
+     * 添加修改专业
+     *
+     * @param major
+     * @param manager
+     * @return
      */
     public ServerResponse addOrModifyMajor(Major major, Manager manager) {
         if (major != null) {
@@ -378,45 +393,38 @@ public class ManageService {
                 return ServerResponse.createByErrorMessage("操作失败：该专业已存在");
             }
             major.setLastUpdatedBy(manager.getPkManager());
-            //根据主键是否为空决定新增还是修改
             if (major.getPkMajor() != null) {
-                result = majorMapper.updateByPrimaryKey(major);
-                if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("修改专业信息成功");
-                }
-                return ServerResponse.createByErrorMessage("修改专业信息失败");
+                majorMapper.updateByPrimaryKey(major);
+                return ServerResponse.createBySuccessMessage("修改专业信息成功");
             } else {
                 major.setCreatedBy(manager.getPkManager());
-                result = majorMapper.insert(major);
-                if (result > 0) {
-                    return ServerResponse.createBySuccessMessage("新增专业信息成功");
-                }
-                return ServerResponse.createByErrorMessage("新增专业信息失败");
+                majorMapper.insert(major);
+                return ServerResponse.createBySuccessMessage("新增专业信息成功");
             }
         }
         return ServerResponse.createByErrorMessage("参数不正确，请确认");
     }
 
+
     /**
-     * @author 张靖烽
-     * @description 删除年级专业信息
-     * @createtime 2018-01-10 11:01
+     * 删除专业信息
+     *
+     * @param pkMajor
+     * @return
      */
     public ServerResponse delMajor(Integer pkMajor) {
         if (pkMajor == null) {
             return ServerResponse.createByErrorMessage("参数不正确，请确认");
         }
-        int result = majorMapper.deleteByPrimaryKey(pkMajor);
-        if (result > 0) {
-            return ServerResponse.createBySuccessMessage("删除专业信息成功");
-        }
-        return ServerResponse.createByErrorMessage("删除专业信息失败");
+        majorMapper.deleteByPrimaryKey(pkMajor);
+        return ServerResponse.createBySuccessMessage("删除专业信息成功");
     }
 
     /**
-     * @author 张靖烽
-     * @description 重置教师密码
-     * @createtime 2018-01-17 11:19
+     * 重置教师密码
+     *
+     * @param pkTeacher
+     * @return
      */
     public ServerResponse resetTeacherPwd(Integer pkTeacher) {
         if (pkTeacher == null) {
@@ -426,56 +434,53 @@ public class ManageService {
         Teacher teacher = new Teacher();
         teacher.setPkTeacher(pkTeacher);
         teacher.setPassword(password);
-        int result = teacherMapper.updateByPrimaryKeySelective(teacher);
-        if (result > 0) {
-            return ServerResponse.createBySuccessMessage("重置密码成功");
-        }
-        return ServerResponse.createByErrorMessage("重置密码失败");
+        teacherMapper.updateByPrimaryKeySelective(teacher);
+        return ServerResponse.createBySuccessMessage("重置密码成功");
     }
 
     /**
-     * @author 张靖烽
-     * @description 重置学生密码
-     * @createtime 2018-01-17 11:19
+     * 重置学生密码
+     *
+     * @param pkStudent
+     * @return
      */
     public ServerResponse resetStudentPwd(Integer pkStudent) {
         if (pkStudent == null) {
             return ServerResponse.createByErrorMessage("参数错误");
         }
-        String password = Md5Util.md5EncodeUtf8("888888");
+        String password = Md5Util.md5EncodeUtf8("111111");
         Student student = new Student();
         student.setPkStudent(pkStudent);
         student.setPassword(password);
-        int result = studentMapper.updateByPrimaryKeySelective(student);
-        if (result > 0) {
-            return ServerResponse.createBySuccessMessage("重置密码成功");
-        }
-        return ServerResponse.createByErrorMessage("重置密码失败");
+        studentMapper.updateByPrimaryKeySelective(student);
+        return ServerResponse.createBySuccessMessage("重置密码成功");
     }
 
     /**
-     * @author 张靖烽
-     * @description 查询学生
-     * @createtime 2018-01-17 15:01
+     * 查询学生列表
+     *
+     * @param student
+     * @param pageNum
+     * @param pageSize
+     * @return
      */
     public ServerResponse queryStudent(Student student, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Student> list = studentMapper.queryStudent(student);
         List<StudentVO> studentVOList = Lists.newArrayList();
-        //将密码,找回密码问题、答案置为空
         for (Student s : list) {
             StudentVO studentVO = setStudentVO(s);
             studentVOList.add(studentVO);
         }
-        PageInfo pageInfo = new PageInfo(list);
+        PageInfo<StudentVO> pageInfo = new PageInfo<>(studentVOList);
         pageInfo.setList(studentVOList);
         return ServerResponse.createBySuccess(pageInfo);
     }
 
     /**
-     * @author 张靖烽
-     * @description 获取年级
-     * @createtime 2018-02-01 22:46
+     * 获取年级
+     *
+     * @return
      */
     public ServerResponse getGrade() {
         List<String> gradeList = majorMapper.getGrade();
@@ -483,9 +488,10 @@ public class ManageService {
     }
 
     /**
-     * @author 张靖烽
-     * @description 获取指定年级下专业
-     * @createtime 2018-02-01 22:46
+     * 获取年级下的专业
+     *
+     * @param grade
+     * @return
      */
     public ServerResponse getMajor(String grade) {
         List<Major> majorList = majorMapper.getMajor(grade);
@@ -493,20 +499,21 @@ public class ManageService {
     }
 
     /**
-     * @author 张靖烽
-     * @description 获取教师关联的专业信息
-     * @createtime 2018-02-02 13:34
+     * 获取教室关联的专业信息
+     *
+     * @param pkTeacher
+     * @param pageNum
+     * @param pageSize
+     * @return
      */
     public ServerResponse getTeacherMajor(Integer pkTeacher, Integer pageNum, Integer pageSize) {
         List<Integer> pkMajorList = relTeacherMajorMapper.selectFkMajorList(pkTeacher);
         if (pkMajorList.size() > 0) {
             PageHelper.startPage(pageNum, pageSize);
             List<Major> majorList = majorMapper.selectMajorByPk(pkMajorList);
-            PageInfo pageInfo = new PageInfo(majorList);
-            pageInfo.setList(majorList);
+            PageInfo<Major> pageInfo = new PageInfo<>(majorList);
             return ServerResponse.createBySuccess(pageInfo);
         }
-        PageInfo pageInfo = new PageInfo(pkMajorList);
-        return ServerResponse.createBySuccess(pageInfo);
+        return ServerResponse.createBySuccess(new PageInfo<>(Collections.emptyList()));
     }
 }

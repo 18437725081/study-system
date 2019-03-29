@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @description 试卷详情DAO
- * @createtime 2018-03-14 14:40
+ * 试卷详情
+ *
+ * @author 暗香
  */
 public interface PaperDetailMapper {
     /**
@@ -16,8 +16,6 @@ public interface PaperDetailMapper {
      *
      * @param pkPaperDetail 试卷详情表主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:41
      */
     int deleteByPrimaryKey(Integer pkPaperDetail);
 
@@ -26,8 +24,6 @@ public interface PaperDetailMapper {
      *
      * @param paperDetail 试卷详情类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:43
      */
     int insert(PaperDetail paperDetail);
 
@@ -36,8 +32,6 @@ public interface PaperDetailMapper {
      *
      * @param paperDetail 试卷详情类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:43
      */
     int insertSelective(PaperDetail paperDetail);
 
@@ -46,8 +40,6 @@ public interface PaperDetailMapper {
      *
      * @param pkPaperDetail 试卷详情主键
      * @return paperDetail
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:44
      */
     PaperDetail selectByPrimaryKey(Integer pkPaperDetail);
 
@@ -56,8 +48,6 @@ public interface PaperDetailMapper {
      *
      * @param paperDetail 试卷详情类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:44
      */
     int updateByPrimaryKeySelective(PaperDetail paperDetail);
 
@@ -66,8 +56,6 @@ public interface PaperDetailMapper {
      *
      * @param paperDetail 试卷详情类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-03-14 14:44
      */
     int updateByPrimaryKey(PaperDetail paperDetail);
 

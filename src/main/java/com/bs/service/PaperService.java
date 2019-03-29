@@ -314,11 +314,6 @@ public class PaperService {
         return ServerResponse.createByErrorMessage("无权限");
     }
 
-    /**
-     * @author 张靖烽
-     * @description 自动组卷
-     * @createtime 2018-03-15 20:29
-     */
     public ServerResponse autoBuildPaper(String paperName, String flagPublic,
                                          Integer optionNumber, String optionScore,
                                          String subject, Teacher teacher) {
@@ -366,11 +361,6 @@ public class PaperService {
         return ServerResponse.createByErrorMessage("试卷生成失败");
     }
 
-    /**
-     * @author 张靖烽
-     * @description 查询试卷试题
-     * @createtime 2018-03-28 9:05
-     */
     public ServerResponse selectPaperTests(Integer fkPaper) {
         List<PaperDetail> paperDetailList = paperDetailMapper.selectPaperDetailByPkPaper(fkPaper);
         List<PaperTestsVO> paperTestsVOList = Lists.newArrayList();

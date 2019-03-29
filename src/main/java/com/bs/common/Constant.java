@@ -2,12 +2,12 @@ package com.bs.common;
 
 
 /**
- * @author 张靖烽
- * @name Constant
- * @description 常量类，存放一些常亮信息
- * @create 2017-10-16 9:27
- **/
+ * 常量信息
+ *
+ * @author 暗香
+ */
 public class Constant {
+
     /**
      * 当前用户
      */

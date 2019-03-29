@@ -12,18 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author 张靖烽
- * @name UserController
- * @description 用户相关操作Controller
- * @create 2017-12-26 11:06
- **/
+ * 用户相关操作
+ *
+ * @author 暗香
+ */
 @Controller
 @RequestMapping("/user/")
 public class UserController {
+
     /**
-     * @author 张靖烽
-     * @description 用户登出
-     * @createtime 2017-12-27 12:45
+     * 登出操作
+     *
+     * @param request
+     * @param response
+     * @return
      */
     @RequestMapping(value = "loginOut.do", method = RequestMethod.POST)
     @ResponseBody
@@ -34,5 +36,4 @@ public class UserController {
         RedisPoolUtil.del(token);
         return ServerResponse.createBySuccess();
     }
-
 }

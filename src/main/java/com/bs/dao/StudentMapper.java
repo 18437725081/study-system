@@ -1,15 +1,14 @@
 package com.bs.dao;
 
-import com.bs.common.ServerResponse;
 import com.bs.pojo.Student;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * @author 张靖烽
- * @description 学生DAO层
- * @createtime 2018-01-09 14:20
+ * 学生
+ *
+ * @author 暗香
  */
 public interface StudentMapper {
 
@@ -18,8 +17,6 @@ public interface StudentMapper {
      *
      * @param pkStudent 学生主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 11:10
      */
     int deleteByPrimaryKey(Integer pkStudent);
 
@@ -28,8 +25,6 @@ public interface StudentMapper {
      *
      * @param student 学生类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 11:11
      */
     int insert(Student student);
 
@@ -38,8 +33,6 @@ public interface StudentMapper {
      *
      * @param student 学生类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 11:12
      */
     int insertSelective(Student student);
 
@@ -48,8 +41,6 @@ public interface StudentMapper {
      *
      * @param pkStudent 学生主键
      * @return Student
-     * @author 张靖烽
-     * @createtime 2018-01-10 11:12
      */
     Student selectByPrimaryKey(Integer pkStudent);
 
@@ -58,8 +49,6 @@ public interface StudentMapper {
      *
      * @param student 学生类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 11:12
      */
     int updateByPrimaryKeySelective(Student student);
 
@@ -68,8 +57,6 @@ public interface StudentMapper {
      *
      * @param student 学生类
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-10 11:23
      */
     int updateByPrimaryKey(Student student);
 
@@ -77,8 +64,6 @@ public interface StudentMapper {
      * 查询所有学生信息
      *
      * @return List<Student>
-     * @author 张靖烽
-     * @createtime 2018-01-10 11:23
      */
     List<Student> selectAllStudent();
 
@@ -87,8 +72,6 @@ public interface StudentMapper {
      *
      * @param username 用户名
      * @return int
-     * @author 张靖烽
-     * @createtime 2017-12-26 13:34
      */
     int checkUsername(String username);
 
@@ -98,8 +81,6 @@ public interface StudentMapper {
      * @param username 用户名
      * @param password 密码
      * @return Manager
-     * @author 张靖烽
-     * @createtime 2017-12-26 13:35
      */
     Student login(@Param("username") String username, @Param("password") String password);
 
@@ -108,8 +89,6 @@ public interface StudentMapper {
      *
      * @param username 用户名
      * @return Manager
-     * @author 张靖烽
-     * @createtime 2018-01-12 14:37
      */
     String selectQuestionByStudent(String username);
 
@@ -118,42 +97,34 @@ public interface StudentMapper {
      *
      * @param username 用户名
      * @param question 问题
-     * @param answer 答案
+     * @param answer   答案
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-12 16:40
      */
     int checkAnswer(@Param("username") String username, @Param("question") String question, @Param("answer") String answer);
 
     /**
      * 修改密码
      *
-     * @param username 用户名
+     * @param username    用户名
      * @param passwordNew 密码
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-16 17:23
      */
-    int updatePasswordByUsername(@Param("username")String username,@Param("passwordNew")String passwordNew);
+    int updatePasswordByUsername(@Param("username") String username, @Param("passwordNew") String passwordNew);
 
     /**
      * 校验密码归属
      *
-     * @param password 密码
+     * @param password  密码
      * @param pkStudent 学生主键
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-16 17:22
      */
-    int checkPassword(@Param(value="password")String password,@Param("pkStudent")Integer pkStudent);
+    int checkPassword(@Param(value = "password") String password, @Param("pkStudent") Integer pkStudent);
 
     /**
      * 检查用户名是否已存在
      *
      * @param username 用户名
      * @return int
-     * @author 张靖烽
-     * @createtime 2018-01-17 09:05
      */
     int selectUsername(String username);
 
@@ -162,8 +133,6 @@ public interface StudentMapper {
      *
      * @param student 学生类
      * @return List<Student>
-     * @author 张靖烽
-     * @createtime 2018-01-17 15:00
      */
     List<Student> queryStudent(Student student);
 }
